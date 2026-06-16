@@ -1,147 +1,145 @@
 import Link from "next/link";
+import Image from "next/image";
 
-const platformLinks = [
-  { label: "Map", href: "/map" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Contribute", href: "/contribute" },
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Retained Services", href: "/retained-services" },
+  { label: "News & Updates", href: "/news" },
+  { label: "Free Resources", href: "/resources" },
+  { label: "Training", href: "/training" },
+  { label: "Contact", href: "/contact" },
 ];
 
-const companyLinks = [
-  { label: "Our Story", href: "/about" },
-  { label: "Partners", href: "/partners" },
-];
-
-const legalLinks = [
-  { label: "Privacy Policy", href: "/privacy-policy" },
-  { label: "Terms and Conditions", href: "/terms-conditions" },
-  { label: "Cookie Settings", href: "/cookies" },
+const memberLinks = [
+  { label: "Member Login", href: "/login" },
+  { label: "View Plans", href: "/plans" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
 ];
 
 const Footer = () => {
   return (
-    <footer className='w-full bg-[#f1f5ec] bg-fill-hover'>
-      <div className='px-4 py-10 sm:px-6 md:mx-12.5 md:px-0'>
-        {/* TOP GRID */}
-        <div className='grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-20'>
-          {/* BRAND */}
-          <div>
-            <div className='mb-5'>
-              <Link href='/'>
-                {/* <Image src='/logo.png' alt='Logo' width={258} height={64} /> */}
-                <p className='text-4xl'>Logo</p>
+    <footer className="w-full bg-[#132651] relative flex flex-col items-center">
+      {/* SUBSCRIBE SECTION */}
+      <div className="w-full h-[129px] relative">
+        <div className="absolute bg-[#e8eaee] h-[77px] left-0 top-0 w-full" />
+        <div className="absolute left-1/2 -translate-x-1/2 top-[21px] w-full max-w-[1458px] px-4 md:px-0">
+          <div className="bg-[#5a6886] flex flex-col md:flex-row items-center justify-between p-[30px] rounded-[12px] w-full min-h-[108px] gap-6">
+            <div className="text-white">
+              <h3 className="font-bold text-[24px] leading-[1.6]">Subscribe To get updated</h3>
+              <p className="font-normal text-[16px] leading-[1.6] text-[#d0d4dc]">
+                Lorem ipsum dolor sit amet consectetur. Mi nibh venenatis in suscipit turpis.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-5 items-center w-full md:w-auto">
+              <div className="border border-[#d0d4dc] flex items-center px-4 py-4 rounded-[6px] w-full sm:w-[300px]">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  className="bg-transparent text-[#d0d4dc] text-[14px] outline-none w-full placeholder:text-[#d0d4dc]"
+                />
+              </div>
+              <button className="bg-white text-[#132651] font-bold text-[14px] px-6 py-4 rounded-[6px] transition-colors hover:bg-gray-100 whitespace-nowrap w-full sm:w-auto h-[54px]">
+                Subscribe Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* MAIN CONTENT SECTION */}
+      <div className="w-full max-w-[1760px] px-4 md:px-20 mt-[80px] mb-[40px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+          {/* BRAND INFO */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            <div className="h-[50px] relative w-[258px]">
+              <Image 
+                src="/images/logo.png" 
+                alt="ALC Logo" 
+                width={258} 
+                height={50} 
+                className="h-full w-auto object-contain"
+              />
+            </div>
+            <p className="text-[18px] leading-[1.6] text-[#5a6886] max-w-[488px]">
+              Lorem ipsum dolor sit amet consectetur. Mi nibh venenatis in suscipit turpis enim cursus vulputate amet. Lobortis mi platea aliquam senectus tempus mauris neque.
+            </p>
+            <div className="flex gap-4 items-center">
+              <Link href="https://facebook.com" className="hover:opacity-80 transition-opacity">
+                <Image src="/images/facebook.png" alt="Facebook" width={32} height={32} />
+              </Link>
+              <Link href="https://instagram.com" className="hover:opacity-80 transition-opacity">
+                <Image src="/images/instagram.png" alt="Instagram" width={32} height={32} />
+              </Link>
+              <Link href="https://linkedin.com" className="hover:opacity-80 transition-opacity">
+                <Image src="/images/linkedin.png" alt="LinkedIn" width={32} height={32} />
               </Link>
             </div>
+          </div>
 
-            <div className='mt-17.5 flex gap-x-4'>
-              {/* Facebook */}
-              {/* <a
-                href='https://facebook.com'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='Facebook'>
-                <Image
-                  src='/home/footer/facebook.png'
-                  alt='Logo'
-                  width={36}
-                  height={36}
-                />
-              </a> */}
+          {/* QUICK LINKS */}
+          <div className="lg:col-span-3 flex flex-col gap-6">
+            <h4 className="font-bold text-[20px] leading-[1.6] text-[#f7f8fa]">Quick Links</h4>
+            <ul className="flex flex-col gap-1.5">
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-[14px] leading-[1.6] text-[#5a6886] hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              {/* Instagram */}
-              {/* <a
-                href='https://instagram.com'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='Instagram'>
-                <Image
-                  src='/home/footer/instagram.png'
-                  alt='Logo'
-                  width={36}
-                  height={36}
-                />
-              </a> */}
+          {/* MEMBER LINKS */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            <h4 className="font-bold text-[20px] leading-[1.6] text-[#f7f8fa]">Member Links</h4>
+            <ul className="flex flex-col gap-1.5">
+              {memberLinks.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-[14px] leading-[1.6] text-[#5a6886] hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              {/* Twitter / X */}
-              {/* <a
-                href='https://twitter.com'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='Twitter'>
-                <Image
-                  src='/home/footer/twitter.png'
-                  alt='Logo'
-                  width={36}
-                  height={36}
-                />
-              </a> */}
+          {/* CONTACT INFO */}
+          <div className="lg:col-span-3 flex flex-col gap-6">
+            <h4 className="font-bold text-[20px] leading-[1.6] text-[#f7f8fa]">Contact</h4>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-start gap-3">
+                <div className="bg-white/5 p-2 rounded-[10px] shrink-0">
+                  <Image src="/images/email-icon.png" alt="Email" width={14} height={14} className="opacity-80" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[14px] leading-[1.6] text-[#5a6886]">Email</span>
+                  <Link href="mailto:hello@alanludewigconsulting.com" className="text-[12px] leading-[1.6] text-[#5a6886] hover:text-white">
+                    hello@alanludewigconsulting.com
+                  </Link>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="bg-white/5 p-2 rounded-[10px] shrink-0">
+                  <Image src="/images/phone-icon.png" alt="Phone" width={14} height={14} className="opacity-80" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[14px] leading-[1.6] text-[#5a6886]">Phone</span>
+                  <Link href="tel:03301334304" className="text-[12px] leading-[1.6] text-[#5a6886] hover:text-white">
+                    0330 133 4304
+                  </Link>
+                </div>
+              </div>
             </div>
-          </div>
-
-          {/* COMPANY */}
-          <div>
-            <h4 className='mb-4 text-xl font-medium text-text-strong lg:text-2xl'>
-              Platform
-            </h4>
-
-            <ul className='flex flex-col gap-2.5 text-[14px]'>
-              {platformLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className='text-lg text-text-weak transition-colors duration-300 hover:text-icon-brand-strong lg:text-[22px]'>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* SERVICES */}
-          <div>
-            <h4 className='mb-4 text-xl font-medium text-text-strong lg:text-2xl'>
-              Company
-            </h4>
-
-            <ul className='flex flex-col gap-2.5 text-[14px] md:max-w-55'>
-              {companyLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className='text-lg text-text-weak transition-colors duration-300 hover:text-icon-brand-strong lg:text-[22px]'>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* CONNECT */}
-          <div>
-            <h4 className='mb-4 text-xl font-medium text-text-strong lg:text-2xl'>
-              Legal
-            </h4>
-
-            <ul className='flex flex-col gap-3 text-[14px]'>
-              {legalLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className='text-lg text-text-weak transition-colors duration-300 hover:text-icon-brand-strong lg:text-[22px]'>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
-        {/* DIVIDER */}
-        <div className='mt-10 mb-10 h-px w-full bg-line-weak md:mt-25' />
-
-        {/* BOTTOM */}
-        <div className='flex flex-row justify-center text-center text-[14px]'>
-          <p className='text-medium text-xl text-text-strong lg:text-2xl'>
-            © 2026 TEMPLATE.
+        {/* BOTTOM DIVIDER AND COPYRIGHT */}
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col items-center gap-4">
+          <p className="text-[12px] leading-[1.6] text-[#5a6886] text-center">
+            Non Copyrighted © 2022 Design and upload by rich technologies
           </p>
         </div>
       </div>
