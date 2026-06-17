@@ -1,14 +1,14 @@
 import AuthGuard from "@/components/shared/auth-guard";
-import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 
-export default function DashboardLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <AuthGuard>
-      <DashboardShell>{children}</DashboardShell>
+      <DashboardLayout>{children}</DashboardLayout>
     </AuthGuard>
   );
 }

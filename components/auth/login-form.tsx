@@ -110,20 +110,19 @@ export default function LoginForm() {
           <p className="text-[11px] font-bold text-[#a3acba] uppercase tracking-wider mb-4 text-center">
             Demo Accounts (Click to autofill)
           </p>
-          <div className="grid gap-2">
+          <div className="grid grid-cols-2 gap-4">
             {DEMO_USERS.map((user) => (
               <button
                 key={user.email}
+                type="button"
                 onClick={() => {
                   setEmail(user.email);
                   setPassword("password123");
                 }}
-                className="w-full p-3 border border-[#e3e6ec] rounded-lg text-left text-[12px] hover:bg-white transition-colors group"
+                className="flex flex-col p-4 border border-[#e3e6ec] rounded-xl text-left hover:bg-slate-50 transition-all group"
               >
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-[#132651]">{user.email}</span>
-                  <span className="text-[#a3acba] group-hover:text-[#132651]">{user.role}</span>
-                </div>
+                <span className="text-[14px] font-bold text-[#132651] mb-1 capitalize">{user.role}</span>
+                <span className="text-[11px] text-[#a3acba] truncate">{user.email}</span>
               </button>
             ))}
           </div>
