@@ -11,6 +11,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   // Use useLayoutEffect for synchronous mount detection - avoids cascading render warning
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 

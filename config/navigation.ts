@@ -1,7 +1,7 @@
 import { ROLES, type Role } from "../constants/roles";
-import { LayoutDashboard, Users, Settings, Briefcase, FileText } from "lucide-react";
+import { LayoutDashboard, Users, Settings, Briefcase, FileText, type LucideIcon } from "lucide-react";
 
-export const DASHBOARD_NAVIGATION: Record<Role, { label: string; href: string; icon: any }[]> = {
+export const DASHBOARD_NAVIGATION: Record<Role, { label: string; href: string; icon: LucideIcon }[]> = {
   [ROLES.USER]: [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "My Profile", href: "/dashboard/profile", icon: Users },
