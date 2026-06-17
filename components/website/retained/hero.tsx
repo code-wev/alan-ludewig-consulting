@@ -19,7 +19,7 @@ export default function RetainedHero() {
                   <h1 className="text-[40px] font-bold text-[#132651] leading-[1.2] max-w-[754px]">
                     Health & Safety Support Without the Cost of Hiring In-House
                   </h1>
-                  <p irt className="text-[16px] text-[#5a6886] leading-[1.6]">
+                  <p className="text-[16px] text-[#5a6886] leading-[1.6]">
                     Access practical support, essential documents, RAMS tools, site visit options, training resources, newsletters and member-only guidance through one organised portal.
                   </p>
                 </div>
