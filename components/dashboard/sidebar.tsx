@@ -48,9 +48,7 @@ export function DashboardSidebar({
         )}>
         {/* Logo Section - Matching Figma node 345:12862 */}
         <div className='h-[84px] border-b border-[#e3e6ec]/20 px-[24px] flex items-center justify-between shrink-0 overflow-hidden'>
-          <Link
-            href='/dashboard'
-            className='relative h-[36px] w-[186px] shrink-0'>
+          <Link href='/' className='relative h-[36px] w-[186px] shrink-0'>
             <Image
               src='/images/logo.png'
               alt='Logo'
