@@ -233,7 +233,7 @@ export const TEMPLATE_COPY_PREVIEW = {
 } as const;
 
 export const TABLE_COLUMN_LAYOUT =
-  "72px minmax(291px,291px) minmax(272px,272px) minmax(185px,185px) minmax(210px,210px) minmax(160px,160px) minmax(150px,150px) minmax(210px,210px) minmax(176px,176px)";
+  "minmax(320px, 1fr) minmax(200px, 200px) minmax(200px, 200px) minmax(140px, 140px) minmax(160px, 160px) minmax(100px, 100px) minmax(140px, 140px) minmax(200px, 200px)";
 
 export const CATEGORY_TABLE_COLUMN_LAYOUT =
   "minmax(160px, 1fr) minmax(160px, 160px) minmax(200px, 200px) minmax(120px, 120px) minmax(100px, 100px) minmax(140px, 140px)";

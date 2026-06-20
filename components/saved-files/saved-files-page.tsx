@@ -259,7 +259,7 @@ export function SavedFilesPage() {
                 </span>
               </div>
               {[
-                "Type",
+                "Project / Location",
                 "Category",
                 "Type",
                 "Source",
