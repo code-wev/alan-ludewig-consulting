@@ -7,19 +7,19 @@ import {
   ChevronDown,
   ChevronRight,
   CircleAlert,
-  Copy,
   Eye,
   File,
   FileBadge2,
   FileCog,
   FileText,
   Flame,
+  FolderInput,
   FolderOpen,
   FolderKanban,
   Grid2X2,
+  Pencil,
   Shield,
   Search,
-  Share2,
   Trash2,
   Upload,
   X,
@@ -251,6 +251,9 @@ const TEMPLATE_COPY_PREVIEW = {
   projectLocation: "ABC Construction",
 } as const;
 
+const TABLE_COLUMN_LAYOUT =
+  "72px minmax(291px,291px) minmax(272px,272px) minmax(185px,185px) minmax(210px,210px) minmax(160px,160px) minmax(150px,150px) minmax(210px,210px) minmax(176px,176px)";
+
 function filterByTab(file: SavedFile, tab: (typeof TABS)[number]) {
   switch (tab) {
     case "All Files":
@@ -338,6 +341,8 @@ export function SavedFilesPage() {
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
+  const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false);
+  const [moveFileTarget, setMoveFileTarget] = useState<SavedFile | null>(null);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
   const [newCategoryType, setNewCategoryType] = useState<string>(
@@ -364,9 +369,17 @@ export function SavedFilesPage() {
   const [saveTemplateError, setSaveTemplateError] = useState("");
   const [returnToSaveTemplateAfterCategory, setReturnToSaveTemplateAfterCategory] =
     useState(false);
+  const [moveFileCategory, setMoveFileCategory] = useState("");
+  const [moveFileProjectLocation, setMoveFileProjectLocation] = useState("");
+  const [moveFileNote, setMoveFileNote] = useState("");
+  const [moveFileError, setMoveFileError] = useState("");
 
   useEffect(() => {
-    if (!isAddCategoryModalOpen && !isSaveTemplateModalOpen) {
+    if (
+      !isAddCategoryModalOpen &&
+      !isSaveTemplateModalOpen &&
+      !isMoveFileModalOpen
+    ) {
       return;
     }
 
@@ -377,6 +390,7 @@ export function SavedFilesPage() {
       if (event.key === "Escape") {
         setIsAddCategoryModalOpen(false);
         setIsSaveTemplateModalOpen(false);
+        setIsMoveFileModalOpen(false);
       }
     };
 
@@ -386,7 +400,7 @@ export function SavedFilesPage() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [isAddCategoryModalOpen, isSaveTemplateModalOpen]);
+  }, [isAddCategoryModalOpen, isSaveTemplateModalOpen, isMoveFileModalOpen]);
 
   const filteredFiles = FILES.filter((file) => {
     const matchesTab = filterByTab(file, activeTab);
@@ -481,6 +495,21 @@ export function SavedFilesPage() {
     setSaveTemplateError("");
   };
 
+  const openMoveFileModal = (file: SavedFile) => {
+    setMoveFileTarget(file);
+    setMoveFileCategory(file.category);
+    setMoveFileProjectLocation(file.project);
+    setMoveFileNote("");
+    setMoveFileError("");
+    setIsMoveFileModalOpen(true);
+  };
+
+  const closeMoveFileModal = () => {
+    setIsMoveFileModalOpen(false);
+    setMoveFileError("");
+    setMoveFileTarget(null);
+  };
+
   const handleOpenCategoryModalFromSaveTemplate = () => {
     setReturnToSaveTemplateAfterCategory(true);
     closeSaveTemplateModal();
@@ -535,6 +564,15 @@ export function SavedFilesPage() {
     }
 
     closeSaveTemplateModal();
+  };
+
+  const handleMoveFile = () => {
+    if (!moveFileCategory) {
+      setMoveFileError("Please select a category before moving this file.");
+      return;
+    }
+
+    closeMoveFileModal();
   };
 
   const projectOptions = [
@@ -718,123 +756,124 @@ export function SavedFilesPage() {
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-[12px] border border-[#d9dde5] bg-white shadow-[0_1px_1px_rgba(15,23,42,0.04)]">
+      <section className="overflow-hidden rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_1px_1px_rgba(15,23,42,0.04)]">
         <div className="overflow-x-auto">
-          <table className="min-w-310 w-full border-separate border-spacing-0">
-            <thead>
-              <tr className="bg-[#cfe1fa] text-left text-[12px] font-semibold uppercase tracking-[0.02em] text-[#4d648b]">
-                <th className="w-14 px-6 py-5">
+          <div className="min-w-[1546px]">
+            <div
+              className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] bg-[#d6e9ff] px-6 py-[11px]"
+              style={{ gridTemplateColumns: TABLE_COLUMN_LAYOUT }}>
+              <div className="flex items-center gap-4">
+                <div className="flex w-12 justify-center px-3">
                   <input
                     type="checkbox"
                     checked={allVisibleSelected}
                     onChange={toggleSelectAll}
                     aria-label="Select all visible files"
-                    className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
+                    className="size-3.5 rounded-[4px] border border-[#c5c6cd] accent-brand-primary"
                   />
-                </th>
-                <th className="min-w-[320px] px-4 py-5">File Name</th>
-                <th className="min-w-50 px-4 py-5">Type</th>
-                <th className="min-w-40 px-4 py-5">Category</th>
-                <th className="min-w-37.5 px-4 py-5">Type</th>
-                <th className="min-w-35 px-4 py-5">Source</th>
-                <th className="min-w-30 px-4 py-5">Version</th>
-                <th className="min-w-40 px-4 py-5">Date Saved</th>
-                <th className="min-w-50 px-4 py-5">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredFiles.length > 0 ? (
-                filteredFiles.map((file) => (
-                  <tr
-                    key={file.id}
-                    className="text-[14px] text-brand-secondary transition hover:bg-[#fafbfd]">
-                    <td className="border-b border-[#edf0f4] px-6 py-5 align-middle">
+                </div>
+                <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                  File Name
+                </span>
+              </div>
+              {["Type", "Category", "Type", "Source", "Version", "Date Saved", "Actions"].map(
+                (heading) => (
+                  <span
+                    key={heading}
+                    className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                    {heading}
+                  </span>
+                )
+              )}
+            </div>
+
+            {filteredFiles.length > 0 ? (
+              filteredFiles.map((file) => (
+                <div
+                  key={file.id}
+                  className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] px-6 transition hover:bg-[#fafbfd]"
+                  style={{ gridTemplateColumns: TABLE_COLUMN_LAYOUT }}>
+                  <div className="flex min-h-[62px] items-center gap-4">
+                    <div className="flex w-12 justify-center px-3">
                       <input
                         type="checkbox"
                         checked={selectedIds.includes(file.id)}
                         onChange={() => toggleSelection(file.id)}
                         aria-label={`Select ${file.name}`}
-                        className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
+                        className="size-3.5 rounded-[4px] border border-[#c5c6cd] accent-brand-primary"
                       />
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      <div className="flex items-center gap-3 text-brand-primary">
-                        <FileBadge2 className="size-5 shrink-0 text-[#2962ff]" />
-                        <span className="font-medium">{file.name}</span>
-                      </div>
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      {file.project}
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      {file.category}
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      <span className="inline-flex rounded-lg bg-[#f3f5f8] px-1.75 py-0.5 text-[12px] text-brand-primary">
-                        {file.format}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <FileBadge2 className="size-5 shrink-0 text-[#4f79ff]" />
+                      <span className="text-[16px] leading-[1.6] text-brand-primary">
+                        {file.name}
                       </span>
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      {file.source}
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      {file.version}
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-5">
-                      {file.dateSaved}
-                    </td>
-                    <td className="border-b border-[#edf0f4] px-4 py-4">
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          className="text-brand-primary hover:bg-[#f3f5f8]"
-                          aria-label={`Preview ${file.name}`}>
-                          <Eye className="size-4.5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          className="text-brand-primary hover:bg-[#f3f5f8]"
-                          aria-label={`Download ${file.name}`}>
-                          <Upload className="size-4.5 rotate-180" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          className="text-brand-primary hover:bg-[#f3f5f8]"
-                          aria-label={`Duplicate ${file.name}`}>
-                          <Copy className="size-4.5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          className="text-brand-primary hover:bg-[#f3f5f8]"
-                          aria-label={`Share ${file.name}`}>
-                          <Share2 className="size-4.5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          className="text-brand-primary hover:bg-[#f3f5f8]"
-                          aria-label={`Delete ${file.name}`}>
-                          <Trash2 className="size-4.5" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan={9}
-                    className="px-6 py-16 text-center text-[14px] text-brand-secondary">
-                    No files match the current tab and filters.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                    </div>
+                  </div>
+
+                  <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                    {file.project}
+                  </div>
+                  <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                    {file.category}
+                  </div>
+                  <div className="py-[18px]">
+                    <span className="inline-flex rounded-[4px] bg-[#f3f5f8] px-[7px] py-[2px] text-[12px] leading-[1.6] text-brand-primary">
+                      {file.format}
+                    </span>
+                  </div>
+                  <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                    {file.source}
+                  </div>
+                  <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                    {file.version}
+                  </div>
+                  <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                    {file.dateSaved}
+                  </div>
+                  <div className="py-[18px]">
+                    <div className="flex h-7 items-center gap-2">
+                      <button
+                        type="button"
+                        className="flex size-7 items-center justify-center rounded-[4px] text-[#4f79ff] transition hover:bg-[#eef4ff]"
+                        aria-label={`Preview ${file.name}`}>
+                        <Eye className="size-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        className="flex size-7 items-center justify-center rounded-[4px] text-[#2ea44f] transition hover:bg-[#eefbf2]"
+                        aria-label={`Download ${file.name}`}>
+                        <Upload className="size-[18px] rotate-180" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openMoveFileModal(file)}
+                        className="flex size-7 items-center justify-center rounded-[4px] text-brand-primary transition hover:bg-[#f3f5f8]"
+                        aria-label={`Move ${file.name}`}>
+                        <FolderInput className="size-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        className="flex size-7 items-center justify-center rounded-[4px] text-[#f97316] transition hover:bg-[#fff5eb]"
+                        aria-label={`Edit ${file.name}`}>
+                        <Pencil className="size-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        className="flex size-7 items-center justify-center rounded-[4px] text-[#ef4444] transition hover:bg-[#fff1f2]"
+                        aria-label={`Delete ${file.name}`}>
+                        <Trash2 className="size-[18px]" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="px-6 py-16 text-center text-[14px] text-brand-secondary">
+                No files match the current tab and filters.
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -1299,6 +1338,132 @@ export function SavedFilesPage() {
                   onClick={handleSaveTemplateCopy}
                   className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
                   Save File
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {isMoveFileModalOpen && moveFileTarget ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/28 px-4 py-6 backdrop-blur-[2px]"
+          onClick={closeMoveFileModal}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="move-file-title"
+            aria-describedby="move-file-description"
+            className="w-full max-w-223.5 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+            onClick={(event) => event.stopPropagation()}>
+            <div className="relative flex flex-col gap-6 px-6 py-6">
+              <div className="flex min-h-8 items-start pr-12">
+                <h2
+                  id="move-file-title"
+                  className="text-[20px] font-bold leading-[1.6] text-brand-primary">
+                  Move File
+                </h2>
+                <p id="move-file-description" className="sr-only">
+                  Move this file into a different category or project location.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeMoveFileModal}
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
+                aria-label="Close move file modal">
+                <X className="size-4.5" />
+              </button>
+
+              <div className="rounded-[6px] border border-[#c5c6d0] bg-[#f3f5f8] px-4.25 py-4.25">
+                <div className="flex items-start gap-4">
+                  <div className="flex size-10 items-center justify-center rounded-[6px] bg-[#ffdad6] text-[#ef4444]">
+                    <FileText className="size-6" />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-2">
+                    <h3 className="text-[16px] font-bold leading-[1.6] text-brand-primary">
+                      {moveFileTarget.name}
+                    </h3>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-[12px] leading-[1.6] text-brand-secondary">
+                      <span className="inline-flex items-center gap-1">
+                        <FolderOpen className="size-3.5" />
+                        {moveFileTarget.category}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Building2 className="size-3.5" />
+                        {moveFileTarget.project}
+                      </span>
+                      <span>Version: {moveFileTarget.version}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="move-file-category"
+                  className="text-[14px] leading-[1.6] text-brand-primary">
+                  Move to Category
+                </label>
+                <SelectField
+                  id="move-file-category"
+                  value={moveFileCategory}
+                  onChange={(value) => {
+                    setMoveFileCategory(value);
+                    if (moveFileError) {
+                      setMoveFileError("");
+                    }
+                  }}
+                  options={categories.map((category) => category.name)}
+                  className="w-full"
+                  selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
+                />
+                {moveFileError ? (
+                  <p className="text-[13px] font-medium text-[#b42318]">
+                    {moveFileError}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="move-file-project-location"
+                  className="text-[14px] leading-[1.6] text-brand-primary">
+                  Project/Location
+                </label>
+                <SelectField
+                  id="move-file-project-location"
+                  value={moveFileProjectLocation}
+                  onChange={setMoveFileProjectLocation}
+                  options={[...DEFAULT_LOCATION_OPTIONS.filter((option) => option !== "None")]}
+                  className="w-full"
+                  selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="move-file-note"
+                  className="text-[14px] leading-[1.6] text-brand-primary">
+                  Optional Note
+                </label>
+                <textarea
+                  id="move-file-note"
+                  value={moveFileNote}
+                  onChange={(event) => setMoveFileNote(event.target.value)}
+                  placeholder="Reason for move or additional context..."
+                  rows={3}
+                  className="min-h-19.5 w-full resize-none rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white px-4 py-3 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary"
+                />
+              </div>
+
+              <div className="pt-1">
+                <Button
+                  type="button"
+                  onClick={handleMoveFile}
+                  className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Move File
                 </Button>
               </div>
             </div>
