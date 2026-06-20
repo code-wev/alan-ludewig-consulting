@@ -27,7 +27,7 @@ export const DASHBOARD_NAVIGATION: Record<Role, { label: string; href: string; i
   [ROLES.CLIENT]: [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "My Membership", href: "/dashboard/membership", icon: ShieldCheck },
-    { label: "My Saved Files", href: "/dashboard/files", icon: Files },
+    { label: "My Saved Files", href: "/my-saved-files", icon: Files },
     { label: "Document Library", href: "/dashboard/library", icon: FileText },
     { label: "My Forms / Checklist", href: "/dashboard/forms", icon: ClipboardCheck },
     { label: "RAMS Builder", href: "/dashboard/rams", icon: Briefcase },
@@ -48,7 +48,7 @@ export const DASHBOARD_NAVIGATION: Record<Role, { label: string; href: string; i
     { label: "User Management", href: "/dashboard/users", icon: Users },
     { label: "Membership & Subscriptions", href: "/dashboard/admin/subscriptions", icon: ShieldCheck },
     { label: "Document Library", href: "/dashboard/admin/library", icon: FileText },
-    { label: "My Saved Files", href: "/dashboard/admin/files", icon: Files },
+    { label: "My Saved Files", href: "/my-saved-files", icon: Files },
     { label: "RAMS Content", href: "/dashboard/admin/rams", icon: Briefcase },
     { label: "Booking Management", href: "/dashboard/admin/bookings", icon: Calendar },
     { label: "Add-ons Management", href: "/dashboard/admin/add-ons", icon: Package },

@@ -42,13 +42,13 @@ export function DashboardSidebar({
       {/* Sidebar Aside */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col bg-[#132651] border-r border-[#e3e6ec] transition-all duration-300 md:translate-x-0 md:sticky md:top-0 h-screen",
-          isCollapsed ? "w-[80px]" : "w-[256px]",
+          "fixed inset-y-0 left-0 z-50 flex flex-col bg-brand-primary border-r border-[#e3e6ec] transition-all duration-300 md:translate-x-0 md:sticky md:top-0 h-screen",
+          isCollapsed ? "w-20" : "w-[256px]",
           isMobileOpen ? "translate-x-0" : "-translate-x-full",
         )}>
         {/* Logo Section - Matching Figma node 345:12862 */}
-        <div className='h-[84px] border-b border-[#e3e6ec]/20 px-[24px] flex items-center justify-between shrink-0 overflow-hidden'>
-          <Link href='/' className='relative h-[36px] w-[186px] shrink-0'>
+        <div className='h-21 border-b border-[#e3e6ec]/20 px-6 flex items-center justify-between shrink-0 overflow-hidden'>
+          <Link href='/' className='relative h-9 w-46.5 shrink-0'>
             <Image
               src='/images/logo.png'
               alt='Logo'
@@ -99,11 +99,11 @@ export function DashboardSidebar({
         </nav>
 
         {/* Logout Section */}
-        <div className='h-[70px] border-t border-[#e3e6ec]/20 p-4 shrink-0'>
+        <div className='h-17.5 border-t border-[#e3e6ec]/20 p-4 shrink-0'>
           <button
             onClick={logout}
             className={cn(
-              "flex items-center gap-3 w-full px-4 py-2 text-[#f7f8fa] hover:bg-white/5 rounded-[6px] transition-colors",
+              "flex items-center gap-3 w-full px-4 py-2 text-brand-bg-main hover:bg-white/5 rounded-[6px] transition-colors",
               isCollapsed && "justify-center px-0",
             )}>
             <LogOut size={20} className='shrink-0' />
