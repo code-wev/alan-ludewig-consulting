@@ -48,7 +48,7 @@ export function ManageCategoriesModal({
           role="dialog"
           aria-modal="true"
           aria-labelledby="manage-categories-title"
-          className="w-full max-w-392.25 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+          className="w-full max-w-392.25 max-h-[90vh] overflow-y-auto no-scrollbar rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
           onClick={(event) => event.stopPropagation()}
         >
           <div className="relative flex flex-col gap-6 px-6 py-6">
