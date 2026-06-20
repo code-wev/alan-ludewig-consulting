@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  Archive,
   Building2,
   Check,
   ChevronDown,
@@ -49,6 +50,7 @@ type CategoryEntry = {
   icon?: string;
   color?: string;
   isDefault?: boolean;
+  status?: "Active" | "Archived";
 };
 
 const TABS = [
@@ -254,6 +256,9 @@ const TEMPLATE_COPY_PREVIEW = {
 const TABLE_COLUMN_LAYOUT =
   "72px minmax(291px,291px) minmax(272px,272px) minmax(185px,185px) minmax(210px,210px) minmax(160px,160px) minmax(150px,150px) minmax(210px,210px) minmax(176px,176px)";
 
+const CATEGORY_TABLE_COLUMN_LAYOUT =
+  "72px minmax(164px,164px) minmax(164px,164px) minmax(164px,164px) minmax(200px,200px) minmax(130px,130px) minmax(145px,145px)";
+
 function filterByTab(file: SavedFile, tab: (typeof TABS)[number]) {
   switch (tab) {
     case "All Files":
@@ -344,6 +349,8 @@ export function SavedFilesPage() {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false);
   const [isEditFileModalOpen, setIsEditFileModalOpen] = useState(false);
   const [isDeleteFileModalOpen, setIsDeleteFileModalOpen] = useState(false);
+  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] =
+    useState(false);
   const [moveFileTarget, setMoveFileTarget] = useState<SavedFile | null>(null);
   const [editFileTarget, setEditFileTarget] = useState<SavedFile | null>(null);
   const [deleteFileTarget, setDeleteFileTarget] = useState<SavedFile | null>(null);
@@ -387,6 +394,11 @@ export function SavedFilesPage() {
   const [editFileError, setEditFileError] = useState("");
   const [confirmDeleteFile, setConfirmDeleteFile] = useState(false);
   const [deleteFileError, setDeleteFileError] = useState("");
+  const [manageCategorySearch, setManageCategorySearch] = useState("");
+  const [manageCategoryTypeFilter, setManageCategoryTypeFilter] =
+    useState("All Categories");
+  const [manageCategoryStatusFilter, setManageCategoryStatusFilter] =
+    useState("All Status");
 
   useEffect(() => {
     if (
@@ -394,7 +406,8 @@ export function SavedFilesPage() {
       !isSaveTemplateModalOpen &&
       !isMoveFileModalOpen &&
       !isEditFileModalOpen &&
-      !isDeleteFileModalOpen
+      !isDeleteFileModalOpen &&
+      !isManageCategoriesModalOpen
     ) {
       return;
     }
@@ -409,6 +422,7 @@ export function SavedFilesPage() {
         setIsMoveFileModalOpen(false);
         setIsEditFileModalOpen(false);
         setIsDeleteFileModalOpen(false);
+        setIsManageCategoriesModalOpen(false);
       }
     };
 
@@ -424,6 +438,7 @@ export function SavedFilesPage() {
     isMoveFileModalOpen,
     isEditFileModalOpen,
     isDeleteFileModalOpen,
+    isManageCategoriesModalOpen,
   ]);
 
   const filteredFiles = FILES.filter((file) => {
@@ -567,6 +582,22 @@ export function SavedFilesPage() {
     setDeleteFileTarget(null);
   };
 
+  const openManageCategoriesModal = () => {
+    setManageCategorySearch("");
+    setManageCategoryTypeFilter("All Categories");
+    setManageCategoryStatusFilter("All Status");
+    setIsManageCategoriesModalOpen(true);
+  };
+
+  const closeManageCategoriesModal = () => {
+    setIsManageCategoriesModalOpen(false);
+  };
+
+  const handleOpenCategoryModalFromManage = () => {
+    closeManageCategoriesModal();
+    openAddCategoryModal();
+  };
+
   const handleOpenCategoryModalFromSaveTemplate = () => {
     setReturnToSaveTemplateAfterCategory(true);
     closeSaveTemplateModal();
@@ -671,6 +702,42 @@ export function SavedFilesPage() {
     "Sort: Oldest First",
     "Sort: Name A-Z",
   ];
+  const manageCategoryTypeOptions = [
+    "All Categories",
+    ...Array.from(
+      new Set(categories.map((category) => category.type ?? "General Documents"))
+    ),
+  ];
+  const manageCategoryStatusOptions = ["All Status", "Active", "Archived"];
+  const managedCategories = categories
+    .map((category, index) => ({
+      ...category,
+      type:
+        category.type ??
+        ["Regulatory", "Internal", "Vendor", "Operational"][index % 4],
+      projectLocation:
+        category.projectLocation ??
+        ["Global Standard", "London HQ", "Fleet Management", "Compliance Team"][
+          index % 4
+        ],
+      filesSaved: FILES.filter((file) => file.category === category.name).length,
+      status: category.status ?? (index % 4 === 3 ? "Archived" : "Active"),
+    }))
+    .filter((category) => {
+      const matchesSearch =
+        manageCategorySearch.trim().length === 0 ||
+        category.name
+          .toLowerCase()
+          .includes(manageCategorySearch.trim().toLowerCase());
+      const matchesType =
+        manageCategoryTypeFilter === "All Categories" ||
+        category.type === manageCategoryTypeFilter;
+      const matchesStatus =
+        manageCategoryStatusFilter === "All Status" ||
+        category.status === manageCategoryStatusFilter;
+
+      return matchesSearch && matchesType && matchesStatus;
+    });
 
   return (
     <div className="flex flex-col gap-6 text-brand-primary">
@@ -754,11 +821,13 @@ export function SavedFilesPage() {
                   key={label}
                   variant="outline"
                   onClick={
-                    label === "Add Category"
-                      ? openAddCategoryModal
-                      : label === "Save Template Copy"
-                        ? openSaveTemplateModal
-                        : undefined
+                    label === "Manage Categories"
+                      ? openManageCategoriesModal
+                      : label === "Add Category"
+                        ? openAddCategoryModal
+                        : label === "Save Template Copy"
+                          ? openSaveTemplateModal
+                          : undefined
                   }
                   className={cn(actionButtonClass, "bg-white")}>
                   {label}
@@ -833,9 +902,9 @@ export function SavedFilesPage() {
 
       <section className="overflow-hidden rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_1px_1px_rgba(15,23,42,0.04)]">
         <div className="overflow-x-auto">
-          <div className="min-w-[1546px]">
+          <div className="min-w-386.5">
             <div
-              className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] bg-[#d6e9ff] px-6 py-[11px]"
+              className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] bg-[#d6e9ff] px-6 py-2.75"
               style={{ gridTemplateColumns: TABLE_COLUMN_LAYOUT }}>
               <div className="flex items-center gap-4">
                 <div className="flex w-12 justify-center px-3">
@@ -844,7 +913,7 @@ export function SavedFilesPage() {
                     checked={allVisibleSelected}
                     onChange={toggleSelectAll}
                     aria-label="Select all visible files"
-                    className="size-3.5 rounded-[4px] border border-[#c5c6cd] accent-brand-primary"
+                    className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
                   />
                 </div>
                 <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
@@ -868,14 +937,14 @@ export function SavedFilesPage() {
                   key={file.id}
                   className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] px-6 transition hover:bg-[#fafbfd]"
                   style={{ gridTemplateColumns: TABLE_COLUMN_LAYOUT }}>
-                  <div className="flex min-h-[62px] items-center gap-4">
+                  <div className="flex min-h-15.5 items-center gap-4">
                     <div className="flex w-12 justify-center px-3">
                       <input
                         type="checkbox"
                         checked={selectedIds.includes(file.id)}
                         onChange={() => toggleSelection(file.id)}
                         aria-label={`Select ${file.name}`}
-                        className="size-3.5 rounded-[4px] border border-[#c5c6cd] accent-brand-primary"
+                        className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
                       />
                     </div>
                     <div className="flex items-center gap-3">
@@ -892,8 +961,8 @@ export function SavedFilesPage() {
                   <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
                     {file.category}
                   </div>
-                  <div className="py-[18px]">
-                    <span className="inline-flex rounded-[4px] bg-[#f3f5f8] px-[7px] py-[2px] text-[12px] leading-[1.6] text-brand-primary">
+                  <div className="py-4.5">
+                    <span className="inline-flex rounded-lg bg-[#f3f5f8] px-1.75 py-0.5 text-[12px] leading-[1.6] text-brand-primary">
                       {file.format}
                     </span>
                   </div>
@@ -906,40 +975,40 @@ export function SavedFilesPage() {
                   <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
                     {file.dateSaved}
                   </div>
-                  <div className="py-[18px]">
+                  <div className="py-4.5">
                     <div className="flex h-7 items-center gap-2">
                       <button
                         type="button"
-                        className="flex size-7 items-center justify-center rounded-[4px] text-[#4f79ff] transition hover:bg-[#eef4ff]"
+                        className="flex size-7 items-center justify-center rounded-lg text-[#4f79ff] transition hover:bg-[#eef4ff]"
                         aria-label={`Preview ${file.name}`}>
-                        <Eye className="size-[18px]" />
+                        <Eye className="size-4.5" />
                       </button>
                       <button
                         type="button"
-                        className="flex size-7 items-center justify-center rounded-[4px] text-[#2ea44f] transition hover:bg-[#eefbf2]"
+                        className="flex size-7 items-center justify-center rounded-lg text-[#2ea44f] transition hover:bg-[#eefbf2]"
                         aria-label={`Download ${file.name}`}>
-                        <Upload className="size-[18px] rotate-180" />
+                        <Upload className="size-4.5 rotate-180" />
                       </button>
                       <button
                         type="button"
                         onClick={() => openMoveFileModal(file)}
-                        className="flex size-7 items-center justify-center rounded-[4px] text-brand-primary transition hover:bg-[#f3f5f8]"
+                        className="flex size-7 items-center justify-center rounded-lg text-brand-primary transition hover:bg-[#f3f5f8]"
                         aria-label={`Move ${file.name}`}>
-                        <FolderInput className="size-[18px]" />
+                        <FolderInput className="size-4.5" />
                       </button>
                       <button
                         type="button"
                         onClick={() => openEditFileModal(file)}
-                        className="flex size-7 items-center justify-center rounded-[4px] text-[#f97316] transition hover:bg-[#fff5eb]"
+                        className="flex size-7 items-center justify-center rounded-lg text-[#f97316] transition hover:bg-[#fff5eb]"
                         aria-label={`Edit ${file.name}`}>
-                        <Pencil className="size-[18px]" />
+                        <Pencil className="size-4.5" />
                       </button>
                       <button
                         type="button"
                         onClick={() => openDeleteFileModal(file)}
-                        className="flex size-7 items-center justify-center rounded-[4px] text-[#ef4444] transition hover:bg-[#fff1f2]"
+                        className="flex size-7 items-center justify-center rounded-lg text-[#ef4444] transition hover:bg-[#fff1f2]"
                         aria-label={`Delete ${file.name}`}>
-                        <Trash2 className="size-[18px]" />
+                        <Trash2 className="size-4.5" />
                       </button>
                     </div>
                   </div>
@@ -1891,7 +1960,7 @@ export function SavedFilesPage() {
               </div>
 
               <div className="flex items-start gap-2 py-1.5 text-left">
-                <CircleAlert className="mt-0.5 size-[18px] shrink-0 text-[#dc2626]" />
+                <CircleAlert className="mt-0.5 size-4.5 shrink-0 text-[#dc2626]" />
                 <p className="text-[14px] leading-[1.6] text-brand-secondary">
                   Once deleted, this saved copy will no longer appear in your saved
                   files.
@@ -1934,6 +2003,208 @@ export function SavedFilesPage() {
                   onClick={handleDeleteFile}
                   className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
                   Delete File
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {isManageCategoriesModalOpen ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/28 px-4 py-6 backdrop-blur-[2px]"
+          onClick={closeManageCategoriesModal}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="manage-categories-title"
+            className="w-full max-w-392.25 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+            onClick={(event) => event.stopPropagation()}>
+            <div className="relative flex flex-col gap-6 px-6 py-6">
+              <div className="flex items-end justify-between gap-6 border-b border-transparent pb-5 pr-12">
+                <div className="space-y-1.5">
+                  <h2
+                    id="manage-categories-title"
+                    className="text-[20px] font-bold leading-[1.6] text-brand-primary">
+                    Manage My Categories
+                  </h2>
+                  <p className="text-[14px] leading-[1.6] text-brand-secondary">
+                    Lorem ipsum dolor sit amet consectetur.
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  onClick={handleOpenCategoryModalFromManage}
+                  className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Add Category
+                </Button>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeManageCategoriesModal}
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
+                aria-label="Close manage categories modal">
+                <X className="size-4.5" />
+              </button>
+
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 rounded-[12px] p-4 shadow-[0_1px_1px_rgba(0,0,0,0.05)] xl:flex-row xl:items-center xl:justify-between">
+                  <div className="relative w-full max-w-102">
+                    <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-brand-secondary" />
+                    <input
+                      value={manageCategorySearch}
+                      onChange={(event) => setManageCategorySearch(event.target.value)}
+                      placeholder="Search category name..."
+                      className="h-9 w-full rounded-[6px] border border-[#e3e6ec] bg-white pl-11 pr-4 text-[14px] text-brand-primary outline-none transition placeholder:text-brand-secondary focus:border-brand-primary"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-4">
+                    <SelectField
+                      value={manageCategoryTypeFilter}
+                      onChange={setManageCategoryTypeFilter}
+                      options={manageCategoryTypeOptions}
+                      className="w-44.5"
+                      selectClassName="h-9 rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-secondary"
+                    />
+                    <SelectField
+                      value={manageCategoryStatusFilter}
+                      onChange={setManageCategoryStatusFilter}
+                      options={manageCategoryStatusOptions}
+                      className="w-36.75"
+                      selectClassName="h-9 rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-secondary"
+                    />
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white">
+                  <div className="overflow-x-auto">
+                    <div className="min-w-259.75">
+                      <div
+                        className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] bg-[#d6e9ff] px-6 py-2.5"
+                        style={{ gridTemplateColumns: CATEGORY_TABLE_COLUMN_LAYOUT }}>
+                        <div className="flex items-center gap-4">
+                          <div className="flex w-12 justify-center px-3">
+                            <input
+                              type="checkbox"
+                              aria-label="Select all categories"
+                              className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
+                            />
+                          </div>
+                          <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                            Category Name
+                          </span>
+                        </div>
+                        {[
+                          "Category Type",
+                          "Default Project / Location",
+                          "Files Saved",
+                          "Status",
+                          "Actions",
+                        ].map((heading) => (
+                          <span
+                            key={heading}
+                            className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                            {heading}
+                          </span>
+                        ))}
+                      </div>
+
+                      {managedCategories.length > 0 ? (
+                        managedCategories.map((category) => (
+                          <div
+                            key={category.id}
+                            className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] px-6"
+                            style={{
+                              gridTemplateColumns: CATEGORY_TABLE_COLUMN_LAYOUT,
+                            }}>
+                            <div className="flex min-h-15.5 items-center gap-4">
+                              <div className="flex w-12 justify-center px-3">
+                                <input
+                                  type="checkbox"
+                                  aria-label={`Select ${category.name}`}
+                                  className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
+                                />
+                              </div>
+                              <span className="text-[14px] leading-[1.6] text-brand-primary">
+                                {category.name}
+                              </span>
+                            </div>
+                            <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                              {category.type}
+                            </div>
+                            <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                              {category.projectLocation}
+                            </div>
+                            <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                              {category.filesSaved}
+                            </div>
+                            <div className="py-4.5">
+                              <span
+                                className={cn(
+                                  "inline-flex rounded-[6px] px-2.25 py-0.5 text-[12px] leading-[1.6] text-white",
+                                  category.status === "Archived"
+                                    ? "bg-[#a3acba]"
+                                    : "bg-[#00bc7d]"
+                                )}>
+                                {category.status}
+                              </span>
+                            </div>
+                            <div className="py-4.5">
+                              <div className="flex h-7 items-center gap-2">
+                                <button
+                                  type="button"
+                                  className="flex size-7 items-center justify-center rounded-lg text-[#16a34a] transition hover:bg-[#eefbf2]"
+                                  aria-label={`Edit category ${category.name}`}>
+                                  <Pencil className="size-4.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="flex size-7 items-center justify-center rounded-lg text-brand-primary transition hover:bg-[#f3f5f8]"
+                                  aria-label={`Move category ${category.name}`}>
+                                  <FolderInput className="size-4.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="flex size-7 items-center justify-center rounded-lg text-[#16a34a] transition hover:bg-[#eefbf2]"
+                                  aria-label={`Archive category ${category.name}`}>
+                                  <Archive className="size-4.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="flex size-7 items-center justify-center rounded-lg text-[#ef4444] transition hover:bg-[#fff1f2]"
+                                  aria-label={`Delete category ${category.name}`}>
+                                  <Trash2 className="size-4.5" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="px-6 py-16 text-center text-[14px] text-brand-secondary">
+                          No categories match the current filters.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-4.25 py-4.25">
+                  <CircleAlert className="mt-0.5 size-5 shrink-0 text-brand-primary" />
+                  <p className="text-[14px] leading-[1.6] text-brand-primary">
+                    Deleting a category will unassign all associated files. We
+                    recommend archiving categories instead to preserve document
+                    historical trails and audit integrity.
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-1">
+                <Button
+                  type="button"
+                  className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Save Changes
                 </Button>
               </div>
             </div>
