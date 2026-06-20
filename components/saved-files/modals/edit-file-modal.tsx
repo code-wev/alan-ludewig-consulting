@@ -54,7 +54,7 @@ export function EditFileModal({
           aria-modal="true"
           aria-labelledby="edit-file-title"
           aria-describedby="edit-file-description"
-          className="w-full max-w-223.5 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+          className="w-full max-w-223.5 max-h-[90vh] overflow-y-auto no-scrollbar rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
           onClick={(event) => event.stopPropagation()}
         >
           <div className="relative flex flex-col gap-6 px-6 py-6">
