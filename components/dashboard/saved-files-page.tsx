@@ -242,6 +242,15 @@ const CATEGORY_COLOR_OPTIONS = [
   "#F56508",
 ] as const;
 
+const TEMPLATE_COPY_PREVIEW = {
+  name: "Working at Height Risk Assessment",
+  category: "Risk Assessment",
+  format: "PDF/DOCX",
+  version: "v2.4",
+  source: "Document Library",
+  projectLocation: "ABC Construction",
+} as const;
+
 function filterByTab(file: SavedFile, tab: (typeof TABS)[number]) {
   switch (tab) {
     case "All Files":
@@ -328,6 +337,7 @@ export function SavedFilesPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+  const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
   const [newCategoryType, setNewCategoryType] = useState<string>(
@@ -343,9 +353,20 @@ export function SavedFilesPage() {
   );
   const [isDefaultCategory, setIsDefaultCategory] = useState(false);
   const [categoryError, setCategoryError] = useState("");
+  const [saveTemplateCategory, setSaveTemplateCategory] =
+    useState("Select category");
+  const [saveTemplateProjectLocation, setSaveTemplateProjectLocation] =
+    useState<string>(TEMPLATE_COPY_PREVIEW.projectLocation);
+  const [saveTemplateNotes, setSaveTemplateNotes] = useState("");
+  const [notifyOnDocumentUpdate, setNotifyOnDocumentUpdate] = useState(false);
+  const [saveLatestVersionByDefault, setSaveLatestVersionByDefault] =
+    useState(false);
+  const [saveTemplateError, setSaveTemplateError] = useState("");
+  const [returnToSaveTemplateAfterCategory, setReturnToSaveTemplateAfterCategory] =
+    useState(false);
 
   useEffect(() => {
-    if (!isAddCategoryModalOpen) {
+    if (!isAddCategoryModalOpen && !isSaveTemplateModalOpen) {
       return;
     }
 
@@ -355,6 +376,7 @@ export function SavedFilesPage() {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsAddCategoryModalOpen(false);
+        setIsSaveTemplateModalOpen(false);
       }
     };
 
@@ -364,7 +386,7 @@ export function SavedFilesPage() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [isAddCategoryModalOpen]);
+  }, [isAddCategoryModalOpen, isSaveTemplateModalOpen]);
 
   const filteredFiles = FILES.filter((file) => {
     const matchesTab = filterByTab(file, activeTab);
@@ -438,9 +460,31 @@ export function SavedFilesPage() {
     setIsAddCategoryModalOpen(true);
   };
 
+  const openSaveTemplateModal = () => {
+    setSaveTemplateCategory("Select category");
+    setSaveTemplateProjectLocation(TEMPLATE_COPY_PREVIEW.projectLocation);
+    setSaveTemplateNotes("");
+    setNotifyOnDocumentUpdate(false);
+    setSaveLatestVersionByDefault(false);
+    setSaveTemplateError("");
+    setIsSaveTemplateModalOpen(true);
+  };
+
   const closeAddCategoryModal = () => {
     setIsAddCategoryModalOpen(false);
     setCategoryError("");
+    setReturnToSaveTemplateAfterCategory(false);
+  };
+
+  const closeSaveTemplateModal = () => {
+    setIsSaveTemplateModalOpen(false);
+    setSaveTemplateError("");
+  };
+
+  const handleOpenCategoryModalFromSaveTemplate = () => {
+    setReturnToSaveTemplateAfterCategory(true);
+    closeSaveTemplateModal();
+    openAddCategoryModal();
   };
 
   const handleCreateCategory = () => {
@@ -475,7 +519,22 @@ export function SavedFilesPage() {
       },
     ]);
     setCategoryFilter(trimmedName);
+    if (returnToSaveTemplateAfterCategory) {
+      setSaveTemplateCategory(trimmedName);
+      setSaveTemplateError("");
+      setIsSaveTemplateModalOpen(true);
+      setReturnToSaveTemplateAfterCategory(false);
+    }
     closeAddCategoryModal();
+  };
+
+  const handleSaveTemplateCopy = () => {
+    if (saveTemplateCategory === "Select category") {
+      setSaveTemplateError("Please select a category before saving.");
+      return;
+    }
+
+    closeSaveTemplateModal();
   };
 
   const projectOptions = [
@@ -581,7 +640,13 @@ export function SavedFilesPage() {
                 <Button
                   key={label}
                   variant="outline"
-                  onClick={label === "Add Category" ? openAddCategoryModal : undefined}
+                  onClick={
+                    label === "Add Category"
+                      ? openAddCategoryModal
+                      : label === "Save Template Copy"
+                        ? openSaveTemplateModal
+                        : undefined
+                  }
                   className={cn(actionButtonClass, "bg-white")}>
                   {label}
                   {hasChevron ? <ChevronDown className="size-4" /> : null}
@@ -1045,6 +1110,195 @@ export function SavedFilesPage() {
                   onClick={handleCreateCategory}
                   className="h-[34px] rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
                   Create Category
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {isSaveTemplateModalOpen ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#132651]/28 px-4 py-6 backdrop-blur-[2px]"
+          onClick={closeSaveTemplateModal}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="save-template-title"
+            aria-describedby="save-template-description"
+            className="w-full max-w-[894px] rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+            onClick={(event) => event.stopPropagation()}>
+            <div className="relative flex flex-col gap-6 px-6 py-6">
+              <div className="flex min-h-8 items-start pr-12">
+                <h2
+                  id="save-template-title"
+                  className="text-[20px] font-bold leading-[1.6] text-brand-primary">
+                  Save to My Saved Files
+                </h2>
+                <p id="save-template-description" className="sr-only">
+                  Save this template copy into one of your personal categories.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeSaveTemplateModal}
+                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
+                aria-label="Close save template copy modal">
+                <X className="size-[18px]" />
+              </button>
+
+              <div className="rounded-[6px] border border-[#c5c6d0] bg-[#f3f5f8] px-[17px] py-[17px]">
+                <div className="flex items-start gap-4">
+                  <div className="flex size-10 items-center justify-center rounded-[2px] border border-[#132651] bg-[#132651] text-white">
+                    <File className="size-[17px]" />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-2">
+                    <h3 className="text-[16px] font-bold leading-[1.6] text-brand-primary">
+                      {TEMPLATE_COPY_PREVIEW.name}
+                    </h3>
+                    <div className="flex flex-wrap gap-x-6 gap-y-1 text-[12px] leading-[1.6] text-brand-secondary">
+                      <span>Category: {TEMPLATE_COPY_PREVIEW.category}</span>
+                      <span>Format: {TEMPLATE_COPY_PREVIEW.format}</span>
+                      <span>Version: {TEMPLATE_COPY_PREVIEW.version}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-[12px] leading-[1.6] text-brand-secondary">
+                      <FileText className="size-3.5" />
+                      <span>Source: {TEMPLATE_COPY_PREVIEW.source}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <label
+                  htmlFor="save-template-category"
+                  className="text-[14px] leading-[1.6] text-brand-primary">
+                  Save under Category
+                </label>
+                <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_127px] md:items-end">
+                  <SelectField
+                    id="save-template-category"
+                    value={saveTemplateCategory}
+                    onChange={(value) => {
+                      setSaveTemplateCategory(value);
+                      if (saveTemplateError) {
+                        setSaveTemplateError("");
+                      }
+                    }}
+                    options={[
+                      "Select category",
+                      ...categories.map((category) => category.name),
+                    ]}
+                    className="w-full"
+                    selectClassName={cn(
+                      "h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6]",
+                      saveTemplateCategory === "Select category"
+                        ? "text-[#a3acba]"
+                        : "text-brand-primary"
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleOpenCategoryModalFromSaveTemplate}
+                    className="h-[51px] rounded-[6px] border-[#e3e6ec] bg-white px-[13px] text-[14px] font-normal text-brand-secondary hover:bg-[#f8fafc]">
+                    Add Category
+                  </Button>
+                </div>
+                {saveTemplateError ? (
+                  <p className="text-[13px] font-medium text-[#b42318]">
+                    {saveTemplateError}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="save-template-project-location"
+                  className="text-[14px] leading-[1.6] text-brand-primary">
+                  Project/Location
+                </label>
+                <SelectField
+                  id="save-template-project-location"
+                  value={saveTemplateProjectLocation}
+                  onChange={setSaveTemplateProjectLocation}
+                  options={[...DEFAULT_LOCATION_OPTIONS.filter((option) => option !== "None")]}
+                  className="w-full"
+                  selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor="save-template-notes"
+                  className="text-[14px] leading-[1.6] text-brand-primary">
+                  Notes
+                </label>
+                <textarea
+                  id="save-template-notes"
+                  value={saveTemplateNotes}
+                  onChange={(event) => setSaveTemplateNotes(event.target.value)}
+                  placeholder="Add a short note for this saved file."
+                  rows={3}
+                  className="min-h-[78px] w-full resize-none rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white px-4 py-3 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setNotifyOnDocumentUpdate((current) => !current)}
+                className="flex items-center gap-2 py-[6px] text-left"
+                role="checkbox"
+                aria-checked={notifyOnDocumentUpdate}>
+                <span
+                  className={cn(
+                    "flex size-5 items-center justify-center rounded-[4px] border transition",
+                    notifyOnDocumentUpdate
+                      ? "border-[#132651] bg-[#132651] text-white"
+                      : "border-[#e3e6ec] bg-white text-transparent"
+                  )}>
+                  <Check className="size-3.5" />
+                </span>
+                <span className="text-[14px] leading-[1.6] text-brand-secondary">
+                  Notify me if this document is updated
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSaveLatestVersionByDefault((current) => !current)}
+                className="flex items-center gap-2 py-[6px] text-left"
+                role="checkbox"
+                aria-checked={saveLatestVersionByDefault}>
+                <span
+                  className={cn(
+                    "flex size-5 items-center justify-center rounded-[4px] border transition",
+                    saveLatestVersionByDefault
+                      ? "border-[#132651] bg-[#132651] text-white"
+                      : "border-[#e3e6ec] bg-white text-transparent"
+                  )}>
+                  <Check className="size-3.5" />
+                </span>
+                <span className="text-[14px] leading-[1.6] text-brand-secondary">
+                  Save latest version by default
+                </span>
+              </button>
+
+              <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-[17px] py-[17px]">
+                <CircleAlert className="mt-0.5 size-5 shrink-0 text-brand-primary" />
+                <p className="text-[14px] leading-[1.6] text-brand-primary">
+                  Categories are personal to your account and do not affect the
+                  main Document Library.
+                </p>
+              </div>
+
+              <div className="pt-1">
+                <Button
+                  type="button"
+                  onClick={handleSaveTemplateCopy}
+                  className="h-[34px] rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Save File
                 </Button>
               </div>
             </div>
