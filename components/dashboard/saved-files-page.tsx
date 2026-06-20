@@ -912,14 +912,14 @@ export function SavedFilesPage() {
 
       {isAddCategoryModalOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#132651]/28 px-4 py-6 backdrop-blur-[2px]"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/28 px-4 py-6 backdrop-blur-[2px]"
           onClick={closeAddCategoryModal}>
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="add-category-title"
             aria-describedby="add-category-description"
-            className="w-full max-w-[894px] rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+            className="w-full max-w-223.5 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
             onClick={(event) => event.stopPropagation()}>
             <div className="relative flex flex-col gap-6 px-6 py-6 md:px-6 md:py-6">
               <div className="flex min-h-8 items-start pr-12">
@@ -938,7 +938,7 @@ export function SavedFilesPage() {
                 onClick={closeAddCategoryModal}
                 className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
                 aria-label="Close add category modal">
-                <X className="size-[18px]" />
+                <X className="size-4.5" />
               </button>
 
               <div className="flex flex-col gap-3">
@@ -958,7 +958,7 @@ export function SavedFilesPage() {
                   }}
                   placeholder="e.g. Monthly Safety Audits"
                   className={cn(
-                    "h-[51px] w-full rounded-[6px] border-[1.5px] bg-white px-4 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary",
+                    "h-12.75 w-full rounded-[6px] border-[1.5px] bg-white px-4 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary",
                     categoryError ? "border-[#d92d20]" : "border-[#e3e6ec]"
                   )}
                 />
@@ -1015,7 +1015,7 @@ export function SavedFilesPage() {
                   onChange={(event) => setNewCategoryDescription(event.target.value)}
                   placeholder="Brief overview of the scope and safety requirements..."
                   rows={3}
-                  className="min-h-[78px] w-full resize-none rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white px-4 py-3 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary"
+                  className="min-h-19.5 w-full resize-none rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white px-4 py-3 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary"
                 />
               </div>
 
@@ -1035,12 +1035,12 @@ export function SavedFilesPage() {
                           aria-label={`Select ${label} icon`}
                           aria-pressed={isSelected}
                           className={cn(
-                            "flex size-10 items-center justify-center rounded-[2px] border transition",
+                            "flex size-10 items-center justify-center rounded-xs border transition",
                             isSelected
-                              ? "border-[#132651] bg-[#132651] text-white"
+                              ? "border-brand-primary bg-brand-primary text-white"
                               : "border-[#e3e6ec] bg-white text-brand-primary hover:border-[#c7d0e1]"
                           )}>
-                          <Icon className="size-[17px]" />
+                          <Icon className="size-4.25" />
                         </button>
                       );
                     })}
@@ -1064,7 +1064,7 @@ export function SavedFilesPage() {
                           className={cn(
                             "relative flex size-8 items-center justify-center rounded-[6px]",
                             isSelected
-                              ? "ring-2 ring-white ring-offset-2 ring-offset-[#132651] outline-2 outline-[#132651]"
+                              ? "ring-2 ring-white ring-offset-2 ring-offset-brand-primary outline-2 outline-brand-primary"
                               : ""
                           )}
                           style={{ backgroundColor: color }}>
@@ -1084,9 +1084,9 @@ export function SavedFilesPage() {
                 aria-checked={isDefaultCategory}>
                 <span
                   className={cn(
-                    "flex size-5 items-center justify-center rounded-[4px] border transition",
+                    "flex size-5 items-center justify-center rounded-lg border transition",
                     isDefaultCategory
-                      ? "border-[#132651] bg-[#132651] text-white"
+                      ? "border-brand-primary bg-brand-primary text-white"
                       : "border-[#e3e6ec] bg-white text-transparent"
                   )}>
                   <Check className="size-3.5" />
@@ -1096,7 +1096,7 @@ export function SavedFilesPage() {
                 </span>
               </button>
 
-              <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-[17px] py-[17px]">
+              <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-4.25 py-4.25">
                 <CircleAlert className="mt-0.5 size-5 shrink-0 text-brand-primary" />
                 <p className="text-[14px] leading-[1.6] text-brand-primary">
                   Personal categories are only visible to your account. Global
@@ -1108,7 +1108,7 @@ export function SavedFilesPage() {
                 <Button
                   type="button"
                   onClick={handleCreateCategory}
-                  className="h-[34px] rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
                   Create Category
                 </Button>
               </div>
@@ -1119,14 +1119,14 @@ export function SavedFilesPage() {
 
       {isSaveTemplateModalOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#132651]/28 px-4 py-6 backdrop-blur-[2px]"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/28 px-4 py-6 backdrop-blur-[2px]"
           onClick={closeSaveTemplateModal}>
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="save-template-title"
             aria-describedby="save-template-description"
-            className="w-full max-w-[894px] rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+            className="w-full max-w-223.5 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
             onClick={(event) => event.stopPropagation()}>
             <div className="relative flex flex-col gap-6 px-6 py-6">
               <div className="flex min-h-8 items-start pr-12">
@@ -1145,13 +1145,13 @@ export function SavedFilesPage() {
                 onClick={closeSaveTemplateModal}
                 className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
                 aria-label="Close save template copy modal">
-                <X className="size-[18px]" />
+                <X className="size-4.5" />
               </button>
 
-              <div className="rounded-[6px] border border-[#c5c6d0] bg-[#f3f5f8] px-[17px] py-[17px]">
+              <div className="rounded-[6px] border border-[#c5c6d0] bg-[#f3f5f8] px-4.25 py-4.25">
                 <div className="flex items-start gap-4">
-                  <div className="flex size-10 items-center justify-center rounded-[2px] border border-[#132651] bg-[#132651] text-white">
-                    <File className="size-[17px]" />
+                  <div className="flex size-10 items-center justify-center rounded-xs border border-brand-primary bg-brand-primary text-white">
+                    <File className="size-4.25" />
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col gap-2">
                     <h3 className="text-[16px] font-bold leading-[1.6] text-brand-primary">
@@ -1202,7 +1202,7 @@ export function SavedFilesPage() {
                     type="button"
                     variant="outline"
                     onClick={handleOpenCategoryModalFromSaveTemplate}
-                    className="h-[51px] rounded-[6px] border-[#e3e6ec] bg-white px-[13px] text-[14px] font-normal text-brand-secondary hover:bg-[#f8fafc]">
+                    className="h-12.75 rounded-[6px] border-[#e3e6ec] bg-white px-3.25 text-[14px] font-normal text-brand-secondary hover:bg-[#f8fafc]">
                     Add Category
                   </Button>
                 </div>
@@ -1241,21 +1241,21 @@ export function SavedFilesPage() {
                   onChange={(event) => setSaveTemplateNotes(event.target.value)}
                   placeholder="Add a short note for this saved file."
                   rows={3}
-                  className="min-h-[78px] w-full resize-none rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white px-4 py-3 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary"
+                  className="min-h-19.5 w-full resize-none rounded-[6px] border-[1.5px] border-[#e3e6ec] bg-white px-4 py-3 text-[14px] leading-[1.6] text-brand-primary outline-none transition placeholder:text-[#a3acba] focus:border-brand-primary"
                 />
               </div>
 
               <button
                 type="button"
                 onClick={() => setNotifyOnDocumentUpdate((current) => !current)}
-                className="flex items-center gap-2 py-[6px] text-left"
+                className="flex items-center gap-2 py-1.5 text-left"
                 role="checkbox"
                 aria-checked={notifyOnDocumentUpdate}>
                 <span
                   className={cn(
-                    "flex size-5 items-center justify-center rounded-[4px] border transition",
+                    "flex size-5 items-center justify-center rounded-lg border transition",
                     notifyOnDocumentUpdate
-                      ? "border-[#132651] bg-[#132651] text-white"
+                      ? "border-brand-primary bg-brand-primary text-white"
                       : "border-[#e3e6ec] bg-white text-transparent"
                   )}>
                   <Check className="size-3.5" />
@@ -1268,14 +1268,14 @@ export function SavedFilesPage() {
               <button
                 type="button"
                 onClick={() => setSaveLatestVersionByDefault((current) => !current)}
-                className="flex items-center gap-2 py-[6px] text-left"
+                className="flex items-center gap-2 py-1.5 text-left"
                 role="checkbox"
                 aria-checked={saveLatestVersionByDefault}>
                 <span
                   className={cn(
-                    "flex size-5 items-center justify-center rounded-[4px] border transition",
+                    "flex size-5 items-center justify-center rounded-lg border transition",
                     saveLatestVersionByDefault
-                      ? "border-[#132651] bg-[#132651] text-white"
+                      ? "border-brand-primary bg-brand-primary text-white"
                       : "border-[#e3e6ec] bg-white text-transparent"
                   )}>
                   <Check className="size-3.5" />
@@ -1285,7 +1285,7 @@ export function SavedFilesPage() {
                 </span>
               </button>
 
-              <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-[17px] py-[17px]">
+              <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-4.25 py-4.25">
                 <CircleAlert className="mt-0.5 size-5 shrink-0 text-brand-primary" />
                 <p className="text-[14px] leading-[1.6] text-brand-primary">
                   Categories are personal to your account and do not affect the
@@ -1297,7 +1297,7 @@ export function SavedFilesPage() {
                 <Button
                   type="button"
                   onClick={handleSaveTemplateCopy}
-                  className="h-[34px] rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
                   Save File
                 </Button>
               </div>
