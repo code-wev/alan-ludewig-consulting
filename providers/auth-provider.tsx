@@ -17,13 +17,11 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 const normalizeRole = (role: unknown): Role => {
-  if (role === ROLES.USER || role === "user" || role === "User")
-    return ROLES.USER;
-  if (role === ROLES.MANAGER || role === "manager" || role === "Manager")
-    return ROLES.MANAGER;
+  if (role === ROLES.CLIENT || role === "client" || role === "Client")
+    return ROLES.CLIENT;
   if (role === ROLES.ADMIN || role === "admin" || role === "Admin")
     return ROLES.ADMIN;
-  return ROLES.USER;
+  return ROLES.CLIENT;
 };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
