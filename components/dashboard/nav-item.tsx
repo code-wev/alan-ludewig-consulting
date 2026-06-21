@@ -28,15 +28,15 @@ export function DashboardNavItem({
       className={cn(
         "flex items-center gap-3 px-6 py-3 transition-all duration-200 group relative",
         isActive
-          ? "bg-white text-[#132651]"
-          : "text-[#f7f8fa] hover:bg-white/5",
+          ? "bg-white text-brand-primary"
+          : "text-brand-bg-main hover:bg-white/5",
         isCollapsed && "justify-center px-0"
       )}
     >
       <Icon
         className={cn(
-          "w-[18px] h-[18px] shrink-0 transition-colors",
-          isActive ? "text-[#132651]" : "text-[#f7f8fa]"
+          "w-4.5 h-4.5 shrink-0 transition-colors",
+          isActive ? "text-brand-primary" : "text-brand-bg-main"
         )}
       />
       {!isCollapsed && (
@@ -52,7 +52,7 @@ export function DashboardNavItem({
       
       {/* Active Indicator Line (Figma has a 3px right border on active state) */}
       {isActive && !isCollapsed && (
-        <div className="absolute right-0 top-0 bottom-0 w-1 bg-[#132651]" />
+        <div className="absolute right-0 top-0 bottom-0 w-1 bg-brand-primary" />
       )}
     </Link>
   );
