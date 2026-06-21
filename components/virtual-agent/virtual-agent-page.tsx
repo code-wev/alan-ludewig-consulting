@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { BookExpertSupportModal } from "./book-expert-support-modal";
 import { OpenSupportTicketModal } from "./open-support-ticket-modal";
 import { useVirtualAgent } from "./use-virtual-agent";
 import {
@@ -19,7 +20,6 @@ import {
 } from "./types";
 
 const supportLinks: Record<string, string> = {
-  "Book a Site Visit": "/contact-us",
   "Email Support": "mailto:hello@alanludewigconsulting.com",
 };
 
@@ -36,6 +36,7 @@ export function VirtualAgentPage() {
     handleSuggestedQuestion,
     handleQuickAction,
     openSupportTicketModal,
+    openBookingModal,
   } = state;
 
   return (
@@ -113,7 +114,7 @@ export function VirtualAgentPage() {
               </div>
 
               <div className="mt-4 flex flex-col gap-2">
-                {SUPPORT_OPTIONS.map(({ label, action, variant, icon: Icon }) => {
+                {SUPPORT_OPTIONS.map(({ label, variant, icon: Icon }) => {
                   const className = cn(
                     "h-8.5 justify-center rounded-[6px] border-brand-primary px-4 font-['Sansation'] text-[12px] font-bold shadow-none",
                     variant === "primary"
@@ -121,13 +122,28 @@ export function VirtualAgentPage() {
                       : "bg-white text-brand-primary hover:bg-brand-bg-main",
                   );
 
-                  if (action === "modal") {
+                  if (label === "Open Support Ticket") {
                     return (
                       <Button
                         key={label}
                         type="button"
                         variant={variant === "primary" ? "default" : "outline"}
                         onClick={openSupportTicketModal}
+                        className={className}
+                      >
+                        <Icon className="size-3.5" />
+                        {label}
+                      </Button>
+                    );
+                  }
+
+                  if (label === "Book a Site Visit") {
+                    return (
+                      <Button
+                        key={label}
+                        type="button"
+                        variant={variant === "primary" ? "default" : "outline"}
+                        onClick={openBookingModal}
                         className={className}
                       >
                         <Icon className="size-3.5" />
@@ -237,6 +253,7 @@ export function VirtualAgentPage() {
       </div>
 
       <OpenSupportTicketModal state={state} />
+      <BookExpertSupportModal state={state} />
     </>
   );
 }

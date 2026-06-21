@@ -4,12 +4,15 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
   AGENT_RESPONSES,
+  SUPPORT_BOOKING_TIME_OPTIONS,
+  SUPPORT_BOOKING_TYPE_OPTIONS,
   DEFAULT_AGENT_RESPONSE,
   INITIAL_AGENT_MESSAGE,
   QUICK_ACTIONS,
   SUGGESTED_QUESTIONS,
   SUPPORT_TICKET_CATEGORY_OPTIONS,
   type AgentMessage,
+  type BookingTimeSlot,
   type TicketPriority,
 } from "./types";
 
@@ -43,9 +46,19 @@ export function useVirtualAgent() {
   const [ticketMessage, setTicketMessage] = useState("");
   const [ticketAttachment, setTicketAttachment] = useState<File | null>(null);
   const [ticketError, setTicketError] = useState("");
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingSupportType, setBookingSupportType] = useState<string>(
+    SUPPORT_BOOKING_TYPE_OPTIONS[0],
+  );
+  const [bookingDate, setBookingDate] = useState("");
+  const [bookingTime, setBookingTime] = useState<BookingTimeSlot>(
+    SUPPORT_BOOKING_TIME_OPTIONS[0],
+  );
+  const [bookingTopic, setBookingTopic] = useState("");
+  const [bookingError, setBookingError] = useState("");
 
   useEffect(() => {
-    if (!isSupportTicketModalOpen) return;
+    if (!isSupportTicketModalOpen && !isBookingModalOpen) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -53,6 +66,7 @@ export function useVirtualAgent() {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsSupportTicketModalOpen(false);
+        setIsBookingModalOpen(false);
       }
     };
 
@@ -62,7 +76,7 @@ export function useVirtualAgent() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [isSupportTicketModalOpen]);
+  }, [isSupportTicketModalOpen, isBookingModalOpen]);
 
   const submitQuestion = (nextQuestion: string) => {
     const trimmedQuestion = nextQuestion.trim();
@@ -119,6 +133,20 @@ export function useVirtualAgent() {
     setTicketError("");
   };
 
+  const openBookingModal = () => {
+    setBookingSupportType(SUPPORT_BOOKING_TYPE_OPTIONS[0]);
+    setBookingDate("");
+    setBookingTime(SUPPORT_BOOKING_TIME_OPTIONS[0]);
+    setBookingTopic("");
+    setBookingError("");
+    setIsBookingModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false);
+    setBookingError("");
+  };
+
   const submitSupportTicket = () => {
     if (!ticketSubject.trim()) {
       setTicketError("Subject is required.");
@@ -135,6 +163,19 @@ export function useVirtualAgent() {
     });
   };
 
+  const submitBookingRequest = () => {
+    if (!bookingDate.trim()) {
+      setBookingError("Preferred date is required.");
+      return;
+    }
+
+    setIsBookingModalOpen(false);
+    setBookingError("");
+    toast.success("Booking request submitted.", {
+      description: "Your expert support request has been sent for scheduling.",
+    });
+  };
+
   const canSend = question.trim().length > 0;
   const hasTicketAttachment = Boolean(ticketAttachment);
 
@@ -142,6 +183,14 @@ export function useVirtualAgent() {
   const quickActions = useMemo(() => [...QUICK_ACTIONS], []);
   const ticketCategoryOptions = useMemo(
     () => [...SUPPORT_TICKET_CATEGORY_OPTIONS],
+    [],
+  );
+  const bookingSupportTypeOptions = useMemo(
+    () => [...SUPPORT_BOOKING_TYPE_OPTIONS],
+    [],
+  );
+  const bookingTimeOptions = useMemo(
+    () => [...SUPPORT_BOOKING_TIME_OPTIONS],
     [],
   );
 
@@ -165,13 +214,29 @@ export function useVirtualAgent() {
     setTicketAttachment,
     ticketError,
     setTicketError,
+    isBookingModalOpen,
+    bookingSupportType,
+    setBookingSupportType,
+    bookingDate,
+    setBookingDate,
+    bookingTime,
+    setBookingTime,
+    bookingTopic,
+    setBookingTopic,
+    bookingError,
+    setBookingError,
     hasTicketAttachment,
     ticketCategoryOptions,
+    bookingSupportTypeOptions,
+    bookingTimeOptions,
     submitQuestion,
     handleSuggestedQuestion,
     handleQuickAction,
     openSupportTicketModal,
     closeSupportTicketModal,
     submitSupportTicket,
+    openBookingModal,
+    closeBookingModal,
+    submitBookingRequest,
   };
 }
