@@ -8,9 +8,12 @@ export type AgentMessage = {
 
 export type SupportOption = {
   label: string;
+  action: "modal" | "link";
   variant: "primary" | "outline";
   icon: typeof ShieldCheck;
 };
+
+export type TicketPriority = "Normal" | "Urgent";
 
 export const SUGGESTED_QUESTIONS = [
   "What control measures should I use for working at height?",
@@ -30,9 +33,33 @@ export const QUICK_ACTIONS = [
 ] as const;
 
 export const SUPPORT_OPTIONS: SupportOption[] = [
-  { label: "Open Support Ticket", variant: "primary", icon: ClipboardPlus },
-  { label: "Book a Site Visit", variant: "outline", icon: ShieldCheck },
-  { label: "Email Support", variant: "outline", icon: Mail },
+  {
+    label: "Open Support Ticket",
+    action: "modal",
+    variant: "primary",
+    icon: ClipboardPlus,
+  },
+  {
+    label: "Book a Site Visit",
+    action: "link",
+    variant: "outline",
+    icon: ShieldCheck,
+  },
+  {
+    label: "Email Support",
+    action: "link",
+    variant: "outline",
+    icon: Mail,
+  },
+] as const;
+
+export const SUPPORT_TICKET_CATEGORY_OPTIONS = [
+  "RAMS / Method Statement",
+  "COSHH Assessment",
+  "Risk Assessment",
+  "Site Inspection",
+  "Training",
+  "General Support",
 ] as const;
 
 export const INITIAL_AGENT_MESSAGE =

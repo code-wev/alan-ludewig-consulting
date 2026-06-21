@@ -1,13 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   AGENT_RESPONSES,
   DEFAULT_AGENT_RESPONSE,
   INITIAL_AGENT_MESSAGE,
   QUICK_ACTIONS,
   SUGGESTED_QUESTIONS,
+  SUPPORT_TICKET_CATEGORY_OPTIONS,
   type AgentMessage,
+  type TicketPriority,
 } from "./types";
 
 const buildAssistantReply = (question: string) => {
@@ -29,6 +32,37 @@ export function useVirtualAgent() {
       content: INITIAL_AGENT_MESSAGE,
     },
   ]);
+  const [isSupportTicketModalOpen, setIsSupportTicketModalOpen] =
+    useState(false);
+  const [ticketSubject, setTicketSubject] = useState("");
+  const [ticketCategory, setTicketCategory] = useState<string>(
+    SUPPORT_TICKET_CATEGORY_OPTIONS[0],
+  );
+  const [ticketPriority, setTicketPriority] =
+    useState<TicketPriority>("Normal");
+  const [ticketMessage, setTicketMessage] = useState("");
+  const [ticketAttachment, setTicketAttachment] = useState<File | null>(null);
+  const [ticketError, setTicketError] = useState("");
+
+  useEffect(() => {
+    if (!isSupportTicketModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsSupportTicketModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isSupportTicketModalOpen]);
 
   const submitQuestion = (nextQuestion: string) => {
     const trimmedQuestion = nextQuestion.trim();
@@ -70,10 +104,46 @@ export function useVirtualAgent() {
     submitQuestion(mappedQuestions[action]);
   };
 
+  const openSupportTicketModal = () => {
+    setTicketSubject("");
+    setTicketCategory(SUPPORT_TICKET_CATEGORY_OPTIONS[0]);
+    setTicketPriority("Normal");
+    setTicketMessage("");
+    setTicketAttachment(null);
+    setTicketError("");
+    setIsSupportTicketModalOpen(true);
+  };
+
+  const closeSupportTicketModal = () => {
+    setIsSupportTicketModalOpen(false);
+    setTicketError("");
+  };
+
+  const submitSupportTicket = () => {
+    if (!ticketSubject.trim()) {
+      setTicketError("Subject is required.");
+      return;
+    }
+
+    setIsSupportTicketModalOpen(false);
+    setTicketError("");
+    toast.success("Support ticket submitted.", {
+      description:
+        ticketPriority === "Urgent"
+          ? "Your urgent request has been flagged for follow-up."
+          : "Your request has been recorded for review.",
+    });
+  };
+
   const canSend = question.trim().length > 0;
+  const hasTicketAttachment = Boolean(ticketAttachment);
 
   const suggestedQuestions = useMemo(() => [...SUGGESTED_QUESTIONS], []);
   const quickActions = useMemo(() => [...QUICK_ACTIONS], []);
+  const ticketCategoryOptions = useMemo(
+    () => [...SUPPORT_TICKET_CATEGORY_OPTIONS],
+    [],
+  );
 
   return {
     question,
@@ -82,8 +152,26 @@ export function useVirtualAgent() {
     canSend,
     suggestedQuestions,
     quickActions,
+    isSupportTicketModalOpen,
+    ticketSubject,
+    setTicketSubject,
+    ticketCategory,
+    setTicketCategory,
+    ticketPriority,
+    setTicketPriority,
+    ticketMessage,
+    setTicketMessage,
+    ticketAttachment,
+    setTicketAttachment,
+    ticketError,
+    setTicketError,
+    hasTicketAttachment,
+    ticketCategoryOptions,
     submitQuestion,
     handleSuggestedQuestion,
     handleQuickAction,
+    openSupportTicketModal,
+    closeSupportTicketModal,
+    submitSupportTicket,
   };
 }
