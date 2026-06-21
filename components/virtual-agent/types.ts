@@ -14,6 +14,9 @@ export type SupportOption = {
 };
 
 export type TicketPriority = "Normal" | "Urgent";
+export type BookingTimeSlot =
+  | "Morning (09:00 - 12:00)"
+  | "Afternoon (13:00 - 17:00)";
 
 export const SUGGESTED_QUESTIONS = [
   "What control measures should I use for working at height?",
@@ -41,7 +44,7 @@ export const SUPPORT_OPTIONS: SupportOption[] = [
   },
   {
     label: "Book a Site Visit",
-    action: "link",
+    action: "modal",
     variant: "outline",
     icon: ShieldCheck,
   },
@@ -60,6 +63,18 @@ export const SUPPORT_TICKET_CATEGORY_OPTIONS = [
   "Site Inspection",
   "Training",
   "General Support",
+] as const;
+
+export const SUPPORT_BOOKING_TYPE_OPTIONS = [
+  "Site Visit / Inspection",
+  "Consultation Call",
+  "Compliance Review",
+  "RAMS Support Session",
+] as const;
+
+export const SUPPORT_BOOKING_TIME_OPTIONS = [
+  "Morning (09:00 - 12:00)",
+  "Afternoon (13:00 - 17:00)",
 ] as const;
 
 export const INITIAL_AGENT_MESSAGE =
