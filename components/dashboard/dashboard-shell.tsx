@@ -6,7 +6,6 @@ import { ClientSidebar } from "./client-sidebar";
 import { AdminSidebar } from "./admin-sidebar";
 import { ROLES } from "@/constants/roles";
 import { DashboardTopbar } from "./dashboard-topbar";
-import { cn } from "@/lib/utils";
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -19,7 +18,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const SidebarComponent = user?.role === ROLES.ADMIN ? AdminSidebar : ClientSidebar;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#f7f8fa]">
+    <div className="flex h-screen overflow-hidden bg-brand-bg-main">
       {/* Sidebar */}
       <SidebarComponent 
         isCollapsed={isCollapsed} 
@@ -32,7 +31,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col flex-1 overflow-hidden">
         <DashboardTopbar onMenuClick={toggleMobileSidebar} />
         
-        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-[#e8eaee] p-4 md:p-[40px] custom-scrollbar">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-brand-soft-bg p-4 md:p-10 custom-scrollbar">
           {children}
         </main>
       </div>
