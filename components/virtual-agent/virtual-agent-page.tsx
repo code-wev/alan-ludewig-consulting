@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  BadgeInfo,
   Bot,
   ChevronRight,
   Send,
@@ -13,11 +12,7 @@ import { cn } from "@/lib/utils";
 import { BookExpertSupportModal } from "./book-expert-support-modal";
 import { OpenSupportTicketModal } from "./open-support-ticket-modal";
 import { useVirtualAgent } from "./use-virtual-agent";
-import {
-  DISCLAIMER_TEXT,
-  SUPPORT_HELPER_TEXT,
-  SUPPORT_OPTIONS,
-} from "./types";
+import { SUPPORT_HELPER_TEXT, SUPPORT_OPTIONS } from "./types";
 
 const supportLinks: Record<string, string> = {
   "Email Support": "mailto:hello@alanludewigconsulting.com",
@@ -41,7 +36,7 @@ export function VirtualAgentPage() {
 
   return (
     <>
-      <div className="flex flex-col gap-8 text-brand-primary">
+      <div className="flex h-full flex-col gap-8 text-brand-primary">
         <div className="flex items-center gap-1.5 text-[12px] text-brand-secondary">
           <span>Dashboard</span>
           <ChevronRight className="size-3.5 text-[#95a0b6]" />
@@ -72,7 +67,7 @@ export function VirtualAgentPage() {
           </p>
         </section> */}
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,543px)_minmax(0,1fr)]">
+        <section className="grid gap-6 xl:grid-cols-[minmax(0,543px)_minmax(0,1fr)] xl:items-start">
           <div className="flex flex-col gap-4">
             <article className="rounded-[12px] border border-[#e3e6ec] bg-white p-4.25 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
               <div className="flex items-center justify-between gap-4">
@@ -170,8 +165,8 @@ export function VirtualAgentPage() {
             </article>
           </div>
 
-          <article className="flex min-h-198.25 flex-col overflow-hidden rounded-[12px] border-[1.5px] border-brand-light-grey bg-white">
-            <div className="flex-1 space-y-4 px-6 pt-6">
+          <article className="flex h-150 flex-col overflow-hidden rounded-[12px] border-[1.5px] border-brand-light-grey bg-white xl:h-[min(620px,calc(100vh-260px))] xl:min-h-120">
+            <div className="flex-1 space-y-4 overflow-y-auto px-6 pt-6">
               {messages.map((message) => {
                 const isAssistant = message.role === "assistant";
 
