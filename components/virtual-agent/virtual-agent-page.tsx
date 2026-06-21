@@ -60,7 +60,7 @@ export function VirtualAgentPage() {
           </p>
         </div>
 
-        <section className="rounded-[8px] border border-[#dbeafe] bg-[#eff6ff] px-4.25 py-4">
+        {/* <section className="rounded-[8px] border border-[#dbeafe] bg-[#eff6ff] px-4.25 py-4">
           <div className="flex items-center gap-2 text-[#1e3a8a]">
             <BadgeInfo className="size-4 shrink-0" />
             <h2 className="text-[14px] font-semibold leading-5">
@@ -70,10 +70,10 @@ export function VirtualAgentPage() {
           <p className="mt-2 text-[14px] leading-[1.6] text-[#1e40af]">
             {DISCLAIMER_TEXT}
           </p>
-        </section>
+        </section> */}
 
         <section className="grid gap-6 xl:grid-cols-[minmax(0,543px)_minmax(0,1fr)]">
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-4">
             <article className="rounded-[12px] border border-[#e3e6ec] bg-white p-4.25 shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
               <div className="flex items-center justify-between gap-4">
                 <h2 className="font-['Sansation'] text-[18px] font-bold leading-[1.6] text-brand-primary">

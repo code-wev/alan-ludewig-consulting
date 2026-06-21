@@ -22,7 +22,6 @@ export const SUGGESTED_QUESTIONS = [
   "What control measures should I use for working at height?",
   "What PPE is required for abrasive wheel work?",
   "How do I complete a COSHH assessment?",
-  "What should be included in a method statement?",
   "How often should risk assessments be reviewed?",
   "What documents do I need for a site inspection?",
 ] as const;
