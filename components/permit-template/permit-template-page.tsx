@@ -1,5 +1,6 @@
 "use client";
 
+import { HazardsControlsStep } from "./hazards-controls-step";
 import { JobSiteDetailsStep } from "./job-site-details-step";
 import { PermitTemplateShell } from "./permit-template-shell";
 import { PermitTypeStep } from "./permit-type-step";
@@ -11,11 +12,27 @@ export function PermitTemplatePage() {
     currentStepId,
     selectedPermitTypeId,
     jobSiteDetails,
+    hazardsControls,
+    focusedHazardQuestions,
+    visibleControlItems,
     setSelectedPermitTypeId,
     updateJobSiteDetails,
+    setFocusedHazardId,
+    toggleHazardSelection,
+    updateQuestionResponse,
+    addCustomQuestion,
+    updateCustomQuestion,
+    removeCustomQuestion,
+    addRequiredPpe,
+    removeRequiredPpe,
+    addControlMeasure,
+    removeControlMeasure,
+    addControlItem,
+    updateControlItem,
     handleSaveDraft,
     handlePermitTypeNextStep,
     handleJobSiteDetailsNextStep,
+    handleHazardsControlsNextStep,
   } = state;
 
   return (
@@ -28,6 +45,26 @@ export function PermitTemplatePage() {
           onFieldChange={updateJobSiteDetails}
           onSaveDraft={handleSaveDraft}
           onNextStep={handleJobSiteDetailsNextStep}
+        />
+      ) : currentStepId === "hazards-controls" ? (
+        <HazardsControlsStep
+          hazardsControls={hazardsControls}
+          focusedHazardQuestions={focusedHazardQuestions}
+          visibleControlItems={visibleControlItems}
+          onSetFocusedHazard={setFocusedHazardId}
+          onToggleHazard={toggleHazardSelection}
+          onQuestionResponseChange={updateQuestionResponse}
+          onAddCustomQuestion={addCustomQuestion}
+          onUpdateCustomQuestion={updateCustomQuestion}
+          onRemoveCustomQuestion={removeCustomQuestion}
+          onAddRequiredPpe={addRequiredPpe}
+          onRemoveRequiredPpe={removeRequiredPpe}
+          onAddControlMeasure={addControlMeasure}
+          onRemoveControlMeasure={removeControlMeasure}
+          onAddControl={addControlItem}
+          onUpdateControl={updateControlItem}
+          onSaveDraft={handleSaveDraft}
+          onNextStep={handleHazardsControlsNextStep}
         />
       ) : (
         <PermitTypeStep
