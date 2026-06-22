@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import {
   PRIMARY_DOCUMENT_TYPE_CARDS,
   RAMS_ACTIVITY_CATEGORY_OPTIONS,
@@ -10,23 +10,23 @@ import {
   RAMS_ACTIVITY_STATUS_OPTIONS,
   RAMS_ACTIVITY_TYPE_OPTIONS,
   RAMS_RECENT_ACTIVITY,
-} from "./types";
+} from './types';
 
 const documentTypeCategoryMap: Record<string, string> = {
-  "Structural Masonry": "RAMS",
-  "Roofing Works": "RAMS",
-  "Interior Strip-Out": "Method Statement",
-  Groundworks: "Risk Assessment",
-  "Permit to Work": "Permit Template",
+  'Structural Masonry': 'RAMS',
+  'Roofing Works': 'RAMS',
+  'Interior Strip-Out': 'Method Statement',
+  Groundworks: 'Risk Assessment',
+  'Permit to Work': 'Permit Template',
 };
 
 export function useRamsBuilder() {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("All Categories");
-  const [typeFilter, setTypeFilter] = useState("All Types");
-  const [statusFilter, setStatusFilter] = useState("All Status");
-  const [dateRangeFilter, setDateRangeFilter] = useState("Date Range");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('All Categories');
+  const [typeFilter, setTypeFilter] = useState('All Types');
+  const [statusFilter, setStatusFilter] = useState('All Status');
+  const [dateRangeFilter, setDateRangeFilter] = useState('Date Range');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const filteredActivity = useMemo(() => {
@@ -37,31 +37,20 @@ export function useRamsBuilder() {
           .toLowerCase()
           .includes(searchTerm.trim().toLowerCase());
 
-      const derivedCategory =
-        documentTypeCategoryMap[item.documentType] ?? "RAMS";
+      const derivedCategory = documentTypeCategoryMap[item.documentType] ?? 'RAMS';
 
       const matchesCategory =
-        categoryFilter === "All Categories" ||
-        derivedCategory === categoryFilter;
-      const matchesType =
-        typeFilter === "All Types" || item.documentType === typeFilter;
-      const matchesStatus =
-        statusFilter === "All Status" || item.status === statusFilter;
-      const matchesDateRange = dateRangeFilter === "Date Range" || true;
+        categoryFilter === 'All Categories' || derivedCategory === categoryFilter;
+      const matchesType = typeFilter === 'All Types' || item.documentType === typeFilter;
+      const matchesStatus = statusFilter === 'All Status' || item.status === statusFilter;
+      const matchesDateRange = dateRangeFilter === 'Date Range' || true;
 
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesType &&
-        matchesStatus &&
-        matchesDateRange
-      );
+      return matchesSearch && matchesCategory && matchesType && matchesStatus && matchesDateRange;
     });
   }, [searchTerm, categoryFilter, typeFilter, statusFilter, dateRangeFilter]);
 
   const allVisibleSelected =
-    filteredActivity.length > 0 &&
-    filteredActivity.every((item) => selectedIds.includes(item.id));
+    filteredActivity.length > 0 && filteredActivity.every((item) => selectedIds.includes(item.id));
 
   const toggleSelection = (activityId: string) => {
     setSelectedIds((current) =>
@@ -80,41 +69,40 @@ export function useRamsBuilder() {
     }
 
     const nextSelection = new Set(selectedIds);
-    filteredActivity.forEach((item, index) =>
-      nextSelection.add(`${item.id}-${index}`),
-    );
+    filteredActivity.forEach((item, index) => nextSelection.add(`${item.id}-${index}`));
     setSelectedIds(Array.from(nextSelection));
   };
 
-  const startBuilding = (
-    title: (typeof PRIMARY_DOCUMENT_TYPE_CARDS)[number]["title"],
-  ) => {
-    if (title === "Permit Template") {
-      router.push("/rams-builder/permit-template");
+  const startBuilding = (title: (typeof PRIMARY_DOCUMENT_TYPE_CARDS)[number]['title']) => {
+    if (title === 'Permit Template') {
+      router.push('/rams-builder/permit-template');
+      return;
+    }
+    if (title === 'COSHH Risk Assessment') {
+      router.push('/rams-builder/coshh-risk-assessment');
       return;
     }
 
     toast.message(`${title} builder flow coming next.`, {
       description:
-        "This landing page is in place. The multi-step document builder can be wired from here.",
+        'This landing page is in place. The multi-step document builder can be wired from here.',
     });
   };
 
   const handleCreateNewDocument = () => {
-    startBuilding("RAMS");
+    startBuilding('RAMS');
   };
 
   const handleContinueDrafts = () => {
-    toast.message("Draft recovery flow coming next.", {
+    toast.message('Draft recovery flow coming next.', {
       description:
-        "This action will route into saved draft documents once the builder steps are connected.",
+        'This action will route into saved draft documents once the builder steps are connected.',
     });
   };
 
   const handlePreviousDocuments = () => {
-    toast.message("Previous RAMS history is stubbed.", {
-      description:
-        "This action can later open saved documents or My Saved Files history.",
+    toast.message('Previous RAMS history is stubbed.', {
+      description: 'This action can later open saved documents or My Saved Files history.',
     });
   };
 
