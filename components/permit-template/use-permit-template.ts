@@ -8,6 +8,7 @@ import {
   INITIAL_HAZARDS_CONTROLS,
   INITIAL_JOB_SITE_DETAILS,
   INITIAL_PERMIT_TEMPLATE_DRAFT,
+  INITIAL_VALIDITY_PERIOD,
   PERMIT_HAZARD_OPTIONS,
   PERMIT_TEMPLATE_STORAGE_KEY,
   PERMIT_TEMPLATE_STEPS,
@@ -18,6 +19,7 @@ import {
   type PermitTemplateDraft,
   type PermitTemplateHazardsControls,
   type PermitTemplateJobSiteDetails,
+  type PermitTemplateValidityPeriod,
   type PermitTemplateStepId,
 } from "./types";
 
@@ -89,6 +91,15 @@ function buildAuthorisationState(
   };
 }
 
+function buildValidityPeriodState(
+  partial?: Partial<PermitTemplateValidityPeriod>,
+): PermitTemplateValidityPeriod {
+  return {
+    ...INITIAL_VALIDITY_PERIOD,
+    ...partial,
+  };
+}
+
 function parseStoredDraft(): PermitTemplateDraft {
   if (typeof window === "undefined") {
     return INITIAL_PERMIT_TEMPLATE_DRAFT;
@@ -119,6 +130,7 @@ function parseStoredDraft(): PermitTemplateDraft {
       },
       hazardsControls: buildHazardsControlsState(parsedDraft.hazardsControls),
       authorisation: buildAuthorisationState(parsedDraft.authorisation),
+      validityPeriod: buildValidityPeriodState(parsedDraft.validityPeriod),
       updatedAt: parsedDraft.updatedAt ?? null,
     };
   } catch {
@@ -249,6 +261,19 @@ export function usePermitTemplate() {
       ...current,
       authorisation: {
         ...current.authorisation,
+        [key]: value,
+      },
+    }));
+  };
+
+  const updateValidityPeriod = <Key extends keyof PermitTemplateValidityPeriod>(
+    key: Key,
+    value: PermitTemplateValidityPeriod[Key],
+  ) => {
+    setDraft((current) => ({
+      ...current,
+      validityPeriod: {
+        ...current.validityPeriod,
         [key]: value,
       },
     }));
@@ -465,7 +490,8 @@ export function usePermitTemplate() {
         "Hazards, permit questions, and control measures are saved for authorisation.",
       authorisation:
         "Authorisation names, signatures, and additional conditions are saved in the draft.",
-      "validity-period": "Draft saved.",
+      "validity-period":
+        "Validity dates and extension settings are saved in the draft.",
       "close-out-review": "Draft saved.",
     };
 
@@ -547,10 +573,27 @@ export function usePermitTemplate() {
       return;
     }
 
-    toast.message("Step 5 is the next build target.", {
-      description:
-        "Validity Period can be connected next using the saved authorisation details.",
-    });
+    setDraft((current) => ({
+      ...current,
+      currentStepId: "validity-period",
+      updatedAt: new Date().toISOString(),
+    }));
+  };
+
+  const handleValidityPeriodNextStep = () => {
+    if (!draft.validityPeriod.startDateTime || !draft.validityPeriod.expiryDateTime) {
+      toast.error("Complete the required validity period details first.", {
+        description:
+          "Start Date & Time and Expiry Date & Time are required before moving to close out.",
+      });
+      return;
+    }
+
+    setDraft((current) => ({
+      ...current,
+      currentStepId: "close-out-review",
+      updatedAt: new Date().toISOString(),
+    }));
   };
 
   return {
@@ -560,12 +603,14 @@ export function usePermitTemplate() {
     jobSiteDetails: draft.jobSiteDetails,
     hazardsControls: draft.hazardsControls,
     authorisation: draft.authorisation,
+    validityPeriod: draft.validityPeriod,
     focusedHazardQuestions,
     visibleControlItems,
     setSelectedPermitTypeId,
     updateJobSiteDetails,
     updateAuthorisation,
     updateAuthorisationRoot,
+    updateValidityPeriod,
     goToStep,
     setFocusedHazardId,
     toggleHazardSelection,
@@ -585,5 +630,6 @@ export function usePermitTemplate() {
     handleJobSiteDetailsNextStep,
     handleHazardsControlsNextStep,
     handleAuthorisationNextStep,
+    handleValidityPeriodNextStep,
   };
 }

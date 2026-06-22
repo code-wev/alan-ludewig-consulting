@@ -4,6 +4,7 @@ import { AuthorisationStep } from "./authorisation-step";
 import { HazardsControlsStep } from "./hazards-controls-step";
 import { JobSiteDetailsStep } from "./job-site-details-step";
 import { PermitTemplateShell } from "./permit-template-shell";
+import { ValidityPeriodStep } from "./validity-period-step";
 import { PermitTypeStep } from "./permit-type-step";
 import { usePermitTemplate } from "./use-permit-template";
 
@@ -21,6 +22,7 @@ export function PermitTemplatePage() {
     updateJobSiteDetails,
     updateAuthorisation,
     updateAuthorisationRoot,
+    updateValidityPeriod,
     setFocusedHazardId,
     toggleHazardSelection,
     updateQuestionResponse,
@@ -38,6 +40,7 @@ export function PermitTemplatePage() {
     handleJobSiteDetailsNextStep,
     handleHazardsControlsNextStep,
     handleAuthorisationNextStep,
+    handleValidityPeriodNextStep,
   } = state;
 
   return (
@@ -78,6 +81,13 @@ export function PermitTemplatePage() {
           onRootFieldChange={updateAuthorisationRoot}
           onSaveDraft={handleSaveDraft}
           onNextStep={handleAuthorisationNextStep}
+        />
+      ) : currentStepId === "validity-period" ? (
+        <ValidityPeriodStep
+          validityPeriod={state.validityPeriod}
+          onFieldChange={updateValidityPeriod}
+          onSaveDraft={handleSaveDraft}
+          onNextStep={handleValidityPeriodNextStep}
         />
       ) : (
         <PermitTypeStep

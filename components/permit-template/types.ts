@@ -9,6 +9,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+export type PermitTemplateValidityPeriod = {
+  startDateTime: string;
+  expiryDateTime: string;
+  isEligibleForExtension: boolean;
+  maxExtensionCount: string;
+  extensionLeadTime: string;
+};
+
 export type PermitTemplateStepId =
   | "permit-type"
   | "job-site-details"
@@ -122,6 +130,7 @@ export type PermitTemplateDraft = {
   jobSiteDetails: PermitTemplateJobSiteDetails;
   hazardsControls: PermitTemplateHazardsControls;
   authorisation: PermitTemplateAuthorisation;
+  validityPeriod: PermitTemplateValidityPeriod;
   updatedAt: string | null;
 };
 
@@ -440,11 +449,20 @@ export const INITIAL_AUTHORISATION: PermitTemplateAuthorisation = {
   identityConfirmationChecked: false,
 };
 
+export const INITIAL_VALIDITY_PERIOD: PermitTemplateValidityPeriod = {
+  startDateTime: "",
+  expiryDateTime: "",
+  isEligibleForExtension: false,
+  maxExtensionCount: "Up to 2 Extensions",
+  extensionLeadTime: "1 Hour before expiry",
+};
+
 export const INITIAL_PERMIT_TEMPLATE_DRAFT: PermitTemplateDraft = {
   currentStepId: "permit-type",
   permitTypeId: PERMIT_TYPE_OPTIONS[0].id,
   jobSiteDetails: INITIAL_JOB_SITE_DETAILS,
   hazardsControls: INITIAL_HAZARDS_CONTROLS,
   authorisation: INITIAL_AUTHORISATION,
+  validityPeriod: INITIAL_VALIDITY_PERIOD,
   updatedAt: null,
 };
