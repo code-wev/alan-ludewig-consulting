@@ -9,6 +9,7 @@ import {
   INITIAL_JOB_SITE_DETAILS,
   INITIAL_PERMIT_TEMPLATE_DRAFT,
   INITIAL_VALIDITY_PERIOD,
+  INITIAL_CLOSE_OUT,
   PERMIT_HAZARD_OPTIONS,
   PERMIT_TEMPLATE_STORAGE_KEY,
   PERMIT_TEMPLATE_STEPS,
@@ -20,6 +21,7 @@ import {
   type PermitTemplateHazardsControls,
   type PermitTemplateJobSiteDetails,
   type PermitTemplateValidityPeriod,
+  type PermitTemplateCloseOut,
   type PermitTemplateStepId,
 } from "./types";
 
@@ -100,6 +102,15 @@ function buildValidityPeriodState(
   };
 }
 
+function buildCloseOutState(
+  partial?: Partial<PermitTemplateCloseOut>,
+): PermitTemplateCloseOut {
+  return {
+    ...INITIAL_CLOSE_OUT,
+    ...partial,
+  };
+}
+
 function parseStoredDraft(): PermitTemplateDraft {
   if (typeof window === "undefined") {
     return INITIAL_PERMIT_TEMPLATE_DRAFT;
@@ -131,6 +142,7 @@ function parseStoredDraft(): PermitTemplateDraft {
       hazardsControls: buildHazardsControlsState(parsedDraft.hazardsControls),
       authorisation: buildAuthorisationState(parsedDraft.authorisation),
       validityPeriod: buildValidityPeriodState(parsedDraft.validityPeriod),
+      closeOut: buildCloseOutState(parsedDraft.closeOut),
       updatedAt: parsedDraft.updatedAt ?? null,
     };
   } catch {
@@ -274,6 +286,19 @@ export function usePermitTemplate() {
       ...current,
       validityPeriod: {
         ...current.validityPeriod,
+        [key]: value,
+      },
+    }));
+  };
+
+  const updateCloseOut = <Key extends keyof PermitTemplateCloseOut>(
+    key: Key,
+    value: PermitTemplateCloseOut[Key],
+  ) => {
+    setDraft((current) => ({
+      ...current,
+      closeOut: {
+        ...current.closeOut,
         [key]: value,
       },
     }));
@@ -596,6 +621,16 @@ export function usePermitTemplate() {
     }));
   };
 
+  const handleSubmitPermit = () => {
+    if (!draft.closeOut.declarationAccepted) {
+      toast.error("Please accept the declaration to submit the permit.");
+      return;
+    }
+    toast.success("Permit Submitted Successfully!", {
+      description: "The permit has been finalized and sent for review.",
+    });
+  };
+
   return {
     currentStepId: draft.currentStepId,
     selectedPermitTypeId: draft.permitTypeId,
@@ -604,6 +639,7 @@ export function usePermitTemplate() {
     hazardsControls: draft.hazardsControls,
     authorisation: draft.authorisation,
     validityPeriod: draft.validityPeriod,
+    closeOut: draft.closeOut,
     focusedHazardQuestions,
     visibleControlItems,
     setSelectedPermitTypeId,
@@ -611,6 +647,7 @@ export function usePermitTemplate() {
     updateAuthorisation,
     updateAuthorisationRoot,
     updateValidityPeriod,
+    updateCloseOut,
     goToStep,
     setFocusedHazardId,
     toggleHazardSelection,
@@ -631,5 +668,6 @@ export function usePermitTemplate() {
     handleHazardsControlsNextStep,
     handleAuthorisationNextStep,
     handleValidityPeriodNextStep,
+    handleSubmitPermit,
   };
 }

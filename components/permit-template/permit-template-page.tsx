@@ -5,6 +5,7 @@ import { HazardsControlsStep } from "./hazards-controls-step";
 import { JobSiteDetailsStep } from "./job-site-details-step";
 import { PermitTemplateShell } from "./permit-template-shell";
 import { ValidityPeriodStep } from "./validity-period-step";
+import { CloseOutReviewStep } from "./close-out-review-step";
 import { PermitTypeStep } from "./permit-type-step";
 import { usePermitTemplate } from "./use-permit-template";
 
@@ -23,6 +24,7 @@ export function PermitTemplatePage() {
     updateAuthorisation,
     updateAuthorisationRoot,
     updateValidityPeriod,
+    updateCloseOut,
     setFocusedHazardId,
     toggleHazardSelection,
     updateQuestionResponse,
@@ -41,6 +43,7 @@ export function PermitTemplatePage() {
     handleHazardsControlsNextStep,
     handleAuthorisationNextStep,
     handleValidityPeriodNextStep,
+    handleSubmitPermit,
   } = state;
 
   return (
@@ -88,6 +91,13 @@ export function PermitTemplatePage() {
           onFieldChange={updateValidityPeriod}
           onSaveDraft={handleSaveDraft}
           onNextStep={handleValidityPeriodNextStep}
+        />
+      ) : currentStepId === "close-out-review" ? (
+        <CloseOutReviewStep
+          closeOut={state.closeOut}
+          onFieldChange={updateCloseOut}
+          onSaveDraft={handleSaveDraft}
+          onSubmit={handleSubmitPermit}
         />
       ) : (
         <PermitTypeStep

@@ -17,6 +17,18 @@ export type PermitTemplateValidityPeriod = {
   extensionLeadTime: string;
 };
 
+export type PermitTemplateCloseOut = {
+  workCompleted: boolean;
+  toolsWasteRemoved: boolean;
+  areaInspected: boolean;
+  safetySystemsRestored: boolean;
+  closedBy: string;
+  dateTime: string;
+  signatureFileName: string;
+  additionalNotes: string;
+  declarationAccepted: boolean;
+};
+
 export type PermitTemplateStepId =
   | "permit-type"
   | "job-site-details"
@@ -131,6 +143,7 @@ export type PermitTemplateDraft = {
   hazardsControls: PermitTemplateHazardsControls;
   authorisation: PermitTemplateAuthorisation;
   validityPeriod: PermitTemplateValidityPeriod;
+  closeOut: PermitTemplateCloseOut;
   updatedAt: string | null;
 };
 
@@ -457,6 +470,18 @@ export const INITIAL_VALIDITY_PERIOD: PermitTemplateValidityPeriod = {
   extensionLeadTime: "1 Hour before expiry",
 };
 
+export const INITIAL_CLOSE_OUT: PermitTemplateCloseOut = {
+  workCompleted: false,
+  toolsWasteRemoved: false,
+  areaInspected: false,
+  safetySystemsRestored: false,
+  closedBy: "",
+  dateTime: "",
+  signatureFileName: "",
+  additionalNotes: "",
+  declarationAccepted: false,
+};
+
 export const INITIAL_PERMIT_TEMPLATE_DRAFT: PermitTemplateDraft = {
   currentStepId: "permit-type",
   permitTypeId: PERMIT_TYPE_OPTIONS[0].id,
@@ -464,5 +489,6 @@ export const INITIAL_PERMIT_TEMPLATE_DRAFT: PermitTemplateDraft = {
   hazardsControls: INITIAL_HAZARDS_CONTROLS,
   authorisation: INITIAL_AUTHORISATION,
   validityPeriod: INITIAL_VALIDITY_PERIOD,
+  closeOut: INITIAL_CLOSE_OUT,
   updatedAt: null,
 };
