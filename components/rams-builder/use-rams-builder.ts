@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   PRIMARY_DOCUMENT_TYPE_CARDS,
@@ -20,6 +21,7 @@ const documentTypeCategoryMap: Record<string, string> = {
 };
 
 export function useRamsBuilder() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
   const [typeFilter, setTypeFilter] = useState("All Types");
@@ -87,6 +89,11 @@ export function useRamsBuilder() {
   const startBuilding = (
     title: (typeof PRIMARY_DOCUMENT_TYPE_CARDS)[number]["title"],
   ) => {
+    if (title === "Permit Template") {
+      router.push("/rams-builder/permit-template");
+      return;
+    }
+
     toast.message(`${title} builder flow coming next.`, {
       description:
         "This landing page is in place. The multi-step document builder can be wired from here.",
