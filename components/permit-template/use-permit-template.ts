@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
   DEFAULT_PERMIT_QUESTION_TEMPLATES,
+  INITIAL_AUTHORISATION,
   INITIAL_HAZARDS_CONTROLS,
   INITIAL_JOB_SITE_DETAILS,
   INITIAL_PERMIT_TEMPLATE_DRAFT,
@@ -13,6 +14,7 @@ import {
   PERMIT_TYPE_OPTIONS,
   type PermitControlItem,
   type PermitQuestionResponse,
+  type PermitTemplateAuthorisation,
   type PermitTemplateDraft,
   type PermitTemplateHazardsControls,
   type PermitTemplateJobSiteDetails,
@@ -63,6 +65,30 @@ function buildHazardsControlsState(
   };
 }
 
+function buildAuthorisationState(
+  partial?: Partial<PermitTemplateAuthorisation>,
+): PermitTemplateAuthorisation {
+  return {
+    permitIssuer: {
+      ...INITIAL_AUTHORISATION.permitIssuer,
+      ...partial?.permitIssuer,
+    },
+    permitReceiver: {
+      ...INITIAL_AUTHORISATION.permitReceiver,
+      ...partial?.permitReceiver,
+    },
+    supervisorApproval: {
+      ...INITIAL_AUTHORISATION.supervisorApproval,
+      ...partial?.supervisorApproval,
+    },
+    additionalConditions:
+      partial?.additionalConditions ?? INITIAL_AUTHORISATION.additionalConditions,
+    identityConfirmationChecked:
+      partial?.identityConfirmationChecked ??
+      INITIAL_AUTHORISATION.identityConfirmationChecked,
+  };
+}
+
 function parseStoredDraft(): PermitTemplateDraft {
   if (typeof window === "undefined") {
     return INITIAL_PERMIT_TEMPLATE_DRAFT;
@@ -92,6 +118,7 @@ function parseStoredDraft(): PermitTemplateDraft {
         ...parsedDraft.jobSiteDetails,
       },
       hazardsControls: buildHazardsControlsState(parsedDraft.hazardsControls),
+      authorisation: buildAuthorisationState(parsedDraft.authorisation),
       updatedAt: parsedDraft.updatedAt ?? null,
     };
   } catch {
@@ -180,6 +207,48 @@ export function usePermitTemplate() {
       ...current,
       jobSiteDetails: {
         ...current.jobSiteDetails,
+        [key]: value,
+      },
+    }));
+  };
+
+  const updateAuthorisation = <
+    Section extends keyof PermitTemplateAuthorisation,
+    Key extends keyof PermitTemplateAuthorisation[Section],
+  >(
+    section: Section,
+    key: Key,
+    value: PermitTemplateAuthorisation[Section][Key],
+  ) => {
+    setDraft((current) => ({
+      ...current,
+      authorisation: {
+        ...current.authorisation,
+        [section]:
+          typeof current.authorisation[section] === "object" &&
+          current.authorisation[section] !== null
+            ? {
+                ...(current.authorisation[section] as object),
+                [key]: value,
+              }
+            : value,
+      },
+    }));
+  };
+
+  const updateAuthorisationRoot = <
+    Key extends keyof Omit<
+      PermitTemplateAuthorisation,
+      "permitIssuer" | "permitReceiver" | "supervisorApproval"
+    >,
+  >(
+    key: Key,
+    value: PermitTemplateAuthorisation[Key],
+  ) => {
+    setDraft((current) => ({
+      ...current,
+      authorisation: {
+        ...current.authorisation,
         [key]: value,
       },
     }));
@@ -394,7 +463,8 @@ export function usePermitTemplate() {
         "Job, site, and permit references are stored in the draft for the next step.",
       "hazards-controls":
         "Hazards, permit questions, and control measures are saved for authorisation.",
-      authorisation: "Draft saved.",
+      authorisation:
+        "Authorisation names, signatures, and additional conditions are saved in the draft.",
       "validity-period": "Draft saved.",
       "close-out-review": "Draft saved.",
     };
@@ -451,9 +521,35 @@ export function usePermitTemplate() {
       return;
     }
 
-    toast.message("Step 4 is the next build target.", {
+    setDraft((current) => ({
+      ...current,
+      currentStepId: "authorisation",
+      updatedAt: new Date().toISOString(),
+    }));
+  };
+
+  const handleAuthorisationNextStep = () => {
+    const hasMissingRequiredValues =
+      draft.authorisation.permitIssuer.fullName.trim().length === 0 ||
+      draft.authorisation.permitIssuer.role.trim().length === 0 ||
+      draft.authorisation.permitIssuer.dateTime.trim().length === 0 ||
+      draft.authorisation.permitReceiver.fullName.trim().length === 0 ||
+      draft.authorisation.permitReceiver.company.trim().length === 0 ||
+      draft.authorisation.permitReceiver.dateTime.trim().length === 0 ||
+      draft.authorisation.supervisorApproval.fullName.trim().length === 0 ||
+      draft.authorisation.supervisorApproval.position.trim().length === 0;
+
+    if (hasMissingRequiredValues || !draft.authorisation.identityConfirmationChecked) {
+      toast.error("Complete the required authorisation details first.", {
+        description:
+          "Issuer, receiver, supervisor, and final identity confirmation are required before moving to validity period.",
+      });
+      return;
+    }
+
+    toast.message("Step 5 is the next build target.", {
       description:
-        "Authorisation can be connected next using the saved hazards and control measures.",
+        "Validity Period can be connected next using the saved authorisation details.",
     });
   };
 
@@ -463,10 +559,13 @@ export function usePermitTemplate() {
     selectedPermitType,
     jobSiteDetails: draft.jobSiteDetails,
     hazardsControls: draft.hazardsControls,
+    authorisation: draft.authorisation,
     focusedHazardQuestions,
     visibleControlItems,
     setSelectedPermitTypeId,
     updateJobSiteDetails,
+    updateAuthorisation,
+    updateAuthorisationRoot,
     goToStep,
     setFocusedHazardId,
     toggleHazardSelection,
@@ -485,5 +584,6 @@ export function usePermitTemplate() {
     handlePermitTypeNextStep,
     handleJobSiteDetailsNextStep,
     handleHazardsControlsNextStep,
+    handleAuthorisationNextStep,
   };
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthorisationStep } from "./authorisation-step";
 import { HazardsControlsStep } from "./hazards-controls-step";
 import { JobSiteDetailsStep } from "./job-site-details-step";
 import { PermitTemplateShell } from "./permit-template-shell";
@@ -13,10 +14,13 @@ export function PermitTemplatePage() {
     selectedPermitTypeId,
     jobSiteDetails,
     hazardsControls,
+    authorisation,
     focusedHazardQuestions,
     visibleControlItems,
     setSelectedPermitTypeId,
     updateJobSiteDetails,
+    updateAuthorisation,
+    updateAuthorisationRoot,
     setFocusedHazardId,
     toggleHazardSelection,
     updateQuestionResponse,
@@ -33,6 +37,7 @@ export function PermitTemplatePage() {
     handlePermitTypeNextStep,
     handleJobSiteDetailsNextStep,
     handleHazardsControlsNextStep,
+    handleAuthorisationNextStep,
   } = state;
 
   return (
@@ -65,6 +70,14 @@ export function PermitTemplatePage() {
           onUpdateControl={updateControlItem}
           onSaveDraft={handleSaveDraft}
           onNextStep={handleHazardsControlsNextStep}
+        />
+      ) : currentStepId === "authorisation" ? (
+        <AuthorisationStep
+          authorisation={authorisation}
+          onFieldChange={updateAuthorisation}
+          onRootFieldChange={updateAuthorisationRoot}
+          onSaveDraft={handleSaveDraft}
+          onNextStep={handleAuthorisationNextStep}
         />
       ) : (
         <PermitTypeStep

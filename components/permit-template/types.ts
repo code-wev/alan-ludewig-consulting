@@ -90,11 +90,38 @@ export type PermitTemplateHazardsControls = {
   controlItems: PermitControlItem[];
 };
 
+export type PermitAuthorisationPerson = {
+  fullName: string;
+  role: string;
+  signatureFileName: string;
+  dateTime: string;
+};
+
+export type PermitReceiverPerson = PermitAuthorisationPerson & {
+  company: string;
+};
+
+export type PermitSupervisorApproval = {
+  fullName: string;
+  position: string;
+  signatureFileName: string;
+  approvalNotes: string;
+};
+
+export type PermitTemplateAuthorisation = {
+  permitIssuer: PermitAuthorisationPerson;
+  permitReceiver: PermitReceiverPerson;
+  supervisorApproval: PermitSupervisorApproval;
+  additionalConditions: string;
+  identityConfirmationChecked: boolean;
+};
+
 export type PermitTemplateDraft = {
   currentStepId: PermitTemplateStepId;
   permitTypeId: string;
   jobSiteDetails: PermitTemplateJobSiteDetails;
   hazardsControls: PermitTemplateHazardsControls;
+  authorisation: PermitTemplateAuthorisation;
   updatedAt: string | null;
 };
 
@@ -279,6 +306,35 @@ export const JOB_SITE_DETAILS_NOTICE =
 export const HAZARDS_CONTROLS_NOTICE =
   "Ensure all listed controls are verified on-site. Work must not commence until the Authorising Person has physically inspected the control measures.";
 
+export const AUTHORISATION_NOTICE =
+  "Authorisation must only be signed by competent persons. Ensure all signatures are authentic and dated correctly at the point of issue. Retain copies of all permits for audit purposes.";
+
+export const AUTHORISATION_GUIDANCE = [
+  {
+    title: "Permit Issuer",
+    description:
+      "Must be a person authorised by the site management to issue permits. They are responsible for ensuring the work site is ready.",
+  },
+  {
+    title: "Permit Receiver",
+    description:
+      "The person in direct charge of the work. By signing, they accept responsibility for the safety of the work crew.",
+  },
+  {
+    title: "Supervisor",
+    description:
+      "Required for high-risk activities. The supervisor provides an independent check of the safety measures in place.",
+  },
+] as const;
+
+export const PERMIT_PROGRESS_STEPS = [
+  "Project Details",
+  "Work Activities",
+  "Hazards & Controls",
+  "Authorisation",
+  "Validity Period",
+] as const;
+
 export const PERMIT_GUIDANCE_ITEMS = [
   "Check local site rules before entry.",
   "Validate RAMS reference matches.",
@@ -360,10 +416,35 @@ export const INITIAL_HAZARDS_CONTROLS: PermitTemplateHazardsControls = {
   ],
 };
 
+export const INITIAL_AUTHORISATION: PermitTemplateAuthorisation = {
+  permitIssuer: {
+    fullName: "",
+    role: "",
+    signatureFileName: "",
+    dateTime: "",
+  },
+  permitReceiver: {
+    fullName: "",
+    role: "",
+    signatureFileName: "",
+    dateTime: "",
+    company: "",
+  },
+  supervisorApproval: {
+    fullName: "",
+    position: "",
+    signatureFileName: "",
+    approvalNotes: "",
+  },
+  additionalConditions: "",
+  identityConfirmationChecked: false,
+};
+
 export const INITIAL_PERMIT_TEMPLATE_DRAFT: PermitTemplateDraft = {
   currentStepId: "permit-type",
   permitTypeId: PERMIT_TYPE_OPTIONS[0].id,
   jobSiteDetails: INITIAL_JOB_SITE_DETAILS,
   hazardsControls: INITIAL_HAZARDS_CONTROLS,
+  authorisation: INITIAL_AUTHORISATION,
   updatedAt: null,
 };
