@@ -126,8 +126,8 @@ export function NewsletterCard({
             href={readUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='flex items-center justify-center gap-2 px-4 py-2 rounded-md border border-[#132651] bg-white hover:bg-[#132651]/5 transition-colors cursor-pointer sm:flex-1'>
-            <BookOpen className='w-4 h-4 text-[#132651] flex-shrink-0' />
+            className='flex items-center justify-center gap-2 px-4 py-2 rounded-md border border-brand-primary bg-white hover:bg-brand-primary/5 transition-colors cursor-pointer sm:flex-1'>
+            <BookOpen className='w-4 h-4 text-brand-primary shrink-0' />
             <span
               className='font-bold whitespace-nowrap'
               style={{
@@ -145,8 +145,8 @@ export function NewsletterCard({
             href={pdfUrl}
             target='_blank'
             rel='noopener noreferrer'
-            className='flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-[#132651] hover:bg-[#132651]/90 transition-colors cursor-pointer sm:flex-1'>
-            <Download className='w-4 h-4 text-white flex-shrink-0' />
+            className='flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-brand-primary hover:bg-brand-primary/90 transition-colors cursor-pointer sm:flex-1'>
+            <Download className='w-4 h-4 text-white shrink-0' />
             <span
               className='font-bold whitespace-nowrap'
               style={{

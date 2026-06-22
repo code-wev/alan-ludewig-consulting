@@ -27,48 +27,45 @@ function SelectButton({ label, value, options, onChange }: SelectButtonProps) {
   const displayValue = value === label ? label : value;
 
   return (
-    <div className="relative" ref={ref}>
+    <div className='relative' ref={ref}>
       <button
-        type="button"
+        type='button'
         onClick={() => setOpen((o) => !o)}
         /* Removed fixed gap — use justify-between so button stays compact */
-        className="flex items-center justify-between gap-2 h-9 px-3 bg-white border border-[#E3E6EC] rounded-md hover:border-[#132651] transition-colors w-full"
-      >
+        className='flex items-center justify-between gap-2 h-9 px-3 bg-white border border-[#E3E6EC] rounded-md hover:border-brand-primary transition-colors w-full'>
         <span
-          className="whitespace-nowrap text-left"
+          className='whitespace-nowrap text-left'
           style={{
             fontFamily: "Sansation, sans-serif",
             fontSize: "12px",
             lineHeight: "160%",
             color: "#132651",
-          }}
-        >
+          }}>
           {displayValue}
         </span>
         <ChevronDown
-          className="w-4 h-4 flex-shrink-0 opacity-50"
+          className='w-4 h-4 shrink-0 opacity-50'
           style={{ color: "#5A6886" }}
         />
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 bg-white border border-[#E3E6EC] rounded-md shadow-lg z-30 min-w-full py-1">
+        <div className='absolute top-full left-0 mt-1 bg-white border border-[#E3E6EC] rounded-md shadow-lg z-30 min-w-full py-1'>
           {options.map((opt) => (
             <button
               key={opt}
-              type="button"
+              type='button'
               onClick={() => {
                 onChange(opt);
                 setOpen(false);
               }}
-              className="w-full text-left px-4 py-2 hover:bg-[#F3F5F8] transition-colors whitespace-nowrap"
+              className='w-full text-left px-4 py-2 hover:bg-[#F3F5F8] transition-colors whitespace-nowrap'
               style={{
                 fontFamily: "Sansation, sans-serif",
                 fontSize: "12px",
                 lineHeight: "160%",
                 color: "#132651",
-              }}
-            >
+              }}>
               {opt}
             </button>
           ))}
@@ -100,26 +97,25 @@ export function NewsletterFilters({
   onSortChange,
 }: NewsletterFiltersProps) {
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className='flex flex-col gap-3 w-full'>
       {/* ── Row 1: Search (full-width on mobile, max-width on desktop) ── */}
-      <div className="relative w-full">
+      <div className='relative w-full'>
         <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
+          className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4'
           style={{ color: "#5A6886" }}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          viewBox="0 0 24 24"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <path d="m21 21-4.3-4.3" />
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='1.5'
+          viewBox='0 0 24 24'>
+          <circle cx='11' cy='11' r='8' />
+          <path d='m21 21-4.3-4.3' />
         </svg>
         <input
-          type="text"
+          type='text'
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search newsletters..."
-          className="w-full h-9 pl-10 pr-4 bg-white border border-[#E3E6EC] rounded-md outline-none focus:border-[#132651] transition-colors"
+          placeholder='Search newsletters...'
+          className='w-full h-9 pl-10 pr-4 bg-white border border-[#E3E6EC] rounded-md outline-none focus:border-brand-primary transition-colors'
           style={{
             fontFamily: "Sansation, sans-serif",
             fontSize: "12px",
@@ -130,26 +126,31 @@ export function NewsletterFilters({
       </div>
 
       {/* ── Row 2: Dropdowns — wrap on mobile, side-by-side on sm+ ── */}
-      <div className="flex flex-wrap gap-2">
-        <div className="min-w-[140px] flex-1 sm:flex-none">
+      <div className='flex flex-wrap gap-2'>
+        <div className='min-w-35 flex-1 sm:flex-none'>
           <SelectButton
-            label="All Categories"
+            label='All Categories'
             value={category}
-            options={["All Categories", "Regulatory Updates", "Industry Updates", "Company News"]}
+            options={[
+              "All Categories",
+              "Regulatory Updates",
+              "Industry Updates",
+              "Company News",
+            ]}
             onChange={onCategoryChange}
           />
         </div>
-        <div className="min-w-[110px] flex-1 sm:flex-none">
+        <div className='min-w-27.5 flex-1 sm:flex-none'>
           <SelectButton
-            label="All Years"
+            label='All Years'
             value={year}
             options={["All Years", "2026", "2025", "2024"]}
             onChange={onYearChange}
           />
         </div>
-        <div className="min-w-[150px] flex-1 sm:flex-none">
+        <div className='min-w-37.5 flex-1 sm:flex-none'>
           <SelectButton
-            label="Sort: Latest First"
+            label='Sort: Latest First'
             value={sort}
             options={["Sort: Latest First", "Sort: Oldest First", "Sort: A-Z"]}
             onChange={onSortChange}
@@ -164,9 +165,9 @@ export function NewsletterFilters({
           fontSize: "12px",
           lineHeight: "160%",
           color: "#5A6886",
-        }}
-      >
-        Note: Newsletters may open as PDF previews or external reading links depending on format.
+        }}>
+        Note: Newsletters may open as PDF previews or external reading links
+        depending on format.
       </p>
     </div>
   );

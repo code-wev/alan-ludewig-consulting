@@ -66,36 +66,36 @@ const newsItems = [
 
 export default function NewsGrid() {
   return (
-    <section className='bg-white w-full py-[80px]'>
-      <div className='mx-auto max-w-[1760px] px-4 md:px-20'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]'>
+    <section className='bg-white w-full py-20'>
+      <div className='mx-auto max-w-440 px-4 md:px-20'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
           {newsItems.map((item, i) => (
             <div
               key={i}
-              className='bg-white border border-[#e3e6ec] rounded-[16px] p-[32px] flex flex-col gap-[20px] shadow-[0px_4px_24px_rgba(19,38,81,0.04)] hover:shadow-[0px_4px_24px_rgba(19,38,81,0.08)] transition-shadow'>
+              className='bg-white border border-[#e3e6ec] rounded-[16px] p-8 flex flex-col gap-5 shadow-[0px_4px_24px_rgba(19,38,81,0.04)] hover:shadow-[0px_4px_24px_rgba(19,38,81,0.08)] transition-shadow'>
               <div className='flex items-center justify-between'>
                 <div
-                  className={`${item.categoryBg} ${item.categoryText} px-[12px] py-[2px] rounded-full text-[12px] font-bold`}>
+                  className={`${item.categoryBg} ${item.categoryText} px-3 py-0.5 rounded-full text-[12px] font-bold`}>
                   {item.category}
                 </div>
-                <div className='flex items-center gap-[6px] text-[#7b8496]'>
+                <div className='flex items-center gap-1.5 text-[#7b8496]'>
                   <Calendar className='w-3.5 h-3.5' />
                   <span className='text-[12px]'>{item.date}</span>
                 </div>
               </div>
 
-              <div className='flex flex-col gap-[12px] flex-1'>
-                <h3 className='text-[18px] font-bold text-[#132651] leading-[1.4]'>
+              <div className='flex flex-col gap-3 flex-1'>
+                <h3 className='text-[18px] font-bold text-brand-primary leading-[1.4]'>
                   {item.title}
                 </h3>
-                <p className='text-[14px] text-[#5a6886] leading-[1.6]'>
+                <p className='text-[14px] text-brand-secondary leading-[1.6]'>
                   {item.description}
                 </p>
               </div>
 
               <Link
                 href={item.link}
-                className='flex items-center gap-[8px] text-[14px] font-bold text-[#132651] hover:gap-[12px] transition-all'>
+                className='flex items-center gap-2 text-[14px] font-bold text-brand-primary hover:gap-3 transition-all'>
                 Read More <ArrowRight className='w-4 h-4' />
               </Link>
             </div>
