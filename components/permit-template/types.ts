@@ -28,9 +28,25 @@ export type PermitTypeOption = {
   icon: LucideIcon;
 };
 
+export type PermitTemplateJobSiteDetails = {
+  projectSiteName: string;
+  workLocation: string;
+  workDescription: string;
+  contractorName: string;
+  supervisor: string;
+  permitIssuer: string;
+  permitReceiver: string;
+  relatedRamsReference: string;
+  relatedRiskAssessmentReference: string;
+  date: string;
+  supportingDocumentName: string;
+  siteImageName: string;
+};
+
 export type PermitTemplateDraft = {
   currentStepId: PermitTemplateStepId;
   permitTypeId: string;
+  jobSiteDetails: PermitTemplateJobSiteDetails;
   updatedAt: string | null;
 };
 
@@ -91,10 +107,35 @@ export const PERMIT_TYPE_OPTIONS: PermitTypeOption[] = [
 export const PERMIT_TEMPLATE_REMINDER =
   "Documents generated using this tool are templates. Review and adapt them to your specific circumstances before issuing for use. Final responsibility for content rests with the user.";
 
+export const JOB_SITE_DETAILS_NOTICE =
+  "All information provided must be verified against the physical site conditions before work commences. Incomplete details may result in the automatic suspension of the permit.";
+
+export const PERMIT_GUIDANCE_ITEMS = [
+  "Check local site rules before entry.",
+  "Validate RAMS reference matches.",
+  "Issuer must be on the approved list.",
+] as const;
+
 export const PERMIT_TEMPLATE_STORAGE_KEY = "permit-template-draft";
+
+export const INITIAL_JOB_SITE_DETAILS: PermitTemplateJobSiteDetails = {
+  projectSiteName: "",
+  workLocation: "",
+  workDescription: "",
+  contractorName: "",
+  supervisor: "",
+  permitIssuer: "",
+  permitReceiver: "",
+  relatedRamsReference: "RAMS-2024-XXX",
+  relatedRiskAssessmentReference: "RA-2024-XXX",
+  date: "",
+  supportingDocumentName: "",
+  siteImageName: "",
+};
 
 export const INITIAL_PERMIT_TEMPLATE_DRAFT: PermitTemplateDraft = {
   currentStepId: "permit-type",
   permitTypeId: PERMIT_TYPE_OPTIONS[0].id,
+  jobSiteDetails: INITIAL_JOB_SITE_DETAILS,
   updatedAt: null,
 };

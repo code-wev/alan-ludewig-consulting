@@ -17,6 +17,10 @@ export function PermitTemplateShell({
   currentStepId,
   children,
 }: PermitTemplateShellProps) {
+  const currentStepIndex = PERMIT_TEMPLATE_STEPS.findIndex(
+    (step) => step.id === currentStepId,
+  );
+
   return (
     <div className="flex flex-col gap-8 text-brand-primary">
       <div className="flex flex-wrap items-center gap-1.5 text-[12px] text-brand-secondary">
@@ -51,21 +55,24 @@ export function PermitTemplateShell({
         aria-label="Permit template steps"
         className="grid gap-4 md:grid-cols-2 xl:grid-cols-6"
       >
-        {PERMIT_TEMPLATE_STEPS.map((step) => {
-          const isActive = step.id === currentStepId;
+        {PERMIT_TEMPLATE_STEPS.map((step, index) => {
+          const isCurrent = step.id === currentStepId;
+          const isCompleted = index < currentStepIndex;
+          const isBarActive = index <= currentStepIndex;
+          const isTextPrimary = isCompleted || (isCurrent && index === 0);
 
           return (
             <div key={step.id} className="space-y-2">
               <div
                 className={cn(
                   "h-2 rounded-[12px]",
-                  isActive ? "bg-brand-primary" : "bg-[#f3f5f8]",
+                  isBarActive ? "bg-brand-primary" : "bg-[#f3f5f8]",
                 )}
               />
               <p
                 className={cn(
                   "font-['Sansation'] text-[16px] leading-[1.6]",
-                  isActive ? "text-brand-primary" : "text-brand-secondary",
+                  isTextPrimary ? "text-brand-primary" : "text-brand-secondary",
                 )}
               >
                 {step.label}

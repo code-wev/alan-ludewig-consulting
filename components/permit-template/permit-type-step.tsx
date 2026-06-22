@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { PermitTypeOptionCard } from "./permit-type-option-card";
+import { PermitStepActions } from "./permit-step-actions";
 import { PERMIT_TYPE_OPTIONS } from "./types";
 
 type PermitTypeStepProps = {
@@ -38,23 +38,11 @@ export function PermitTypeStep({
         ))}
       </div>
 
-      <div className="flex flex-wrap items-center gap-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onSaveDraft}
-          className="h-8.5 rounded-[6px] border-brand-primary bg-white px-4 font-['Sansation'] text-[12px] font-bold text-brand-primary shadow-none hover:bg-brand-bg-main"
-        >
-          Save Draft
-        </Button>
-        <Button
-          type="button"
-          onClick={onNextStep}
-          className="h-8.5 rounded-[6px] bg-brand-primary px-4 font-['Sansation'] text-[12px] font-bold text-white hover:bg-[#0d1b3a]"
-        >
-          Next: Job / Site Details
-        </Button>
-      </div>
+      <PermitStepActions
+        nextLabel="Next: Job / Site Details"
+        onSaveDraft={onSaveDraft}
+        onNext={onNextStep}
+      />
     </section>
   );
 }
