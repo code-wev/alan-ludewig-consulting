@@ -33,61 +33,57 @@ export function ExtraCard({
   onBuyNow,
 }: ExtraCardProps) {
   return (
-    <div className="flex flex-col bg-white border border-[#D0D4DC] rounded-xl overflow-hidden">
+    <div className='flex flex-col bg-white border border-[#D0D4DC] rounded-xl overflow-hidden'>
       {/* Header: icon + price */}
       <div
-        className="flex flex-row items-center justify-between px-6 py-6"
-        style={{ backgroundColor: headerBg, minHeight: "104px" }}
-      >
+        className='flex flex-row items-center justify-between px-6 py-6'
+        style={{ backgroundColor: headerBg, minHeight: "104px" }}>
         {/* Icon */}
-        <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+        <div className='w-12 h-12 flex items-center justify-center shrink-0'>
           {icon}
         </div>
 
         {/* Price */}
-        <div className="flex flex-col items-end">
+        <div className='flex flex-col items-end'>
           <span
-            className="text-xs font-normal opacity-80"
+            className='text-xs font-normal opacity-80'
             style={{
               fontFamily: "Sansation, sans-serif",
               color: accentColor,
               lineHeight: "160%",
-            }}
-          >
+            }}>
             From
           </span>
           <span
-            className="font-bold text-right"
+            className='font-bold text-right'
             style={{
               fontFamily: "Sansation, sans-serif",
               fontSize: "28px",
               lineHeight: "160%",
               color: accentColor,
-            }}
-          >
+            }}>
             {price}
           </span>
         </div>
       </div>
 
       {/* Body */}
-      <div className="flex flex-col gap-4 px-6 py-6">
+      <div className='flex flex-col gap-4 px-6 py-6'>
         {/* Title */}
         <h3
-          className="font-bold w-full"
+          className='font-bold w-full'
           style={{
             fontFamily: "Sansation, sans-serif",
             fontSize: "20px",
             lineHeight: "160%",
             color: "#132651",
-          }}
-        >
+          }}>
           {title}
         </h3>
 
         {/* Description */}
         <p
-          className="text-sm w-full"
+          className='text-sm w-full'
           style={{
             fontFamily: "Sansation, sans-serif",
             fontSize: "14px",
@@ -96,37 +92,36 @@ export function ExtraCard({
             minHeight: "44px",
             display: "flex",
             alignItems: "center",
-          }}
-        >
+          }}>
           {description}
         </p>
 
         {/* What's included */}
-        <div className="flex flex-col gap-2 w-full" style={{ minHeight: "128px" }}>
+        <div
+          className='flex flex-col gap-2 w-full'
+          style={{ minHeight: "128px" }}>
           <p
-            className="font-bold"
+            className='font-bold'
             style={{
               fontFamily: "Sansation, sans-serif",
               fontSize: "14px",
               lineHeight: "160%",
               color: "#132651",
-            }}
-          >
+            }}>
             What&apos;s included:
           </p>
-          <ul className="flex flex-col gap-1">
+          <ul className='flex flex-col gap-1'>
             {features.map((feature, i) => (
-              <li key={i} className="flex items-start gap-3">
+              <li key={i} className='flex items-start gap-3'>
                 <span
-                  className="flex-shrink-0 font-normal"
+                  className='shrink-0 font-normal'
                   style={{
                     fontFamily: "Inter, sans-serif",
                     fontSize: "14px",
                     lineHeight: "20px",
                     color: "#009966",
                     marginTop: "1px",
-                  }}
-                >
+                  }}>
                   ✓
                 </span>
                 <span
@@ -135,8 +130,7 @@ export function ExtraCard({
                     fontSize: "14px",
                     lineHeight: "160%",
                     color: "#5A6886",
-                  }}
-                >
+                  }}>
                   {feature}
                 </span>
               </li>
@@ -147,22 +141,20 @@ export function ExtraCard({
         {/* Buy Now button */}
         <button
           onClick={onBuyNow}
-          className="flex items-center justify-center gap-2.5 w-full py-4 rounded-md transition-opacity hover:opacity-90 active:opacity-80 cursor-pointer"
+          className='flex items-center justify-center gap-2.5 w-full py-4 rounded-md transition-opacity hover:opacity-90 active:opacity-80 cursor-pointer'
           style={{
             backgroundColor: "#132651",
             minHeight: "54px",
-          }}
-        >
-          <ShoppingCart className="w-[18px] h-[18px] text-white flex-shrink-0" />
+          }}>
+          <ShoppingCart className='w-4.5 h-4.5 text-white shrink-0' />
           <span
-            className="font-bold"
+            className='font-bold'
             style={{
               fontFamily: "Sansation, sans-serif",
               fontSize: "12px",
               lineHeight: "160%",
               color: "#FFFFFF",
-            }}
-          >
+            }}>
             Buy Now
           </span>
         </button>
