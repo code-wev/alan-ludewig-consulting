@@ -5,10 +5,9 @@ import { NewsletterCard, type NewsletterCardProps } from "./newsletter-card";
 import { NewsletterFilters } from "./newsletter-filters";
 import { NewsletterTabs, type NewsletterTab } from "./newsletter-tabs";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const NEWSLETTERS: NewsletterCardProps[] = [
-  // Row 1
   {
     bannerBg: "#DBEAFE",
     iconColor: "#1D4ED8",
@@ -45,7 +44,6 @@ const NEWSLETTERS: NewsletterCardProps[] = [
     readUrl: "#",
     pdfUrl: "#",
   },
-  // Row 2
   {
     bannerBg: "#DBEAFE",
     iconColor: "#1D4ED8",
@@ -82,7 +80,6 @@ const NEWSLETTERS: NewsletterCardProps[] = [
     readUrl: "#",
     pdfUrl: "#",
   },
-  // Row 3
   {
     bannerBg: "#DBEAFE",
     iconColor: "#1D4ED8",
@@ -121,7 +118,7 @@ const NEWSLETTERS: NewsletterCardProps[] = [
   },
 ];
 
-// ─── Grid Component ───────────────────────────────────────────────────────────
+// ─── Grid ─────────────────────────────────────────────────────────────────────
 
 export function NewsletterGrid() {
   const [activeTab, setActiveTab] = useState<NewsletterTab>("All");
@@ -133,22 +130,15 @@ export function NewsletterGrid() {
   const filtered = useMemo(() => {
     let list = [...NEWSLETTERS];
 
-    // Tab filter
     if (activeTab !== "All") {
       list = list.filter((n) => n.category === activeTab);
     }
-
-    // Category dropdown filter
     if (category !== "All Categories") {
       list = list.filter((n) => n.category === category);
     }
-
-    // Year filter
     if (year !== "All Years") {
       list = list.filter((n) => n.date.includes(year));
     }
-
-    // Search
     if (search.trim()) {
       const q = search.toLowerCase();
       list = list.filter(
@@ -158,29 +148,19 @@ export function NewsletterGrid() {
           n.category.toLowerCase().includes(q),
       );
     }
-
-    // Sort
-    if (sort === "Sort: Oldest First") {
-      list = list.reverse();
-    } else if (sort === "Sort: A-Z") {
+    if (sort === "Sort: Oldest First") list = list.reverse();
+    else if (sort === "Sort: A-Z")
       list = list.sort((a, b) => a.title.localeCompare(b.title));
-    }
 
     return list;
   }, [activeTab, search, category, year, sort]);
-
-  // Group into rows of 3
-  const rows: NewsletterCardProps[][] = [];
-  for (let i = 0; i < filtered.length; i += 3) {
-    rows.push(filtered.slice(i, i + 3));
-  }
 
   return (
     <div className='flex flex-col gap-6 w-full'>
       {/* Tabs */}
       <NewsletterTabs active={activeTab} onChange={setActiveTab} />
 
-      {/* Search & Filters */}
+      {/* Filters */}
       <NewsletterFilters
         search={search}
         onSearchChange={setSearch}
@@ -192,8 +172,11 @@ export function NewsletterGrid() {
         onSortChange={setSort}
       />
 
-      {/* Cards */}
-      {rows.length === 0 ? (
+      {/* Cards
+          ─ mobile  (< 640px)  → 1 column
+          ─ tablet  (640-1023) → 2 columns
+          ─ desktop (≥ 1024px) → 3 columns            */}
+      {filtered.length === 0 ? (
         <div className='flex items-center justify-center py-20'>
           <p
             style={{
@@ -205,22 +188,9 @@ export function NewsletterGrid() {
           </p>
         </div>
       ) : (
-        <div className='flex flex-col gap-5'>
-          {rows.map((row, ri) => (
-            <div
-              key={ri}
-              className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch'>
-              {row.map((card, ci) => (
-                <div key={ci} className='flex-1 min-w-0'>
-                  <NewsletterCard {...card} />
-                </div>
-              ))}
-              {/* Fill empty slots so layout is always 3-column */}
-              {row.length < 3 &&
-                Array.from({ length: 3 - row.length }).map((_, fi) => (
-                  <div key={`fill-${fi}`} className='flex-1 min-w-0' />
-                ))}
-            </div>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5 items-start'>
+          {filtered.map((card, i) => (
+            <NewsletterCard key={i} {...card} />
           ))}
         </div>
       )}

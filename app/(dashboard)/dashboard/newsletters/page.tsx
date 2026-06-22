@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 
 export default function NewslettersPage() {
   return (
-    <div className="flex flex-col w-full gap-8 font-sans">
+    <div className="flex flex-col w-full gap-6 md:gap-8">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5" aria-label="Breadcrumb">
         <span
@@ -35,8 +35,9 @@ export default function NewslettersPage() {
           className="font-bold"
           style={{
             fontFamily: "Inter, sans-serif",
-            fontSize: "30px",
-            lineHeight: "36px",
+            /* Figma: 30px. Scale down on mobile for neatness */
+            fontSize: "clamp(22px, 5vw, 30px)",
+            lineHeight: "1.2",
             color: "#132651",
           }}
         >
@@ -50,7 +51,8 @@ export default function NewslettersPage() {
             color: "#5A6886",
           }}
         >
-          Stay informed with the latest industry guidance, regulatory updates, and health &amp; safety news.
+          Stay informed with the latest industry guidance, regulatory updates,
+          and health &amp; safety news.
         </p>
       </div>
 

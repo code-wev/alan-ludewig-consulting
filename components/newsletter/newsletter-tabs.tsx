@@ -12,34 +12,36 @@ interface NewsletterTabsProps {
 
 export function NewsletterTabs({ active, onChange }: NewsletterTabsProps) {
   return (
-    <div
-      className="flex items-center gap-0 p-[3px] rounded-xl"
-      style={{ backgroundColor: "#F3F5F8" }}
-    >
-      {TABS.map((tab) => {
-        const isActive = tab === active;
-        return (
-          <button
-            key={tab}
-            type="button"
-            onClick={() => onChange(tab)}
-            className="flex items-center justify-center gap-1.5 px-2 py-1 rounded-md transition-all"
-            style={{
-              height: "29px",
-              backgroundColor: isActive ? "#FFFFFF" : "transparent",
-              // Figma: active tab has white bg, others transparent
-              fontFamily: "Sansation, sans-serif",
-              fontSize: "14px",
-              lineHeight: "160%",
-              fontWeight: isActive ? 700 : 400,
-              color: "#132651",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {tab}
-          </button>
-        );
-      })}
+    /* On mobile: allow horizontal scroll so tabs never stack/overflow */
+    <div className="overflow-x-auto pb-0.5">
+      <div
+        className="inline-flex items-center gap-0 p-[3px] rounded-xl min-w-max"
+        style={{ backgroundColor: "#F3F5F8" }}
+      >
+        {TABS.map((tab) => {
+          const isActive = tab === active;
+          return (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => onChange(tab)}
+              className="flex items-center justify-center gap-1.5 px-3 py-1 rounded-md transition-all whitespace-nowrap"
+              style={{
+                height: "29px",
+                backgroundColor: isActive ? "#FFFFFF" : "transparent",
+                fontFamily: "Sansation, sans-serif",
+                fontSize: "14px",
+                lineHeight: "160%",
+                fontWeight: isActive ? 700 : 400,
+                color: "#132651",
+                boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+              }}
+            >
+              {tab}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
