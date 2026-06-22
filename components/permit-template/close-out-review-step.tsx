@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type PermitTemplateCloseOut } from "./types";
+import Link from "next/link";
 
 type CloseOutReviewStepProps = {
   closeOut: PermitTemplateCloseOut;
@@ -513,9 +514,9 @@ export function CloseOutReviewStep({
           >
             Save Draft
           </button>
-          <button className="flex h-8.5 items-center justify-center rounded-[6px] bg-brand-primary px-4 font-['Sansation'] text-[12px] font-bold text-white transition-opacity hover:opacity-90">
+          <Link href={"/rams-builder"} className="flex h-8.5 items-center justify-center rounded-[6px] bg-brand-primary px-4 font-['Sansation'] text-[12px] font-bold text-white transition-opacity hover:opacity-90">
             Generate PDF
-          </button>
+          </Link>
         </div>
         <div className="flex items-center gap-4">
           <button className="flex h-8.5 items-center justify-center rounded-[6px] border border-brand-primary bg-white px-4 font-['Sansation'] text-[12px] font-bold text-brand-primary transition-colors hover:bg-brand-light-grey">
