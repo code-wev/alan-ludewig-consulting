@@ -41,7 +41,7 @@ export const DASHBOARD_NAVIGATION: Record<
     { label: 'Training', href: '/dashboard/training', icon: GraduationCap },
     { label: 'Newsletters', href: '/dashboard/newsletters', icon: Mail },
     { label: 'Virtual Agent', href: '/virtual-agent', icon: Bot },
-    { label: 'Buy Extras', href: '/dashboard/extras', icon: Package },
+    { label: 'Buy Extras', href: '/buy-extras', icon: Package },
     { label: 'Manage Subscription', href: '/dashboard/subscription', icon: CreditCard },
     { label: 'How-to Guides / Support', href: '/dashboard/support', icon: HelpCircle },
     { label: 'Account Settings', href: '/settings', icon: Settings },
