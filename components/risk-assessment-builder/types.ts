@@ -1,4 +1,3 @@
-import { LucideIcon } from "lucide-react";
 
 export type RiskAssessmentStepId =
   | "job-details"
@@ -40,6 +39,8 @@ export interface RiskAssessmentJobDetails {
   estimatedDuration: string;
   preparedBy: string;
   approvedBy: string;
+  reviewDate: string;
+  descriptionOfWorks: string;
   uploadedSiteImages: string[]; // base64 / blob URLs
   uploadedSupportingDocs: { name: string; size: string }[];
 }
@@ -104,6 +105,8 @@ export const INITIAL_JOB_DETAILS: RiskAssessmentJobDetails = {
   estimatedDuration: "",
   preparedBy: "Alan Ludewig",
   approvedBy: "",
+  reviewDate: "",
+  descriptionOfWorks: "",
   uploadedSiteImages: [],
   uploadedSupportingDocs: [],
 };

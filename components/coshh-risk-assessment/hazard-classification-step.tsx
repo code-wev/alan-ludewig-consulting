@@ -32,7 +32,7 @@ export function HazardClassificationStep({
             <h3 className="text-sm font-bold text-[#132651]">Legal Disclaimer</h3>
           </div>
           <p className="text-sm text-[#132651] leading-[1.6]">
-            This tool is for guidance purposes. It is the legal responsibility of the employer to ensure COSHH assessments are accurate and that all controls identified are implemented on site. Refer to the manufacturer's SDS for technical data.
+            This tool is for guidance purposes. It is the legal responsibility of the employer to ensure COSHH assessments are accurate and that all controls identified are implemented on site. Refer to the manufacturer&apos;s SDS for technical data.
           </p>
         </div>
 

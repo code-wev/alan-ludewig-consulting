@@ -6,17 +6,15 @@ import { RISK_ASSESSMENT_STEPS, type RiskAssessmentStepId } from "./types";
 
 type RiskAssessmentShellProps = {
   currentStepId: RiskAssessmentStepId;
+  onStepChange?: (stepId: RiskAssessmentStepId) => void;
   children: React.ReactNode;
 };
 
 export function RiskAssessmentShell({
   currentStepId,
+  onStepChange,
   children,
 }: RiskAssessmentShellProps) {
-  const currentStepIndex = RISK_ASSESSMENT_STEPS.findIndex(
-    (step) => step.id === currentStepId,
-  );
-
   return (
     <div className="flex flex-col gap-8 text-brand-primary font-sans w-full">
       {/* Breadcrumb */}
@@ -40,47 +38,41 @@ export function RiskAssessmentShell({
       </div>
 
       {/* Warning/Reminder Alert Banner */}
-      <section className="flex items-start gap-4 rounded-[12px] border-[1.5px] border-[#A7VX4B]/20 bg-[#EFF6FF] p-4">
-        <CircleAlert className="mt-0.5 size-5 shrink-0 text-brand-primary" />
+      <section className="flex items-start gap-4 rounded-[12px] border border-[#d6e9ff] bg-[#EFF6FF] p-4 shadow-[0_1px_2px_rgba(15,23,42,0.02)]">
+        <CircleAlert className="mt-0.5 size-5 shrink-0 text-[#1e40af]" />
         <div className="space-y-1">
-          <p className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+          <p className="text-[14px] font-bold leading-[1.6] text-[#1e3a8a]">
             Important: Document Review Required
           </p>
-          <p className="text-[14px] leading-[1.6] text-brand-primary/80">
+          <p className="text-[14px] leading-[1.6] text-[#1e3a8a]/90">
             All generated risk assessments must be reviewed, amended and adapted for specific tasks, 
             site conditions and intended use. Generated content is based on your input and must be checked before use.
           </p>
         </div>
       </section>
 
-      {/* Horizontal Stepper Progress Indicator */}
+      {/* Tab List Stepper Progress Indicator */}
       <nav
         aria-label="Risk assessment progress steps"
-        className="grid gap-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-7"
+        className="flex flex-wrap items-center bg-[#f3f5f8] p-1.5 rounded-[12px] border border-[#e3e6ec] w-full gap-1 md:gap-0"
       >
-        {RISK_ASSESSMENT_STEPS.map((step, index) => {
+        {RISK_ASSESSMENT_STEPS.map((step) => {
           const isCurrent = step.id === currentStepId;
-          const isCompleted = index < currentStepIndex;
-          const isBarActive = index <= currentStepIndex;
-          const isTextPrimary = isCompleted || isCurrent;
 
           return (
-            <div key={step.id} className="space-y-2">
-              <div
-                className={cn(
-                  "h-2 rounded-[12px] transition-colors duration-300",
-                  isBarActive ? "bg-brand-primary" : "bg-[#f3f5f8]",
-                )}
-              />
-              <p
-                className={cn(
-                  "text-[14px] font-medium leading-[1.4] transition-colors duration-300 font-sans",
-                  isTextPrimary ? "text-brand-primary font-bold" : "text-brand-secondary",
-                )}
-              >
-                {step.label}
-              </p>
-            </div>
+            <button
+              key={step.id}
+              type="button"
+              onClick={() => onStepChange?.(step.id)}
+              className={cn(
+                "flex-1 min-w-[140px] text-center py-2.5 px-4 text-[13px] font-medium transition-all cursor-pointer rounded-[6px] outline-none border border-transparent",
+                isCurrent
+                  ? "bg-white text-brand-primary font-bold border-[#e3e6ec] shadow-sm"
+                  : "text-brand-secondary hover:text-brand-primary hover:bg-white/40"
+              )}
+            >
+              {step.label.replace(/^\d+\.\s*/, "")}
+            </button>
           );
         })}
       </nav>

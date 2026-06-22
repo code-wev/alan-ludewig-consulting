@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -10,7 +10,6 @@ import {
   type RiskAssessmentDraft,
   type RiskAssessmentStepId,
   type RiskAssessmentJobDetails,
-  type RiskAssessmentTasksHazards,
   type SelectedHazardRow,
   type RiskAssessmentControlsPpe,
   type RiskAssessmentMethodStatement,
@@ -29,6 +28,7 @@ export function useRiskAssessment() {
       if (stored) {
         try {
           const parsed = JSON.parse(stored) as Partial<RiskAssessmentDraft>;
+          // eslint-disable-next-line react-hooks/set-state-in-effect
           setDraft((prev) => ({
             ...prev,
             ...parsed,
@@ -88,7 +88,7 @@ export function useRiskAssessment() {
   };
 
   // Job Details handlers
-  const updateJobDetails = (field: keyof RiskAssessmentJobDetails, value: any) => {
+  const updateJobDetails = (field: keyof RiskAssessmentJobDetails, value: unknown) => {
     updateDraft((prev) => ({
       ...prev,
       jobDetails: {
@@ -227,7 +227,7 @@ export function useRiskAssessment() {
     });
   };
 
-  const updateControlsPpe = (field: keyof RiskAssessmentControlsPpe, value: any) => {
+  const updateControlsPpe = (field: keyof RiskAssessmentControlsPpe, value: unknown) => {
     updateDraft((prev) => ({
       ...prev,
       controlsPpe: {

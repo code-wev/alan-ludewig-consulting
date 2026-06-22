@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, ShieldAlert, Sparkles, Check } from "lucide-react";
+import { Plus, Trash2, ShieldAlert, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TASK_OPTIONS, HAZARD_OPTIONS, type RiskAssessmentTasksHazards, type SelectedHazardRow } from "./types";
 import { cn } from "@/lib/utils";

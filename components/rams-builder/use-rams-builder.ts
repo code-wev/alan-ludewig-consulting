@@ -82,8 +82,8 @@ export function useRamsBuilder() {
       router.push('/rams-builder/coshh-risk-assessment');
       return;
     }
-    if (title === "Risk Assessment") {
-      router.push("/rams-builder/risk-assessment");
+    if (title === 'Risk Assessment') {
+      router.push('/rams-builder/risk-assessment');
       return;
     }
 

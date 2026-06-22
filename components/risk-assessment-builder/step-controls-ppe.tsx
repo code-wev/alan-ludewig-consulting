@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 interface StepControlsPpeProps {
   controlsPpe: RiskAssessmentControlsPpe;
   onTogglePpe: (ppeId: string) => void;
-  onFieldChange: (field: keyof RiskAssessmentControlsPpe, value: any) => void;
+  onFieldChange: (field: keyof RiskAssessmentControlsPpe, value: unknown) => void;
   onSaveDraft: () => void;
   onNextStep: () => void;
   onPrevStep: () => void;

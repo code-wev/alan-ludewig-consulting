@@ -15,10 +15,11 @@ import {
   Flame, 
   MoreHorizontal,
   Lightbulb,
-  FileSpreadsheet
+  FileSpreadsheet,
+  type LucideIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { WORK_TYPE_CARDS, type WorkTypeCard, type RiskAssessmentJobDetails } from "./types";
+import { WORK_TYPE_CARDS, type RiskAssessmentJobDetails } from "./types";
 import { cn } from "@/lib/utils";
 
 interface StepWorkTypeProps {
@@ -30,7 +31,7 @@ interface StepWorkTypeProps {
   onPrevStep: () => void;
 }
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   Building,
   Home,
   Zap,

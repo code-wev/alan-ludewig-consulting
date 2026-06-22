@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, AlertTriangle, FileText, Download, ShieldCheck, HelpCircle } from "lucide-react";
+import { Check, AlertTriangle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type RiskAssessmentDraft } from "./types";
 import { cn } from "@/lib/utils";

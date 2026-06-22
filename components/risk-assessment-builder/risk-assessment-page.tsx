@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FileClock, FileCheck2, AlertTriangle, History } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { RiskAssessmentShell } from "./risk-assessment-shell";
 import { StepJobDetails } from "./step-job-details";
@@ -69,7 +70,7 @@ export function RiskAssessmentPage() {
   };
 
   return (
-    <RiskAssessmentShell currentStepId={draft.currentStepId}>
+    <RiskAssessmentShell currentStepId={draft.currentStepId} onStepChange={setStep}>
       {/* Summary Cards & Quick Actions (Only shown on Step 1: Job Details) */}
       {draft.currentStepId === "job-details" && (
         <div className="space-y-6 mb-8 font-sans">
@@ -78,18 +79,29 @@ export function RiskAssessmentPage() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setIsStartOpen(true)}
-              className="h-8.5 rounded-[6px] border-brand-primary bg-white px-4 text-[12px] font-bold text-brand-primary hover:bg-[#fafbfd]"
+              onClick={() => {
+                toast.success("Draft recovered successfully!", {
+                  description: "You can pick up exactly where you left off.",
+                });
+              }}
+              className="h-8.5 rounded-[6px] border border-brand-primary bg-white px-4 text-[12px] font-bold text-brand-primary hover:bg-[#fafbfd]"
             >
-              Start New Risk Assessment
+              Continue Draft
             </Button>
             <Button
               type="button"
               variant="outline"
               onClick={() => setIsPrevOpen(true)}
-              className="h-8.5 rounded-[6px] border-[#d7dce5] bg-white px-4 text-[12px] font-bold text-brand-secondary hover:bg-[#fafbfd]"
+              className="h-8.5 rounded-[6px] border border-brand-primary bg-white px-4 text-[12px] font-bold text-brand-primary hover:bg-[#fafbfd]"
             >
               View Previous Assessments
+            </Button>
+            <Button
+              type="button"
+              onClick={() => setIsStartOpen(true)}
+              className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]"
+            >
+              Start New Risk Assessment
             </Button>
           </div>
 
