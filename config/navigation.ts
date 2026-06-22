@@ -1,26 +1,26 @@
 import { ROLES, type Role } from "../constants/roles";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Settings, 
-  FileText, 
-  Files, 
-  ShieldCheck, 
-  ClipboardCheck, 
-  Briefcase, 
-  Calendar, 
-  GraduationCap, 
-  Mail, 
-  Bot, 
-  CreditCard, 
-  Shield, 
-  BarChart3, 
-  Ticket, 
+import {
+  LayoutDashboard,
+  Users,
+  Settings,
+  FileText,
+  Files,
+  ShieldCheck,
+  ClipboardCheck,
+  Briefcase,
+  Calendar,
+  GraduationCap,
+  Mail,
+  Bot,
+  CreditCard,
+  Shield,
+  BarChart3,
+  Ticket,
   HelpCircle,
   Package,
   FileSearch,
   CheckSquare,
-  type LucideIcon 
+  type LucideIcon
 } from "lucide-react";
 
 export const DASHBOARD_NAVIGATION: Record<Role, { label: string; href: string; icon: LucideIcon }[]> = {
@@ -28,7 +28,7 @@ export const DASHBOARD_NAVIGATION: Record<Role, { label: string; href: string; i
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "My Membership", href: "/dashboard/membership", icon: ShieldCheck },
     { label: "My Saved Files", href: "/my-saved-files", icon: Files },
-    { label: "Document Library", href: "/dashboard/library", icon: FileText },
+    { label: "Document Library", href: "/document-library", icon: FileText },
     { label: "My Forms / Checklist", href: "/dashboard/forms", icon: ClipboardCheck },
     { label: "RAMS Builder", href: "/rams-builder", icon: Briefcase },
     { label: "Checklist Completion", href: "/dashboard/checklist", icon: CheckSquare },
