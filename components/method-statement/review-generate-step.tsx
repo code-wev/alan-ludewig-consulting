@@ -147,7 +147,7 @@ export function ReviewGenerateStep({
           </div>
         </div>
 
-        {/* Card 4: Plant &amp; Tools */}
+        {/* Card 4: Plant & Tools */}
         <div className="flex flex-col p-6 bg-white border border-[#E3E6EC] rounded-xl gap-4">
           <div className="flex justify-between items-center pb-2 border-b border-[#E3E6EC]">
             <h3 className="text-base font-bold text-[#132651]">Plant &amp; Tools</h3>
@@ -157,23 +157,28 @@ export function ReviewGenerateStep({
             </button>
           </div>
           <div className="flex flex-col gap-3 text-sm">
-            <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Plant / Heavy Machinery:</span>
-              <p className="text-brand-primary">{plantTools.selectedPlant.join(", ") || "None selected"}</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Power Tools:</span>
-              <p className="text-brand-primary">{plantTools.selectedPowerTools.join(", ") || "None selected"}</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Hand Tools:</span>
-              <p className="text-brand-primary">{plantTools.selectedHandTools.join(", ") || "None selected"}</p>
-            </div>
-            {plantTools.customItems.length > 0 && (
-              <div className="flex flex-col gap-1">
-                <span className="text-[#5A6886] font-semibold">Other:</span>
-                <p className="text-brand-primary">{plantTools.customItems.join(", ")}</p>
+            {plantTools.items.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {plantTools.items.map((item) => (
+                  <div key={item.id} className="flex flex-col gap-1 border-b border-[#F3F5F8] pb-2 last:border-b-0 last:pb-0">
+                    <span className="text-[#132651] font-bold">{item.name}</span>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-[#5A6886]">
+                      <div>
+                        <span className="font-semibold">Purpose: </span>
+                        {item.purpose}
+                      </div>
+                      {item.notes && (
+                        <div>
+                          <span className="font-semibold">Notes: </span>
+                          {item.notes}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
+            ) : (
+              <span className="text-brand-secondary">No equipment or tools listed.</span>
             )}
           </div>
         </div>

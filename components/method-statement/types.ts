@@ -92,18 +92,38 @@ export const INITIAL_SEQUENCE_OF_WORKS: MethodStatementSequenceOfWorks = {
   ],
 };
 
+export interface PlantToolItem {
+  id: string;
+  name: string;
+  purpose: string;
+  indpReq: string;
+  compUser: string;
+  notes: string;
+}
+
 export interface MethodStatementPlantTools {
-  selectedPlant: string[];
-  selectedPowerTools: string[];
-  selectedHandTools: string[];
-  customItems: string[];
+  items: PlantToolItem[];
 }
 
 export const INITIAL_PLANT_TOOLS: MethodStatementPlantTools = {
-  selectedPlant: [],
-  selectedPowerTools: [],
-  selectedHandTools: [],
-  customItems: [],
+  items: [
+    {
+      id: "1",
+      name: "Scaffold / Access Equipment",
+      purpose: "Work at height access",
+      indpReq: "Site Audit",
+      compUser: "Central Plaza Dev.",
+      notes: "Must be PASMA tagged",
+    },
+    {
+      id: "2",
+      name: "Power Tools",
+      purpose: "General drilling/cutting",
+      indpReq: "Compliance",
+      compUser: "Supervisor",
+      notes: "110V PAT tested",
+    },
+  ],
 };
 
 export interface MethodStatementPpeEmergency {

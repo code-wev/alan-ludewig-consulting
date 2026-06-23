@@ -14,6 +14,7 @@ import {
   type MethodStatementPlantTools,
   type MethodStatementPpeEmergency,
   type MethodStatementFinalApproval,
+  type PlantToolItem,
 } from "./types";
 
 function isMethodStatementStepId(value: unknown): value is MethodStatementStepId {
@@ -159,73 +160,49 @@ export function useMethodStatement() {
     });
   };
 
-  const togglePlantSelection = (plantId: string) => {
+  const addPlantToolItem = (item: Omit<PlantToolItem, "id">) => {
     setDraft((current) => {
-      const isSelected = current.plantTools.selectedPlant.includes(plantId);
-      const selectedPlant = isSelected
-        ? current.plantTools.selectedPlant.filter((id) => id !== plantId)
-        : [...current.plantTools.selectedPlant, plantId];
+      const newItem: PlantToolItem = {
+        id: String(Date.now()),
+        ...item,
+      };
       return {
         ...current,
         plantTools: {
-          ...current.plantTools,
-          selectedPlant,
+          items: [...current.plantTools.items, newItem],
         },
       };
     });
   };
 
-  const togglePowerToolSelection = (toolId: string) => {
-    setDraft((current) => {
-      const isSelected = current.plantTools.selectedPowerTools.includes(toolId);
-      const selectedPowerTools = isSelected
-        ? current.plantTools.selectedPowerTools.filter((id) => id !== toolId)
-        : [...current.plantTools.selectedPowerTools, toolId];
-      return {
-        ...current,
-        plantTools: {
-          ...current.plantTools,
-          selectedPowerTools,
-        },
-      };
-    });
-  };
-
-  const toggleHandToolSelection = (toolId: string) => {
-    setDraft((current) => {
-      const isSelected = current.plantTools.selectedHandTools.includes(toolId);
-      const selectedHandTools = isSelected
-        ? current.plantTools.selectedHandTools.filter((id) => id !== toolId)
-        : [...current.plantTools.selectedHandTools, toolId];
-      return {
-        ...current,
-        plantTools: {
-          ...current.plantTools,
-          selectedHandTools,
-        },
-      };
-    });
-  };
-
-  const addCustomTool = (toolName: string) => {
-    if (!toolName.trim()) return;
+  const removePlantToolItem = (itemId: string) => {
     setDraft((current) => ({
       ...current,
       plantTools: {
-        ...current.plantTools,
-        customItems: [...current.plantTools.customItems, toolName.trim()],
+        items: current.plantTools.items.filter((item) => item.id !== itemId),
       },
     }));
   };
 
-  const removeCustomTool = (toolName: string) => {
-    setDraft((current) => ({
-      ...current,
-      plantTools: {
-        ...current.plantTools,
-        customItems: current.plantTools.customItems.filter((item) => item !== toolName),
-      },
-    }));
+  const updatePlantToolItem = (
+    itemId: string,
+    field: keyof Omit<PlantToolItem, "id">,
+    value: string
+  ) => {
+    setDraft((current) => {
+      const updatedItems = current.plantTools.items.map((item) => {
+        if (item.id === itemId) {
+          return { ...item, [field]: value };
+        }
+        return item;
+      });
+      return {
+        ...current,
+        plantTools: {
+          items: updatedItems,
+        },
+      };
+    });
   };
 
   const updatePpeEmergency = <Key extends keyof MethodStatementPpeEmergency>(
@@ -342,11 +319,9 @@ export function useMethodStatement() {
     addSequenceStep,
     removeSequenceStep,
     updateSequenceStepField,
-    togglePlantSelection,
-    togglePowerToolSelection,
-    toggleHandToolSelection,
-    addCustomTool,
-    removeCustomTool,
+    addPlantToolItem,
+    removePlantToolItem,
+    updatePlantToolItem,
     updatePpeEmergency,
     togglePpeSelection,
     updateFinalApproval,

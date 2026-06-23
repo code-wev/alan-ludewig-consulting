@@ -28,11 +28,9 @@ export function MethodStatementPage() {
     addSequenceStep,
     removeSequenceStep,
     updateSequenceStepField,
-    togglePlantSelection,
-    togglePowerToolSelection,
-    toggleHandToolSelection,
-    addCustomTool,
-    removeCustomTool,
+    addPlantToolItem,
+    removePlantToolItem,
+    updatePlantToolItem,
     updatePpeEmergency,
     togglePpeSelection,
     updateFinalApproval,
@@ -85,11 +83,9 @@ export function MethodStatementPage() {
       ) : currentStepId === "plant-tools" ? (
         <PlantToolsStep
           data={plantTools}
-          onTogglePlant={togglePlantSelection}
-          onTogglePowerTool={togglePowerToolSelection}
-          onToggleHandTool={toggleHandToolSelection}
-          onAddCustomTool={addCustomTool}
-          onRemoveCustomTool={removeCustomTool}
+          onAddPlantToolItem={addPlantToolItem}
+          onRemovePlantToolItem={removePlantToolItem}
+          onUpdatePlantToolItem={updatePlantToolItem}
           onSaveDraft={handleSaveDraft}
           onNextStep={handlePlantToolsNextStep}
         />
