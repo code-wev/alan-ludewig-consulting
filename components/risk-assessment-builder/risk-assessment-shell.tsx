@@ -8,12 +8,14 @@ type RiskAssessmentShellProps = {
   currentStepId: RiskAssessmentStepId;
   onStepChange?: (stepId: RiskAssessmentStepId) => void;
   children: React.ReactNode;
+  topContent?: React.ReactNode;
 };
 
 export function RiskAssessmentShell({
   currentStepId,
   onStepChange,
   children,
+  topContent,
 }: RiskAssessmentShellProps) {
   return (
     <div className="flex flex-col gap-8 text-brand-primary font-sans w-full">
@@ -23,7 +25,7 @@ export function RiskAssessmentShell({
         <ChevronRight className="size-3.5 text-[#95a0b6]" />
         <span>RAMS Builder</span>
         <ChevronRight className="size-3.5 text-[#95a0b6]" />
-        <span className="text-brand-primary">Risk Assessment Builder</span>
+        <span className="text-brand-primary font-bold">Risk Assessment Builder</span>
       </div>
 
       {/* Header */}
@@ -31,20 +33,22 @@ export function RiskAssessmentShell({
         <h1 className="text-[30px] font-bold leading-[1.2] text-brand-primary font-sans">
           Risk Assessment Builder
         </h1>
-        <p className="max-w-3xl text-[16px] leading-6 text-brand-secondary">
-          Identify and assess hazards on site. Create custom task-based risk assessments 
-          with standard controls, customized safety actions, PPE settings, and full PDF export.
+        <p className="max-w-3xl text-base text-brand-secondary">
+          Create a site-specific risk assessment using guided steps, editable controls and professional PDF output.
         </p>
       </div>
 
+      {/* Conditionally rendered topContent (Cards and buttons on Step 1) */}
+      {topContent}
+
       {/* Warning/Reminder Alert Banner */}
-      <section className="flex items-start gap-4 rounded-[12px] border border-[#d6e9ff] bg-[#EFF6FF] p-4 shadow-[0_1px_2px_rgba(15,23,42,0.02)]">
-        <CircleAlert className="mt-0.5 size-5 shrink-0 text-[#1e40af]" />
+      <section className="flex items-start gap-4 rounded-[12px] border border-[#FFE0B2] bg-[#FFF9EB] p-4 shadow-[0_1px_2px_rgba(15,23,42,0.02)]">
+        <CircleAlert className="mt-0.5 size-5 shrink-0 text-[#D97706]" />
         <div className="space-y-1">
-          <p className="text-[14px] font-bold leading-[1.6] text-[#1e3a8a]">
+          <p className="text-[14px] font-bold leading-[1.6] text-[#92400E]">
             Important: Document Review Required
           </p>
-          <p className="text-[14px] leading-[1.6] text-[#1e3a8a]/90">
+          <p className="text-[14px] leading-[1.6] text-[#B45309]">
             All generated risk assessments must be reviewed, amended and adapted for specific tasks, 
             site conditions and intended use. Generated content is based on your input and must be checked before use.
           </p>

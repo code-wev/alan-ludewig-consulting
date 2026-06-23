@@ -14,13 +14,13 @@ export interface RiskAssessmentStep {
 }
 
 export const RISK_ASSESSMENT_STEPS: RiskAssessmentStep[] = [
-  { id: "job-details", label: "1. Job Details" },
-  { id: "work-type", label: "2. Work Type" },
-  { id: "tasks-hazards", label: "3. Tasks & Hazards" },
-  { id: "controls-ppe", label: "4. Controls & PPE" },
-  { id: "method-statement", label: "5. Method Statement" },
-  { id: "emergency-details", label: "6. Emergency Details" },
-  { id: "review-generate", label: "7. Review & Generate" },
+  { id: "job-details", label: "Project & Site Details" },
+  { id: "work-type", label: "Work Activity" },
+  { id: "tasks-hazards", label: "Hazards" },
+  { id: "controls-ppe", label: "Control Measures" },
+  { id: "method-statement", label: "PPE & Equipment" },
+  { id: "emergency-details", label: "Risk Rating" },
+  { id: "review-generate", label: "Review & Export" },
 ];
 
 export interface RiskAssessmentJobDetails {
