@@ -86,16 +86,24 @@ export function ReviewGenerateStep({
           </div>
           <div className="flex flex-col gap-3 text-sm">
             <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Objectives:</span>
-              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.objectives || "N/A"}</p>
+              <span className="text-[#5A6886] font-semibold">Description of Works:</span>
+              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.descriptionOfWorks || "N/A"}</p>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Detailed Description:</span>
-              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.scopeDescription || "N/A"}</p>
+              <span className="text-[#5A6886] font-semibold">Work Area / Location:</span>
+              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.workAreaLocation || "N/A"}</p>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Responsibilities:</span>
-              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.responsibilities || "N/A"}</p>
+              <span className="text-[#5A6886] font-semibold">Access / Egress Arrangements:</span>
+              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.accessEgress || "N/A"}</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[#5A6886] font-semibold">Exclusions / Limitations:</span>
+              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.exclusionsLimitations || "N/A"}</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[#5A6886] font-semibold">Site-Specific Notes:</span>
+              <p className="text-brand-primary leading-relaxed">{scopeOfWorks.siteSpecificNotes || "N/A"}</p>
             </div>
           </div>
         </div>

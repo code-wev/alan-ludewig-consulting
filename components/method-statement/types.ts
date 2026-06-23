@@ -40,15 +40,19 @@ export const INITIAL_PROJECT_DETAILS: MethodStatementProjectDetails = {
 };
 
 export interface MethodStatementScopeOfWorks {
-  objectives: string;
-  scopeDescription: string;
-  responsibilities: string;
+  descriptionOfWorks: string;
+  workAreaLocation: string;
+  accessEgress: string;
+  exclusionsLimitations: string;
+  siteSpecificNotes: string;
 }
 
 export const INITIAL_SCOPE_OF_WORKS: MethodStatementScopeOfWorks = {
-  objectives: "To carry out the works safely in accordance with site regulations.",
-  scopeDescription: "",
-  responsibilities: "Site Supervisor will manage operations. Operatives must follow this statement.",
+  descriptionOfWorks: "",
+  workAreaLocation: "",
+  accessEgress: "",
+  exclusionsLimitations: "",
+  siteSpecificNotes: "",
 };
 
 export interface SequenceStep {
