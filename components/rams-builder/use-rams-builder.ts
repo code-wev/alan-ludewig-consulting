@@ -82,6 +82,10 @@ export function useRamsBuilder() {
       router.push('/rams-builder/coshh-risk-assessment');
       return;
     }
+    if (title === 'Method Statement') {
+      router.push('/method-statement');
+      return;
+    }
 
     toast.message(`${title} builder flow coming next.`, {
       description:
