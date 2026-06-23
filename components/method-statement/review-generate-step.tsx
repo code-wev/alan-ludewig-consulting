@@ -117,11 +117,28 @@ export function ReviewGenerateStep({
               <span className="text-xs font-semibold">Edit</span>
             </button>
           </div>
-          <div className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-col gap-4 text-sm">
             {sequenceOfWorks.steps.map((step, idx) => (
-              <div key={step.id} className="p-3 border border-[#E3E6EC] rounded-[6px] bg-[#fafbfd]">
+              <div key={step.id} className="p-4 border border-[#E3E6EC] rounded-[8px] bg-[#fafbfd] flex flex-col gap-2">
                 <span className="font-bold text-[#132651]">Step {idx + 1}: {step.title || "Untitled Step"}</span>
-                <p className="text-[#5A6886] mt-1 leading-relaxed">{step.description || "No description provided."}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1 text-[13px]">
+                  <div className="md:col-span-2 flex flex-col gap-0.5">
+                    <span className="text-[#5A6886] font-semibold">Description of Work:</span>
+                    <p className="text-brand-primary leading-relaxed">{step.descriptionOfWork || "N/A"}</p>
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[#5A6886] font-semibold">Responsible Person:</span>
+                    <p className="text-brand-primary">{step.responsiblePerson || "N/A"}</p>
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[#5A6886] font-semibold">Required Equipment:</span>
+                    <p className="text-brand-primary">{step.requiredEquipment || "N/A"}</p>
+                  </div>
+                  <div className="md:col-span-2 flex flex-col gap-0.5">
+                    <span className="text-[#5A6886] font-semibold">Risk Notes / Safety Controls:</span>
+                    <p className="text-brand-primary leading-relaxed">{step.riskNotes || "N/A"}</p>
+                  </div>
+                </div>
               </div>
             ))}
             {sequenceOfWorks.steps.length === 0 && (

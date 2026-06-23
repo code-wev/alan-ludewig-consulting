@@ -59,7 +59,10 @@ export interface SequenceStep {
   id: string;
   stepNumber: number;
   title: string;
-  description: string;
+  descriptionOfWork: string;
+  responsiblePerson: string;
+  requiredEquipment: string;
+  riskNotes: string;
 }
 
 export interface MethodStatementSequenceOfWorks {
@@ -71,20 +74,20 @@ export const INITIAL_SEQUENCE_OF_WORKS: MethodStatementSequenceOfWorks = {
     {
       id: "1",
       stepNumber: 1,
-      title: "Site Preparation & Setup",
-      description: "Establish safe work area, inspect tools, and conduct pre-work briefing.",
+      title: "Site Setup / Preparation",
+      descriptionOfWork: "Ensure all exclusion zones are marked and signages are displayed.",
+      responsiblePerson: "Site Supervisor",
+      requiredEquipment: "Traffic cones, tape",
+      riskNotes: "Specific hazards to avoid during this step",
     },
     {
       id: "2",
       stepNumber: 2,
-      title: "Work Execution",
-      description: "Perform the main work activity safely using correct tools and procedures.",
-    },
-    {
-      id: "3",
-      stepNumber: 3,
-      title: "Housekeeping & Handover",
-      description: "Clear work area, dispose of waste, and report completion to site manager.",
+      title: "Main Work Activity",
+      descriptionOfWork: "Detailed breakdown of the core task.",
+      responsiblePerson: "Lead Engineer",
+      requiredEquipment: "Specific plant or tools",
+      riskNotes: "PPE requirements or critical stop points",
     },
   ],
 };

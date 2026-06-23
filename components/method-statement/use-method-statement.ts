@@ -106,8 +106,11 @@ export function useMethodStatement() {
       const newStep: SequenceStep = {
         id: String(Date.now()),
         stepNumber: nextNum,
-        title: `Phase ${nextNum}: New Step`,
-        description: "",
+        title: nextNum === 1 ? "Site Setup / Preparation" : `Work Step ${nextNum}`,
+        descriptionOfWork: "",
+        responsiblePerson: "",
+        requiredEquipment: "",
+        riskNotes: "",
       };
       return {
         ...current,
@@ -135,7 +138,11 @@ export function useMethodStatement() {
     });
   };
 
-  const updateSequenceStepField = (stepId: string, field: "title" | "description", value: string) => {
+  const updateSequenceStepField = (
+    stepId: string,
+    field: keyof Omit<SequenceStep, "id" | "stepNumber">,
+    value: string
+  ) => {
     setDraft((current) => {
       const updatedSteps = current.sequenceOfWorks.steps.map((s) => {
         if (s.id === stepId) {
