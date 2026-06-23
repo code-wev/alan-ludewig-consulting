@@ -133,15 +133,23 @@ export interface MethodStatementPpeEmergency {
   fireFighting: string;
   firstAider: string;
   nearestHospital: string;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
+  environmentalControls: string;
+  wasteControls: string;
 }
 
 export const INITIAL_PPE_EMERGENCY: MethodStatementPpeEmergency = {
   selectedPpe: [],
-  firstAid: "First Aid Kit located in the main site office / supervisor's vehicle.",
+  firstAid: "Designated first aider present on site. First aid kit located in site office and main work vehicle.",
   emergencyProcedures: "In case of emergency, sound the alarm and evacuate to the designated assembly point.",
-  fireFighting: "Fire extinguishers are positioned at work areas and exit points.",
+  fireFighting: "CO2 and Water extinguishers available at egress points. Assembly point at Main Gate Car Park.",
   firstAider: "",
-  nearestHospital: "",
+  nearestHospital: "St. Mary's General Hospital, SE1 7EH",
+  emergencyContactName: "Sarah Jenkins",
+  emergencyContactNumber: "07700 900123",
+  environmentalControls: "Spill kits on standby. Drip trays under all static plant.",
+  wasteControls: "Segregated skips for general and hazardous waste. All rubble removed daily.",
 };
 
 export interface MethodStatementFinalApproval {
@@ -220,5 +228,6 @@ export const PPE_OPTIONS = [
   { id: "hard-hat", title: "Hard Hat" },
   { id: "hi-vis", title: "Hi-vis Clothing" },
   { id: "ear-protection", title: "Ear Protection" },
+  { id: "harness", title: "Harness / Fall Arrest" },
   { id: "other", title: "Other" },
 ];

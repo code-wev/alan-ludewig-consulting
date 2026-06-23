@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Edit2 } from "lucide-react";
-import type { MethodStatementDraft, MethodStatementFinalApproval, MethodStatementStepId } from "./types";
+import { PPE_OPTIONS, type MethodStatementDraft, type MethodStatementFinalApproval, type MethodStatementStepId } from "./types";
 
 interface ReviewGenerateStepProps {
   draft: MethodStatementDraft;
@@ -183,7 +183,7 @@ export function ReviewGenerateStep({
           </div>
         </div>
 
-        {/* Card 5: PPE &amp; Emergency */}
+        {/* Card 5: PPE & Emergency */}
         <div className="flex flex-col p-6 bg-white border border-[#E3E6EC] rounded-xl gap-4">
           <div className="flex justify-between items-center pb-2 border-b border-[#E3E6EC]">
             <h3 className="text-base font-bold text-[#132651]">PPE &amp; Emergency</h3>
@@ -194,22 +194,44 @@ export function ReviewGenerateStep({
           </div>
           <div className="flex flex-col gap-3 text-sm">
             <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Required PPE:</span>
-              <p className="text-brand-primary font-bold">{ppeEmergency.selectedPpe.join(", ") || "None selected"}</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">First Aid Arrangements:</span>
-              <p className="text-brand-primary">{ppeEmergency.firstAid || "N/A"}</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Evacuation &amp; Rescue:</span>
-              <p className="text-brand-primary">{ppeEmergency.emergencyProcedures || "N/A"}</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-[#5A6886] font-semibold">Hospital &amp; First Aider:</span>
-              <p className="text-brand-primary">
-                First Aider: {ppeEmergency.firstAider || "N/A"} | Hospital: {ppeEmergency.nearestHospital || "N/A"}
+              <span className="text-[#5A6886] font-semibold font-inter">Required PPE:</span>
+              <p className="text-brand-primary font-bold font-inter">
+                {ppeEmergency.selectedPpe
+                  .map((id) => PPE_OPTIONS.find((o) => o.id === id)?.title || id)
+                  .join(", ") || "None selected"}
               </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-1">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[#5A6886] font-semibold text-xs font-inter">Contact Name:</span>
+                <p className="text-brand-primary text-xs font-inter font-semibold">{ppeEmergency.emergencyContactName || "N/A"}</p>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[#5A6886] font-semibold text-xs font-inter">Contact Number:</span>
+                <p className="text-brand-primary text-xs font-inter font-semibold">{ppeEmergency.emergencyContactNumber || "N/A"}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[#5A6886] font-semibold font-inter">First Aid Arrangements:</span>
+              <p className="text-brand-primary font-inter">{ppeEmergency.firstAid || "N/A"}</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[#5A6886] font-semibold font-inter">Fire Arrangements:</span>
+              <p className="text-brand-primary font-inter">{ppeEmergency.fireFighting || "N/A"}</p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[#5A6886] font-semibold font-inter">Nearest Hospital / A&E:</span>
+              <p className="text-brand-primary font-inter">{ppeEmergency.nearestHospital || "N/A"}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 border-t border-[#F3F5F8] pt-2 mt-1">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[#5A6886] font-semibold text-xs font-inter">Environmental Controls:</span>
+                <p className="text-brand-primary text-xs font-inter">{ppeEmergency.environmentalControls || "N/A"}</p>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[#5A6886] font-semibold text-xs font-inter">Waste Controls:</span>
+                <p className="text-brand-primary text-xs font-inter">{ppeEmergency.wasteControls || "N/A"}</p>
+              </div>
             </div>
           </div>
         </div>
