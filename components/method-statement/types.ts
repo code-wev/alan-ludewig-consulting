@@ -34,7 +34,7 @@ export const INITIAL_PROJECT_DETAILS: MethodStatementProjectDetails = {
   workActivity: "",
   preparedBy: "Alan Ludewig",
   approvedBy: "",
-  plannedStartDate: "2026-06-23",
+  plannedStartDate: "",
   estimatedDuration: "",
   numberOfOperatives: "",
 };
