@@ -33,15 +33,58 @@ export function StepJobDetails({
                   Project/Reference
                 </label>
                 <div className="relative">
+                  <select
+                    value={
+                      ["London Bridge Refurbishment", "Riverside Apartments", "Wembley Retail Fit-Out", "Camden School Extension", "Manchester Depot Upgrade", ""].includes(jobDetails.projectName)
+                        ? jobDetails.projectName
+                        : "custom"
+                    }
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === "custom") {
+                        onFieldChange("projectName", "New Project");
+                      } else {
+                        onFieldChange("projectName", val);
+                        // Auto-fill details
+                        if (val === "London Bridge Refurbishment") {
+                          onFieldChange("clientPrincipalContractor", "City Commercial Developments Ltd");
+                          onFieldChange("siteAddress", "Southwark, London SE1 9AL");
+                        } else if (val === "Riverside Apartments") {
+                          onFieldChange("clientPrincipalContractor", "Greenwich Housing Association");
+                          onFieldChange("siteAddress", "Greenwich, London SE10 0ER");
+                        } else if (val === "Wembley Retail Fit-Out") {
+                          onFieldChange("clientPrincipalContractor", "Wembley Retail Park Ltd");
+                          onFieldChange("siteAddress", "Brent, London HA9 0WS");
+                        } else if (val === "Camden School Extension") {
+                          onFieldChange("clientPrincipalContractor", "Camden Borough Council");
+                          onFieldChange("siteAddress", "Camden, London NW1 8NH");
+                        } else if (val === "Manchester Depot Upgrade") {
+                          onFieldChange("clientPrincipalContractor", "Manchester Logistics Ltd");
+                          onFieldChange("siteAddress", "Trafford, Manchester M17 1AB");
+                        }
+                      }
+                    }}
+                    className="h-10 w-full rounded-[6px] border border-[#d7dce5] bg-white px-3 text-[14px] text-brand-primary outline-none transition focus:border-brand-primary appearance-none pr-10 cursor-pointer"
+                  >
+                    <option value="">Select existing project...</option>
+                    <option value="London Bridge Refurbishment">London Bridge Refurbishment</option>
+                    <option value="Riverside Apartments">Riverside Apartments</option>
+                    <option value="Wembley Retail Fit-Out">Wembley Retail Fit-Out</option>
+                    <option value="Camden School Extension">Camden School Extension</option>
+                    <option value="Manchester Depot Upgrade">Manchester Depot Upgrade</option>
+                    <option value="custom">-- Custom / Other Project --</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-[#8a96ab] pointer-events-none" />
+                </div>
+                {!["London Bridge Refurbishment", "Riverside Apartments", "Wembley Retail Fit-Out", "Camden School Extension", "Manchester Depot Upgrade", ""].includes(jobDetails.projectName) && (
                   <input
                     type="text"
                     value={jobDetails.projectName}
                     onChange={(e) => onFieldChange("projectName", e.target.value)}
-                    placeholder="Select existing project..."
-                    className="h-10 w-full rounded-[6px] border border-[#d7dce5] bg-white pl-3 pr-10 text-[14px] text-brand-primary outline-none transition placeholder:text-[#8a96ab] focus:border-brand-primary"
+                    placeholder="Enter custom project name..."
+                    className="h-10 w-full rounded-[6px] border border-[#d7dce5] bg-white px-3 text-[14px] text-brand-primary outline-none transition placeholder:text-[#8a96ab] focus:border-brand-primary mt-2"
                   />
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-[#8a96ab] pointer-events-none" />
-                </div>
+                )}
               </div>
 
               {/* Client/Company Name */}
