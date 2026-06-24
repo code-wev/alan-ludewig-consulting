@@ -83,7 +83,7 @@ export function useRamsBuilder() {
       return;
     }
     if (title === 'Method Statement') {
-      router.push('/method-statement');
+      router.push('/rams-builder/method-statement');
       return;
     }
 
