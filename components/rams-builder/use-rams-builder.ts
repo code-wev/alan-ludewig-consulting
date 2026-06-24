@@ -86,6 +86,10 @@ export function useRamsBuilder() {
       router.push('/rams-builder/method-statement');
       return;
     }
+    if (title === 'Risk Assessment') {
+      router.push('/rams-builder/risk-assessment');
+      return;
+    }
 
     toast.message(`${title} builder flow coming next.`, {
       description:
