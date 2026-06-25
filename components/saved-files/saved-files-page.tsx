@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import {
   ChevronDown,
   ChevronRight,
@@ -33,12 +34,12 @@ import { SaveTemplateModal } from "./modals/save-template-modal";
 import { MoveFileModal } from "./modals/move-file-modal";
 import { EditFileModal } from "./modals/edit-file-modal";
 import { DeleteFileModal } from "./modals/delete-file-modal";
-import { ManageCategoriesModal } from "./modals/manage-categories-modal";
 
 const actionButtonClass =
   "h-[34px] rounded-[6px] border-[#132651] px-4 text-[12px] font-medium text-[#132651] shadow-none";
 
 export function SavedFilesPage() {
+  const router = useRouter();
   const state = useSavedFiles();
   const {
     activeTab,
@@ -65,7 +66,6 @@ export function SavedFilesPage() {
     openMoveFileModal,
     openEditFileModal,
     openDeleteFileModal,
-    openManageCategoriesModal,
     projectOptions,
     categoryOptions,
     formatOptions,
@@ -158,7 +158,7 @@ export function SavedFilesPage() {
                   variant="outline"
                   onClick={
                     label === "Manage Categories"
-                      ? openManageCategoriesModal
+                      ? () => router.push("/my-saved-files/manage-categories")
                       : label === "Add Category"
                         ? openAddCategoryModal
                         : label === "Save Template Copy"
@@ -462,7 +462,6 @@ export function SavedFilesPage() {
       <MoveFileModal state={state} />
       <EditFileModal state={state} />
       <DeleteFileModal state={state} />
-      <ManageCategoriesModal state={state} />
     </div>
   );
 }

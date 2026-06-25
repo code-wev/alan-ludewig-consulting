@@ -30,8 +30,6 @@ export function useSavedFiles() {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false);
   const [isEditFileModalOpen, setIsEditFileModalOpen] = useState(false);
   const [isDeleteFileModalOpen, setIsDeleteFileModalOpen] = useState(false);
-  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] =
-    useState(false);
   const [moveFileTarget, setMoveFileTarget] = useState<SavedFile | null>(null);
   const [editFileTarget, setEditFileTarget] = useState<SavedFile | null>(null);
   const [deleteFileTarget, setDeleteFileTarget] = useState<SavedFile | null>(
@@ -79,11 +77,6 @@ export function useSavedFiles() {
   const [editFileError, setEditFileError] = useState("");
   const [confirmDeleteFile, setConfirmDeleteFile] = useState(false);
   const [deleteFileError, setDeleteFileError] = useState("");
-  const [manageCategorySearch, setManageCategorySearch] = useState("");
-  const [manageCategoryTypeFilter, setManageCategoryTypeFilter] =
-    useState("All Categories");
-  const [manageCategoryStatusFilter, setManageCategoryStatusFilter] =
-    useState("All Status");
 
   useEffect(() => {
     if (
@@ -91,8 +84,7 @@ export function useSavedFiles() {
       !isSaveTemplateModalOpen &&
       !isMoveFileModalOpen &&
       !isEditFileModalOpen &&
-      !isDeleteFileModalOpen &&
-      !isManageCategoriesModalOpen
+      !isDeleteFileModalOpen
     ) {
       return;
     }
@@ -107,7 +99,6 @@ export function useSavedFiles() {
         setIsMoveFileModalOpen(false);
         setIsEditFileModalOpen(false);
         setIsDeleteFileModalOpen(false);
-        setIsManageCategoriesModalOpen(false);
       }
     };
 
@@ -123,7 +114,6 @@ export function useSavedFiles() {
     isMoveFileModalOpen,
     isEditFileModalOpen,
     isDeleteFileModalOpen,
-    isManageCategoriesModalOpen,
   ]);
 
   const filteredFiles = FILES.filter((file) => {
@@ -272,22 +262,6 @@ export function useSavedFiles() {
     setDeleteFileTarget(null);
   };
 
-  const openManageCategoriesModal = () => {
-    setManageCategorySearch("");
-    setManageCategoryTypeFilter("All Categories");
-    setManageCategoryStatusFilter("All Status");
-    setIsManageCategoriesModalOpen(true);
-  };
-
-  const closeManageCategoriesModal = () => {
-    setIsManageCategoriesModalOpen(false);
-  };
-
-  const handleOpenCategoryModalFromManage = () => {
-    closeManageCategoriesModal();
-    openAddCategoryModal();
-  };
-
   const handleOpenCategoryModalFromSaveTemplate = () => {
     setReturnToSaveTemplateAfterCategory(true);
     closeSaveTemplateModal();
@@ -395,45 +369,6 @@ export function useSavedFiles() {
     "Sort: Oldest First",
     "Sort: Name A-Z",
   ];
-  const manageCategoryTypeOptions = [
-    "All Categories",
-    ...Array.from(
-      new Set(
-        categories.map((category) => category.type ?? "General Documents"),
-      ),
-    ),
-  ];
-  const manageCategoryStatusOptions = ["All Status", "Active", "Archived"];
-  const managedCategories = categories
-    .map((category, index) => ({
-      ...category,
-      type:
-        category.type ??
-        ["Regulatory", "Internal", "Vendor", "Operational"][index % 4],
-      projectLocation:
-        category.projectLocation ??
-        ["Global Standard", "London HQ", "Fleet Management", "Compliance Team"][
-          index % 4
-        ],
-      filesSaved: FILES.filter((file) => file.category === category.name)
-        .length,
-      status: category.status ?? (index % 4 === 3 ? "Archived" : "Active"),
-    }))
-    .filter((category) => {
-      const matchesSearch =
-        manageCategorySearch.trim().length === 0 ||
-        category.name
-          .toLowerCase()
-          .includes(manageCategorySearch.trim().toLowerCase());
-      const matchesType =
-        manageCategoryTypeFilter === "All Categories" ||
-        category.type === manageCategoryTypeFilter;
-      const matchesStatus =
-        manageCategoryStatusFilter === "All Status" ||
-        category.status === manageCategoryStatusFilter;
-
-      return matchesSearch && matchesType && matchesStatus;
-    });
 
   return {
     activeTab,
@@ -464,8 +399,6 @@ export function useSavedFiles() {
     setIsEditFileModalOpen,
     isDeleteFileModalOpen,
     setIsDeleteFileModalOpen,
-    isManageCategoriesModalOpen,
-    setIsManageCategoriesModalOpen,
     moveFileTarget,
     setMoveFileTarget,
     editFileTarget,
@@ -530,12 +463,6 @@ export function useSavedFiles() {
     setConfirmDeleteFile,
     deleteFileError,
     setDeleteFileError,
-    manageCategorySearch,
-    setManageCategorySearch,
-    manageCategoryTypeFilter,
-    setManageCategoryTypeFilter,
-    manageCategoryStatusFilter,
-    setManageCategoryStatusFilter,
     filteredFiles,
     allVisibleSelected,
     toggleSelection,
@@ -550,9 +477,6 @@ export function useSavedFiles() {
     closeEditFileModal,
     openDeleteFileModal,
     closeDeleteFileModal,
-    openManageCategoriesModal,
-    closeManageCategoriesModal,
-    handleOpenCategoryModalFromManage,
     handleOpenCategoryModalFromSaveTemplate,
     handleCreateCategory,
     handleSaveTemplateCopy,
@@ -564,8 +488,5 @@ export function useSavedFiles() {
     formatOptions,
     sourceOptions,
     sortOptions,
-    manageCategoryTypeOptions,
-    manageCategoryStatusOptions,
-    managedCategories,
   };
 }
