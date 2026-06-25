@@ -9,6 +9,7 @@ import {
   TEMPLATE_COPY_PREVIEW,
   TABS,
   SavedFile,
+  CategoryEntry,
 } from "./types";
 import { filterByTab, slugifyCategoryName } from "./utils";
 
@@ -24,12 +25,14 @@ export function useSavedFiles() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+  const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] = useState(false);
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false);
   const [isEditFileModalOpen, setIsEditFileModalOpen] = useState(false);
   const [isDeleteFileModalOpen, setIsDeleteFileModalOpen] = useState(false);
   const [moveFileTarget, setMoveFileTarget] = useState<SavedFile | null>(null);
   const [editFileTarget, setEditFileTarget] = useState<SavedFile | null>(null);
+  const [editCategoryTarget, setEditCategoryTarget] = useState<CategoryEntry | null>(null);
   const [deleteFileTarget, setDeleteFileTarget] = useState<SavedFile | null>(
     null,
   );
@@ -48,6 +51,24 @@ export function useSavedFiles() {
   const [newCategoryAutoMove, setNewCategoryAutoMove] = useState(false);
   const [newCategoryShowInForms, setNewCategoryShowInForms] = useState(false);
   const [categoryError, setCategoryError] = useState("");
+
+  const [editCategoryName, setEditCategoryName] = useState("");
+  const [editCategoryDescription, setEditCategoryDescription] = useState("");
+  const [editCategoryParent, setEditCategoryParent] = useState<string>("None");
+  const [editCategoryDefaultFileType, setEditCategoryDefaultFileType] = useState<string>("General Document");
+  const [editCategoryAccessLevel, setEditCategoryAccessLevel] = useState<string>("Team (Department Wide)");
+  const [editCategoryStatus, setEditCategoryStatus] = useState<"Active" | "Archived">("Active");
+  const [editCategoryIcon, setEditCategoryIcon] = useState<string>(
+    CATEGORY_ICON_OPTIONS[0].id,
+  );
+  const [editCategoryColor, setEditCategoryColor] = useState<string>(
+    CATEGORY_COLOR_OPTIONS[0],
+  );
+  const [editCategoryAutoMove, setEditCategoryAutoMove] = useState(false);
+  const [editCategoryShowInForms, setEditCategoryShowInForms] = useState(false);
+  const [editCategoryAllowSubcategories, setEditCategoryAllowSubcategories] = useState(false);
+  const [editCategoryMoveExisting, setEditCategoryMoveExisting] = useState(false);
+  const [editCategoryError, setEditCategoryError] = useState("");
   const [saveTemplateCategory, setSaveTemplateCategory] =
     useState("Select category");
   const [saveTemplateProjectLocation, setSaveTemplateProjectLocation] =
@@ -79,6 +100,7 @@ export function useSavedFiles() {
   useEffect(() => {
     if (
       !isAddCategoryModalOpen &&
+      !isEditCategoryModalOpen &&
       !isSaveTemplateModalOpen &&
       !isMoveFileModalOpen &&
       !isEditFileModalOpen &&
@@ -93,6 +115,7 @@ export function useSavedFiles() {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsAddCategoryModalOpen(false);
+        setIsEditCategoryModalOpen(false);
         setIsSaveTemplateModalOpen(false);
         setIsMoveFileModalOpen(false);
         setIsEditFileModalOpen(false);
@@ -108,6 +131,7 @@ export function useSavedFiles() {
     };
   }, [
     isAddCategoryModalOpen,
+    isEditCategoryModalOpen,
     isSaveTemplateModalOpen,
     isMoveFileModalOpen,
     isEditFileModalOpen,
@@ -209,6 +233,30 @@ export function useSavedFiles() {
     setIsAddCategoryModalOpen(false);
     setCategoryError("");
     setReturnToSaveTemplateAfterCategory(false);
+  };
+
+  const openEditCategoryModal = (category: CategoryEntry) => {
+    setEditCategoryTarget(category);
+    setEditCategoryName(category.name);
+    setEditCategoryDescription(category.description || "");
+    setEditCategoryParent(category.parent || "None");
+    setEditCategoryDefaultFileType(category.defaultFileType || "General Document");
+    setEditCategoryAccessLevel(category.accessLevel || "Team (Department Wide)");
+    setEditCategoryStatus(category.status || "Active");
+    setEditCategoryIcon(category.icon || CATEGORY_ICON_OPTIONS[0].id);
+    setEditCategoryColor(category.color || CATEGORY_COLOR_OPTIONS[0]);
+    setEditCategoryAutoMove(category.autoMove || false);
+    setEditCategoryShowInForms(category.showInForms || false);
+    setEditCategoryAllowSubcategories(false);
+    setEditCategoryMoveExisting(false);
+    setEditCategoryError("");
+    setIsEditCategoryModalOpen(true);
+  };
+
+  const closeEditCategoryModal = () => {
+    setIsEditCategoryModalOpen(false);
+    setEditCategoryError("");
+    setEditCategoryTarget(null);
   };
 
   const closeSaveTemplateModal = () => {
@@ -313,6 +361,38 @@ export function useSavedFiles() {
       setReturnToSaveTemplateAfterCategory(false);
     }
     closeAddCategoryModal();
+  };
+
+  const handleSaveEditedCategory = () => {
+    const trimmedName = editCategoryName.trim();
+    if (!trimmedName) {
+      setEditCategoryError("Category name is required.");
+      return;
+    }
+
+    if (!editCategoryTarget) return;
+
+    setCategories((current) =>
+      current.map((category) =>
+        category.id === editCategoryTarget.id
+          ? {
+              ...category,
+              name: trimmedName,
+              description: editCategoryDescription.trim(),
+              parent: editCategoryParent,
+              defaultFileType: editCategoryDefaultFileType,
+              accessLevel: editCategoryAccessLevel,
+              status: editCategoryStatus,
+              icon: editCategoryIcon,
+              color: editCategoryColor,
+              autoMove: editCategoryAutoMove,
+              showInForms: editCategoryShowInForms,
+            }
+          : category
+      )
+    );
+
+    closeEditCategoryModal();
   };
 
   const handleSaveTemplateCopy = () => {
@@ -432,6 +512,41 @@ export function useSavedFiles() {
     setNewCategoryShowInForms,
     categoryError,
     setCategoryError,
+
+    isEditCategoryModalOpen,
+    setIsEditCategoryModalOpen,
+    editCategoryTarget,
+    setEditCategoryTarget,
+    editCategoryName,
+    setEditCategoryName,
+    editCategoryDescription,
+    setEditCategoryDescription,
+    editCategoryParent,
+    setEditCategoryParent,
+    editCategoryDefaultFileType,
+    setEditCategoryDefaultFileType,
+    editCategoryAccessLevel,
+    setEditCategoryAccessLevel,
+    editCategoryStatus,
+    setEditCategoryStatus,
+    editCategoryIcon,
+    setEditCategoryIcon,
+    editCategoryColor,
+    setEditCategoryColor,
+    editCategoryAutoMove,
+    setEditCategoryAutoMove,
+    editCategoryShowInForms,
+    setEditCategoryShowInForms,
+    editCategoryAllowSubcategories,
+    setEditCategoryAllowSubcategories,
+    editCategoryMoveExisting,
+    setEditCategoryMoveExisting,
+    editCategoryError,
+    setEditCategoryError,
+    openEditCategoryModal,
+    closeEditCategoryModal,
+    handleSaveEditedCategory,
+
     saveTemplateCategory,
     setSaveTemplateCategory,
     saveTemplateProjectLocation,

@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { useManageCategories } from "./use-manage-categories";
 import { useSavedFiles } from "../use-saved-files";
 import { AddCategoryModal } from "../modals/add-category-modal";
+import { EditCategoryModal } from "../modals/edit-category-modal";
 
 const CATEGORY_TABLE_COLUMN_LAYOUT =
   "minmax(280px, 1fr) minmax(130px, 144px) minmax(110px, 131px) minmax(110px, 125px) minmax(110px, 150px) minmax(112px, 112px)";
@@ -247,6 +248,7 @@ export function ManageCategoriesPage() {
                           </button>
                           <button
                             type="button"
+                            onClick={() => savedFilesState.openEditCategoryModal(category)}
                             className="flex size-7 items-center justify-center rounded-lg text-[#16a34a] transition hover:bg-[#eefbf2]"
                             aria-label={`Edit category ${category.name}`}
                           >
@@ -308,6 +310,7 @@ export function ManageCategoriesPage() {
       </section>
 
       <AddCategoryModal state={savedFilesState} />
+      <EditCategoryModal state={savedFilesState} />
     </div>
   );
 }
