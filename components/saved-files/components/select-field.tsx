@@ -2,7 +2,7 @@ import React from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function SelectField({
+export function SelectField<T extends string>({
   id,
   value,
   onChange,
@@ -11,9 +11,9 @@ export function SelectField({
   selectClassName,
 }: {
   id?: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: string[];
+  value: T;
+  onChange: (value: T) => void;
+  options: readonly T[] | T[];
   className?: string;
   selectClassName?: string;
 }) {
@@ -22,7 +22,7 @@ export function SelectField({
       <select
         id={id}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => onChange(event.target.value as T)}
         className={cn(
           "h-9.5 w-full appearance-none rounded-[6px] border border-[#d7dce5] bg-white px-4 pr-10 text-[12px] text-brand-secondary outline-none transition focus:border-brand-primary",
           selectClassName,

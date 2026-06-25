@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import {
   FILES,
   INITIAL_CATEGORIES,
-  CATEGORY_TYPE_OPTIONS,
-  DEFAULT_LOCATION_OPTIONS,
   CATEGORY_ICON_OPTIONS,
   CATEGORY_COLOR_OPTIONS,
   TEMPLATE_COPY_PREVIEW,
@@ -37,18 +35,18 @@ export function useSavedFiles() {
   );
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryDescription, setNewCategoryDescription] = useState("");
-  const [newCategoryType, setNewCategoryType] = useState<string>(
-    CATEGORY_TYPE_OPTIONS[0],
-  );
-  const [newCategoryProjectLocation, setNewCategoryProjectLocation] =
-    useState<string>(DEFAULT_LOCATION_OPTIONS[0]);
+  const [newCategoryParent, setNewCategoryParent] = useState<string>("None");
+  const [newCategoryDefaultFileType, setNewCategoryDefaultFileType] = useState<string>("General Document");
+  const [newCategoryAccessLevel, setNewCategoryAccessLevel] = useState<string>("Team (Department Wide)");
+  const [newCategoryStatus, setNewCategoryStatus] = useState<"Active" | "Archived">("Active");
   const [selectedCategoryIcon, setSelectedCategoryIcon] = useState<string>(
     CATEGORY_ICON_OPTIONS[0].id,
   );
   const [selectedCategoryColor, setSelectedCategoryColor] = useState<string>(
     CATEGORY_COLOR_OPTIONS[0],
   );
-  const [isDefaultCategory, setIsDefaultCategory] = useState(false);
+  const [newCategoryAutoMove, setNewCategoryAutoMove] = useState(false);
+  const [newCategoryShowInForms, setNewCategoryShowInForms] = useState(false);
   const [categoryError, setCategoryError] = useState("");
   const [saveTemplateCategory, setSaveTemplateCategory] =
     useState("Select category");
@@ -182,14 +180,18 @@ export function useSavedFiles() {
   };
 
   const openAddCategoryModal = () => {
-    setCategoryError("");
     setNewCategoryName("");
     setNewCategoryDescription("");
-    setNewCategoryType(CATEGORY_TYPE_OPTIONS[0]);
-    setNewCategoryProjectLocation(DEFAULT_LOCATION_OPTIONS[0]);
+    setNewCategoryParent("None");
+    setNewCategoryDefaultFileType("General Document");
+    setNewCategoryAccessLevel("Team (Department Wide)");
+    setNewCategoryStatus("Active");
     setSelectedCategoryIcon(CATEGORY_ICON_OPTIONS[0].id);
     setSelectedCategoryColor(CATEGORY_COLOR_OPTIONS[0]);
-    setIsDefaultCategory(false);
+    setNewCategoryAutoMove(false);
+    setNewCategoryShowInForms(false);
+    setCategoryError("");
+    setReturnToSaveTemplateAfterCategory(false);
     setIsAddCategoryModalOpen(true);
   };
 
@@ -293,11 +295,14 @@ export function useSavedFiles() {
           slugifyCategoryName(trimmedName) || `category-${current.length + 1}`,
         name: trimmedName,
         description: trimmedDescription,
-        type: newCategoryType,
-        projectLocation: newCategoryProjectLocation,
+        parent: newCategoryParent,
+        defaultFileType: newCategoryDefaultFileType,
+        accessLevel: newCategoryAccessLevel,
+        status: newCategoryStatus,
         icon: selectedCategoryIcon,
         color: selectedCategoryColor,
-        isDefault: isDefaultCategory,
+        autoMove: newCategoryAutoMove,
+        showInForms: newCategoryShowInForms,
       },
     ]);
     setCategoryFilter(trimmedName);
@@ -409,16 +414,22 @@ export function useSavedFiles() {
     setNewCategoryName,
     newCategoryDescription,
     setNewCategoryDescription,
-    newCategoryType,
-    setNewCategoryType,
-    newCategoryProjectLocation,
-    setNewCategoryProjectLocation,
+    newCategoryParent,
+    setNewCategoryParent,
+    newCategoryDefaultFileType,
+    setNewCategoryDefaultFileType,
+    newCategoryAccessLevel,
+    setNewCategoryAccessLevel,
+    newCategoryStatus,
+    setNewCategoryStatus,
     selectedCategoryIcon,
     setSelectedCategoryIcon,
     selectedCategoryColor,
     setSelectedCategoryColor,
-    isDefaultCategory,
-    setIsDefaultCategory,
+    newCategoryAutoMove,
+    setNewCategoryAutoMove,
+    newCategoryShowInForms,
+    setNewCategoryShowInForms,
     categoryError,
     setCategoryError,
     saveTemplateCategory,

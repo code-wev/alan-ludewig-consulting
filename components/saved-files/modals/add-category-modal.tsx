@@ -1,19 +1,10 @@
 import { useSavedFiles } from "../use-saved-files";
 import React from "react";
-import {
-  Check,
-  CircleAlert,
-  X,
-} from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SelectField } from "../components/select-field";
-import {
-  CATEGORY_TYPE_OPTIONS,
-  DEFAULT_LOCATION_OPTIONS,
-  CATEGORY_ICON_OPTIONS,
-  CATEGORY_COLOR_OPTIONS,
-} from "../types";
+import { CATEGORY_ICON_OPTIONS, CATEGORY_COLOR_OPTIONS } from "../types";
 
 export function AddCategoryModal({
   state,
@@ -26,16 +17,22 @@ export function AddCategoryModal({
     setNewCategoryName,
     newCategoryDescription,
     setNewCategoryDescription,
-    newCategoryType,
-    setNewCategoryType,
-    newCategoryProjectLocation,
-    setNewCategoryProjectLocation,
+    newCategoryParent,
+    setNewCategoryParent,
+    newCategoryDefaultFileType,
+    setNewCategoryDefaultFileType,
+    newCategoryAccessLevel,
+    setNewCategoryAccessLevel,
+    newCategoryStatus,
+    setNewCategoryStatus,
     selectedCategoryIcon,
     setSelectedCategoryIcon,
     selectedCategoryColor,
     setSelectedCategoryColor,
-    isDefaultCategory,
-    setIsDefaultCategory,
+    newCategoryAutoMove,
+    setNewCategoryAutoMove,
+    newCategoryShowInForms,
+    setNewCategoryShowInForms,
     categoryError,
     setCategoryError,
     closeAddCategoryModal,
@@ -45,41 +42,36 @@ export function AddCategoryModal({
   if (!isAddCategoryModalOpen) return null;
 
   return (
-    <>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/28 px-4 py-6 backdrop-blur-[2px]"
+      onClick={closeAddCategoryModal}
+    >
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/28 px-4 py-6 backdrop-blur-[2px]"
-        onClick={closeAddCategoryModal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="add-category-title"
+        className="no-scrollbar max-h-[90vh] w-full max-w-223.5 overflow-y-auto rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white p-6 shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+        onClick={(event) => event.stopPropagation()}
       >
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="add-category-title"
-          aria-describedby="add-category-description"
-          className="w-full max-w-223.5 max-h-[90vh] overflow-y-auto no-scrollbar rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <div className="relative flex flex-col gap-6 px-6 py-6 md:px-6 md:py-6">
-            <div className="flex min-h-8 items-start pr-12">
-              <h2
-                id="add-category-title"
-                className="text-[20px] font-bold leading-[1.6] text-brand-primary"
-              >
-                Add New Category
-              </h2>
-              <p id="add-category-description" className="sr-only">
-                Create a personal category for your saved files.
-              </p>
-            </div>
-
+        <div className="relative flex flex-col gap-6">
+          <div className="flex items-start justify-between">
+            <h2
+              id="add-category-title"
+              className="text-[20px] font-bold leading-[1.6] text-brand-primary"
+            >
+              Add New Category
+            </h2>
             <button
               type="button"
               onClick={closeAddCategoryModal}
-              className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
+              className="flex size-8 items-center justify-center rounded-full text-brand-secondary transition hover:bg-[#f3f5f8] hover:text-brand-primary"
               aria-label="Close add category modal"
             >
               <X className="size-4.5" />
             </button>
+          </div>
 
+          <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-3">
               <label
                 htmlFor="category-name"
@@ -92,9 +84,7 @@ export function AddCategoryModal({
                 value={newCategoryName}
                 onChange={(event) => {
                   setNewCategoryName(event.target.value);
-                  if (categoryError) {
-                    setCategoryError("");
-                  }
+                  if (categoryError) setCategoryError("");
                 }}
                 placeholder="e.g. Monthly Safety Audits"
                 className={cn(
@@ -102,43 +92,49 @@ export function AddCategoryModal({
                   categoryError ? "border-[#d92d20]" : "border-[#e3e6ec]",
                 )}
               />
-              {categoryError ? (
+              {categoryError && (
                 <p className="text-[13px] font-medium text-[#b42318]">
                   {categoryError}
                 </p>
-              ) : null}
+              )}
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
               <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="category-type"
-                  className="text-[14px] leading-[1.6] text-brand-primary"
-                >
-                  Category Type
+                <label className="text-[14px] leading-[1.6] text-brand-primary">
+                  Parent Category
                 </label>
                 <SelectField
-                  id="category-type"
-                  value={newCategoryType}
-                  onChange={setNewCategoryType}
-                  options={[...CATEGORY_TYPE_OPTIONS]}
+                  id="parent-category"
+                  value={newCategoryParent}
+                  onChange={setNewCategoryParent}
+                  options={[
+                    "None",
+                    "Site Inspections",
+                    "Daily Logs",
+                    "Safety Checklists",
+                    "Risk Assessments",
+                  ]}
                   className="w-full"
                   selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="default-project-location"
-                  className="text-[14px] leading-[1.6] text-brand-primary"
-                >
-                  Default Project/Location
+                <label className="text-[14px] leading-[1.6] text-brand-primary">
+                  Default File Type
                 </label>
                 <SelectField
-                  id="default-project-location"
-                  value={newCategoryProjectLocation}
-                  onChange={setNewCategoryProjectLocation}
-                  options={[...DEFAULT_LOCATION_OPTIONS]}
+                  id="default-file-type"
+                  value={newCategoryDefaultFileType}
+                  onChange={setNewCategoryDefaultFileType}
+                  options={[
+                    "General Document",
+                    "Safety Policy",
+                    "Inspection Form",
+                    "Training Record",
+                    "RAMS",
+                  ]}
                   className="w-full"
                   selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
                 />
@@ -169,7 +165,7 @@ export function AddCategoryModal({
                 <p className="text-[14px] leading-[1.6] text-brand-primary">
                   Category Type
                 </p>
-                <div className="grid grid-cols-5 gap-2 sm:w-max">
+                <div className="flex flex-wrap gap-2 rounded-[6px]">
                   {CATEGORY_ICON_OPTIONS.map(({ id, icon: Icon, label }) => {
                     const isSelected = selectedCategoryIcon === id;
                     return (
@@ -195,9 +191,9 @@ export function AddCategoryModal({
 
               <div className="flex flex-col gap-2">
                 <p className="text-[14px] leading-[1.6] text-brand-primary">
-                  Default Project/Location
+                  Category Appearance
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex h-8 flex-wrap items-center gap-2">
                   {CATEGORY_COLOR_OPTIONS.map((color) => {
                     const isSelected = selectedCategoryColor === color;
                     return (
@@ -210,7 +206,7 @@ export function AddCategoryModal({
                         className={cn(
                           "relative flex size-8 items-center justify-center rounded-[6px]",
                           isSelected
-                            ? "ring-2 ring-white ring-offset-2 ring-offset-brand-primary outline-2 outline-brand-primary"
+                            ? "outline-2 outline-brand-primary ring-2 ring-white ring-offset-2 ring-offset-brand-primary"
                             : "",
                         )}
                         style={{ backgroundColor: color }}
@@ -223,41 +219,103 @@ export function AddCategoryModal({
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setIsDefaultCategory((current) => !current)}
-              className="flex items-center gap-2 py-2 text-left"
-              role="checkbox"
-              aria-checked={isDefaultCategory}
-            >
-              <span
-                className={cn(
-                  "flex size-5 items-center justify-center rounded-lg border transition",
-                  isDefaultCategory
-                    ? "border-brand-primary bg-brand-primary text-white"
-                    : "border-[#e3e6ec] bg-white text-transparent",
-                )}
-              >
-                <Check className="size-3.5" />
-              </span>
-              <span className="text-[14px] leading-[1.6] text-brand-secondary">
-                Set this as my default save category
-              </span>
-            </button>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <label className="text-[14px] leading-[1.6] text-brand-primary">
+                  Access Level
+                </label>
+                <SelectField
+                  id="access-level"
+                  value={newCategoryAccessLevel}
+                  onChange={setNewCategoryAccessLevel}
+                  options={[
+                    "Team (Department Wide)",
+                    "Company Wide",
+                    "Private",
+                  ]}
+                  className="w-full"
+                  selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
+                />
+              </div>
 
-            <div className="flex items-start gap-4 rounded-[8px] border border-[rgba(173,198,255,0.5)] bg-[#e4ebfe] px-4.25 py-4.25">
-              <CircleAlert className="mt-0.5 size-5 shrink-0 text-brand-primary" />
-              <p className="text-[14px] leading-[1.6] text-brand-primary">
-                Personal categories are only visible to your account. Global
-                organization settings will not be affected by these changes.
-              </p>
+              <div className="flex flex-col gap-2">
+                <label className="text-[14px] leading-[1.6] text-brand-primary">
+                  Status
+                </label>
+                <SelectField
+                  id="status"
+                  value={newCategoryStatus}
+                  onChange={setNewCategoryStatus}
+                  options={["Active", "Archived"]}
+                  className="w-full"
+                  selectClassName="h-[51px] rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-primary"
+                />
+              </div>
             </div>
 
-            <div className="pt-1">
+            <div className="flex flex-col">
+              <button
+                type="button"
+                onClick={() => setNewCategoryAutoMove(!newCategoryAutoMove)}
+                className="group flex items-center gap-2 py-5 text-left"
+                role="checkbox"
+                aria-checked={newCategoryAutoMove}
+              >
+                <span
+                  className={cn(
+                    "flex size-5 shrink-0 items-center justify-center rounded-lg border transition",
+                    newCategoryAutoMove
+                      ? "border-brand-primary bg-brand-primary text-white"
+                      : "border-[#e3e6ec] bg-white text-transparent group-hover:border-[#c7d0e1]",
+                  )}
+                >
+                  <Check className="size-3.5" />
+                </span>
+                <div className="flex flex-col">
+                  <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                    Automatically move matching future documents
+                  </span>
+                  <span className="text-[14px] leading-[1.6] text-brand-secondary">
+                    Rules-based sorting for newly uploaded safety files.
+                  </span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setNewCategoryShowInForms(!newCategoryShowInForms)
+                }
+                className="group flex items-center gap-2 py-5 text-left"
+                role="checkbox"
+                aria-checked={newCategoryShowInForms}
+              >
+                <span
+                  className={cn(
+                    "flex size-5 shrink-0 items-center justify-center rounded-lg border transition",
+                    newCategoryShowInForms
+                      ? "border-brand-primary bg-brand-primary text-white"
+                      : "border-[#e3e6ec] bg-white text-transparent group-hover:border-[#c7d0e1]",
+                  )}
+                >
+                  <Check className="size-3.5" />
+                </span>
+                <div className="flex flex-col">
+                  <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                    Show this category in My Forms / Inspections
+                  </span>
+                  <span className="text-[14px] leading-[1.6] text-brand-secondary">
+                    Make visible in the mobile inspection application.
+                  </span>
+                </div>
+              </button>
+            </div>
+
+            <div className="pt-2">
               <Button
                 type="button"
                 onClick={handleCreateCategory}
-                className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]"
+                className="h-8.5 w-30 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]"
               >
                 Create Category
               </Button>
@@ -265,6 +323,6 @@ export function AddCategoryModal({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -3,17 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import {
-  Archive,
   ChevronRight,
   CircleAlert,
   Clock,
   FileCheck2,
   FileWarning,
-  FolderInput,
   FolderKanban,
   Pencil,
-  Search,
-  Trash2,
   SlidersHorizontal,
   Download,
   Eye,
@@ -22,6 +18,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useManageCategories } from "./use-manage-categories";
+import { useSavedFiles } from "../use-saved-files";
+import { AddCategoryModal } from "../modals/add-category-modal";
 
 const CATEGORY_TABLE_COLUMN_LAYOUT =
   "minmax(280px, 1fr) minmax(130px, 144px) minmax(110px, 131px) minmax(110px, 125px) minmax(110px, 150px) minmax(112px, 112px)";
@@ -61,6 +59,8 @@ export function ManageCategoriesPage() {
     filteredCategories,
   } = useManageCategories();
 
+  const savedFilesState = useSavedFiles();
+
   return (
     <div className="flex flex-col gap-6 text-brand-primary">
       <div className="flex items-center gap-1.5 text-[12px] text-brand-secondary">
@@ -83,7 +83,10 @@ export function ManageCategoriesPage() {
           </p>
         </div>
         <div className="flex shrink-0">
-          <Button className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-medium text-white hover:bg-[#0d1b3a]">
+          <Button
+            onClick={savedFilesState.openAddCategoryModal}
+            className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-medium text-white hover:bg-[#0d1b3a]"
+          >
             Add New Category
           </Button>
         </div>
@@ -156,7 +159,7 @@ export function ManageCategoriesPage() {
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <div className="flex items-center justify-between">
             <h2 className="text-[20px] font-bold text-brand-primary">Category Directory</h2>
-            <Button variant="outline" className="size-7 rounded-[4px] border border-[#e3e6ec] p-0">
+            <Button variant="outline" className="size-7 rounded-lg border border-[#e3e6ec] p-0">
               <Download className="size-4.5 text-brand-primary" />
             </Button>
           </div>
@@ -271,9 +274,9 @@ export function ManageCategoriesPage() {
         </div>
 
         {/* Sidebar Tree Structure */}
-        <aside className="flex h-[510px] w-full shrink-0 flex-col overflow-hidden rounded-[12px] border border-[#e3e6ec] bg-white xl:max-w-[320px]">
+        <aside className="flex h-127.5 w-full shrink-0 flex-col overflow-hidden rounded-[12px] border border-[#e3e6ec] bg-white xl:max-w-[320px]">
           <div className="flex items-center justify-between border-b border-[#c5c6d0] px-4 py-4">
-            <h3 className="font-sans text-[16px] font-semibold leading-[24px] text-[#001137]">
+            <h3 className="font-sans text-[16px] font-semibold leading-6 text-[#001137]">
               Category Tree
             </h3>
             <button className="text-brand-secondary">
@@ -281,7 +284,7 @@ export function ManageCategoriesPage() {
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="mb-4 flex items-center justify-between rounded-[6px] border border-[#ba1a1a33] bg-[#ffdad633] p-[13px]">
+            <div className="mb-4 flex items-center justify-between rounded-[6px] border border-[#ba1a1a33] bg-[#ffdad633] p-3.25">
               <div className="flex items-center gap-2 text-[#d92d20]">
                 <FileWarning className="size-5" />
                 <span className="text-[12px] font-bold">Uncategorised Files</span>
@@ -303,6 +306,8 @@ export function ManageCategoriesPage() {
           </div>
         </aside>
       </section>
+
+      <AddCategoryModal state={savedFilesState} />
     </div>
   );
 }

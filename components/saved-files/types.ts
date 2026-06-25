@@ -27,12 +27,14 @@ export type CategoryEntry = {
   id: string;
   name: string;
   description: string;
-  type?: string;
-  projectLocation?: string;
+  parent?: string;
+  defaultFileType?: string;
+  accessLevel?: string;
   icon?: string;
   color?: string;
-  isDefault?: boolean;
   status?: "Active" | "Archived";
+  autoMove?: boolean;
+  showInForms?: boolean;
 };
 
 export const TABS = [
