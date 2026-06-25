@@ -14,30 +14,51 @@ import {
   Pencil,
   Search,
   Trash2,
+  SlidersHorizontal,
+  Download,
+  Eye,
+  MoreVertical,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { SelectField } from "../components/select-field";
 import { useManageCategories } from "./use-manage-categories";
 
 const CATEGORY_TABLE_COLUMN_LAYOUT =
-  "minmax(320px, 1fr) minmax(144px, 144px) minmax(131px, 131px) minmax(125px, 125px) minmax(150px, 150px) minmax(112px, 112px)";
+  "minmax(280px, 1fr) minmax(130px, 144px) minmax(110px, 131px) minmax(110px, 125px) minmax(110px, 150px) minmax(112px, 112px)";
+
+const CategoryTreeItem = ({
+  name,
+  count,
+  level = 0,
+  hasChildren = false,
+}: {
+  name: string;
+  count: number;
+  level?: number;
+  hasChildren?: boolean;
+}) => (
+  <div
+    className="flex items-center gap-2 rounded-sm py-2 pr-3 text-brand-primary transition hover:bg-[#f3f5f8]"
+    style={{ paddingLeft: `${level * 16 + 12}px` }}
+  >
+    {hasChildren ? (
+      <ChevronRight className="size-3.5 shrink-0 text-brand-secondary" />
+    ) : (
+      <div className="size-3.5 shrink-0" />
+    )}
+    <FolderKanban className="size-4 shrink-0 text-brand-secondary" />
+    <span className="flex-1 text-[14px] leading-[1.6] text-brand-primary">{name}</span>
+    <span className="text-[14px] leading-[1.6] text-brand-secondary">{count}</span>
+  </div>
+);
 
 export function ManageCategoriesPage() {
   const {
-    searchTerm,
-    setSearchTerm,
-    typeFilter,
-    setTypeFilter,
-    statusFilter,
-    setStatusFilter,
     selectedIds,
     toggleSelection,
     toggleSelectAll,
     allVisibleSelected,
     filteredCategories,
-    typeOptions,
-    statusOptions,
   } = useManageCategories();
 
   return (
@@ -130,157 +151,157 @@ export function ManageCategoriesPage() {
         </article>
       </section>
 
-      <section className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4 rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white p-4 shadow-[0_1px_1px_rgba(0,0,0,0.05)] xl:flex-row xl:items-center xl:justify-between">
-          <div className="relative w-full max-w-102">
-            <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-brand-secondary" />
-            <input
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search category name..."
-              className="h-9 w-full rounded-[6px] border border-[#e3e6ec] bg-white pl-11 pr-4 text-[14px] text-brand-primary outline-none transition placeholder:text-brand-secondary focus:border-brand-primary"
-            />
+      <section className="flex flex-col gap-8 xl:flex-row xl:items-start">
+        {/* Main Table Area */}
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-[20px] font-bold text-brand-primary">Category Directory</h2>
+            <Button variant="outline" className="size-7 rounded-[4px] border border-[#e3e6ec] p-0">
+              <Download className="size-4.5 text-brand-primary" />
+            </Button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <SelectField
-              value={typeFilter}
-              onChange={setTypeFilter}
-              options={typeOptions}
-              className="w-44.5"
-              selectClassName="h-9 rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-secondary"
-            />
-            <SelectField
-              value={statusFilter}
-              onChange={setStatusFilter}
-              options={statusOptions}
-              className="w-36.75"
-              selectClassName="h-9 rounded-[6px] border-[1.5px] border-[#e3e6ec] text-[14px] leading-[1.6] text-brand-secondary"
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <h2 className="text-[20px] font-bold text-brand-primary">Category Directory</h2>
-          <Button variant="outline" className="size-7 p-0 rounded-lg border border-[#e3e6ec]">
-            <Search className="size-4.5 text-brand-primary" />
-          </Button>
-        </div>
-
-        <div className="overflow-hidden rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_1px_1px_rgba(15,23,42,0.04)]">
-          <div className="overflow-x-auto">
-            <div className="min-w-250">
-              <div
-                className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] bg-[#d6e9ff] px-6 py-2.75"
-                style={{ gridTemplateColumns: CATEGORY_TABLE_COLUMN_LAYOUT }}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="flex w-12 justify-center px-3">
-                    <input
-                      type="checkbox"
-                      checked={allVisibleSelected}
-                      onChange={toggleSelectAll}
-                      aria-label="Select all visible categories"
-                      className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
-                    />
+          <div className="overflow-hidden rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white shadow-[0_1px_1px_rgba(15,23,42,0.04)]">
+            <div className="overflow-x-auto">
+              <div className="min-w-250">
+                <div
+                  className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] bg-[#d6e9ff] px-6 py-2.75"
+                  style={{ gridTemplateColumns: CATEGORY_TABLE_COLUMN_LAYOUT }}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex w-12 justify-center px-3">
+                      <input
+                        type="checkbox"
+                        checked={allVisibleSelected}
+                        onChange={toggleSelectAll}
+                        aria-label="Select all visible categories"
+                        className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
+                      />
+                    </div>
+                    <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
+                      Category Name
+                    </span>
                   </div>
-                  <span className="text-[14px] font-bold leading-[1.6] text-brand-primary">
-                    Category Name
-                  </span>
+                  {["Parent", "Files", "Created", "Status", "Actions"].map((heading) => (
+                    <span
+                      key={heading}
+                      className="text-[14px] font-bold leading-[1.6] text-brand-primary"
+                    >
+                      {heading}
+                    </span>
+                  ))}
                 </div>
-                {["Parent", "Files", "Created", "Status", "Actions"].map((heading) => (
-                  <span
-                    key={heading}
-                    className="text-[14px] font-bold leading-[1.6] text-brand-primary"
-                  >
-                    {heading}
-                  </span>
-                ))}
+
+                {filteredCategories.length > 0 ? (
+                  filteredCategories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] px-6 transition hover:bg-[#fafbfd]"
+                      style={{ gridTemplateColumns: CATEGORY_TABLE_COLUMN_LAYOUT }}
+                    >
+                      <div className="flex min-h-15.5 items-center gap-4">
+                        <div className="flex w-12 justify-center px-3">
+                          <input
+                            type="checkbox"
+                            checked={selectedIds.includes(category.id)}
+                            onChange={() => toggleSelection(category.id)}
+                            aria-label={`Select ${category.name}`}
+                            className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
+                          />
+                        </div>
+                        <span className="font-medium text-[16px] leading-[1.6] text-brand-primary">
+                          {category.name}
+                        </span>
+                      </div>
+
+                      <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                        {category.parent}
+                      </div>
+                      <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                        {category.filesSaved}
+                      </div>
+                      <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
+                        {category.createdAt}
+                      </div>
+                      <div className="py-4.5">
+                        <span
+                          className={cn(
+                            "inline-flex rounded-[6px] px-2.25 py-0.5 text-[12px] leading-[1.6] text-white",
+                            category.status === "Archived" ? "bg-[#a3acba]" : "bg-[#00bc7d]"
+                          )}
+                        >
+                          {category.status}
+                        </span>
+                      </div>
+                      <div className="py-4.5">
+                        <div className="flex h-7 items-center gap-2">
+                          <button
+                            type="button"
+                            className="flex size-7 items-center justify-center rounded-lg text-brand-primary transition hover:bg-[#f3f5f8]"
+                            aria-label={`View category ${category.name}`}
+                          >
+                            <Eye className="size-4.5" />
+                          </button>
+                          <button
+                            type="button"
+                            className="flex size-7 items-center justify-center rounded-lg text-[#16a34a] transition hover:bg-[#eefbf2]"
+                            aria-label={`Edit category ${category.name}`}
+                          >
+                            <Pencil className="size-4.5" />
+                          </button>
+                          <button
+                            type="button"
+                            className="flex size-7 items-center justify-center rounded-lg text-brand-primary transition hover:bg-[#f3f5f8]"
+                            aria-label={`More actions for ${category.name}`}
+                          >
+                            <MoreVertical className="size-4.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="px-6 py-16 text-center text-[14px] text-brand-secondary">
+                    No categories match the current filters.
+                  </div>
+                )}
               </div>
-
-              {filteredCategories.length > 0 ? (
-                filteredCategories.map((category) => (
-                  <div
-                    key={category.id}
-                    className="grid items-center gap-4 border-b-[1.5px] border-[#f3f5f8] px-6 transition hover:bg-[#fafbfd]"
-                    style={{ gridTemplateColumns: CATEGORY_TABLE_COLUMN_LAYOUT }}
-                  >
-                    <div className="flex min-h-15.5 items-center gap-4">
-                      <div className="flex w-12 justify-center px-3">
-                        <input
-                          type="checkbox"
-                          checked={selectedIds.includes(category.id)}
-                          onChange={() => toggleSelection(category.id)}
-                          aria-label={`Select ${category.name}`}
-                          className="size-3.5 rounded-lg border border-[#c5c6cd] accent-brand-primary"
-                        />
-                      </div>
-                      <span className="text-[16px] leading-[1.6] text-brand-primary font-medium">
-                        {category.name}
-                      </span>
-                    </div>
-
-                    <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
-                      {category.parent}
-                    </div>
-                    <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
-                      {category.filesSaved}
-                    </div>
-                    <div className="py-5 text-[14px] leading-[1.6] text-brand-secondary">
-                      {category.createdAt}
-                    </div>
-                    <div className="py-4.5">
-                      <span
-                        className={cn(
-                          "inline-flex rounded-[6px] px-2.25 py-0.5 text-[12px] leading-[1.6] text-white",
-                          category.status === "Archived" ? "bg-[#a3acba]" : "bg-[#00bc7d]"
-                        )}
-                      >
-                        {category.status}
-                      </span>
-                    </div>
-                    <div className="py-4.5">
-                      <div className="flex h-7 items-center gap-2">
-                        <button
-                          type="button"
-                          className="flex size-7 items-center justify-center rounded-lg text-[#16a34a] transition hover:bg-[#eefbf2]"
-                          aria-label={`Edit category ${category.name}`}
-                        >
-                          <Pencil className="size-4.5" />
-                        </button>
-                        <button
-                          type="button"
-                          className="flex size-7 items-center justify-center rounded-lg text-brand-primary transition hover:bg-[#f3f5f8]"
-                          aria-label={`Move category ${category.name}`}
-                        >
-                          <FolderInput className="size-4.5" />
-                        </button>
-                        <button
-                          type="button"
-                          className="flex size-7 items-center justify-center rounded-lg text-[#16a34a] transition hover:bg-[#eefbf2]"
-                          aria-label={`Archive category ${category.name}`}
-                        >
-                          <Archive className="size-4.5" />
-                        </button>
-                        <button
-                          type="button"
-                          className="flex size-7 items-center justify-center rounded-lg text-[#ef4444] transition hover:bg-[#fff1f2]"
-                          aria-label={`Delete category ${category.name}`}
-                        >
-                          <Trash2 className="size-4.5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="px-6 py-16 text-center text-[14px] text-brand-secondary">
-                  No categories match the current filters.
-                </div>
-              )}
             </div>
           </div>
         </div>
+
+        {/* Sidebar Tree Structure */}
+        <aside className="flex h-[510px] w-full shrink-0 flex-col overflow-hidden rounded-[12px] border border-[#e3e6ec] bg-white xl:max-w-[320px]">
+          <div className="flex items-center justify-between border-b border-[#c5c6d0] px-4 py-4">
+            <h3 className="font-sans text-[16px] font-semibold leading-[24px] text-[#001137]">
+              Category Tree
+            </h3>
+            <button className="text-brand-secondary">
+              <SlidersHorizontal className="size-4" />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="mb-4 flex items-center justify-between rounded-[6px] border border-[#ba1a1a33] bg-[#ffdad633] p-[13px]">
+              <div className="flex items-center gap-2 text-[#d92d20]">
+                <FileWarning className="size-5" />
+                <span className="text-[12px] font-bold">Uncategorised Files</span>
+              </div>
+              <span className="flex h-5 items-center justify-center rounded-[12px] bg-[#d92d20] px-2 text-[12px] text-white">
+                15
+              </span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <CategoryTreeItem name="Site Inspections" count={142} hasChildren />
+              <CategoryTreeItem name="Daily Logs" count={45} level={1} />
+              <CategoryTreeItem name="Safety Checklists" count={97} level={1} />
+              <CategoryTreeItem name="Risk Assessments" count={300} hasChildren />
+              <CategoryTreeItem name="Site A" count={150} level={1} />
+              <CategoryTreeItem name="Site B" count={150} level={1} />
+              <CategoryTreeItem name="Method Statements" count={85} />
+              <CategoryTreeItem name="COSHH Records" count={315} />
+            </div>
+          </div>
+        </aside>
       </section>
     </div>
   );
