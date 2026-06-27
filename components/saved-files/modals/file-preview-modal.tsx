@@ -120,7 +120,7 @@ export function FilePreviewModal({
             </div>
 
             {/* Canvas Area */}
-            <div className="relative flex flex-1 items-start justify-center overflow-auto p-8">
+            <div className="relative flex flex-1 items-start justify-center overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none p-8">
               {/* Document Mockup */}
               <div className="relative flex min-h-[842px] w-[595px] shrink-0 flex-col bg-white p-12 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
                 {/* Watermark */}
@@ -222,8 +222,9 @@ export function FilePreviewModal({
 
           {/* Right Panel (35%) - File Details */}
           <div className="flex w-[35%] flex-col border-l border-[#e3e6ec] bg-white">
-            <div className="flex flex-1 flex-col overflow-y-auto p-6">
-              <h3 className="mb-6 text-[14px] font-bold leading-[1.6] text-brand-primary">
+            <div className="flex flex-1 flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+              <div className="flex flex-col p-6">
+                <h3 className="mb-6 text-[14px] font-bold leading-[1.6] text-brand-primary">
                 File Details
               </h3>
 
@@ -337,41 +338,42 @@ export function FilePreviewModal({
                     </span>
                   </div>
                 </div>
-              </div>
-            </div>
+                  </div>
+                </div>
+              
+              <div className="flex shrink-0 flex-col gap-4 border-t border-[#e3e6ec] p-6">
+                <span className="text-[12px] leading-[1.6] text-brand-secondary">
+                  Actions
+                </span>
 
-            <div className="flex shrink-0 flex-col gap-4 border-t border-[#e3e6ec] p-6 pb-20">
-              <span className="text-[12px] leading-[1.6] text-brand-secondary">
-                Actions
-              </span>
-
-              <Button className="h-[34px] w-full rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
-                Download Document
-              </Button>
-
-              <div className="flex gap-2">
-                <Button className="flex h-[34px] flex-1 items-center justify-center gap-2.5 rounded-[6px] border border-brand-primary bg-white text-[12px] font-bold text-brand-primary hover:bg-[#f3f5f8]">
-                  <Pencil className="size-3.5" />
-                  Rename
+                <Button className="h-[34px] w-full rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Download Document
                 </Button>
-                <Button className="flex h-[34px] flex-1 items-center justify-center gap-2.5 rounded-[6px] border border-brand-primary bg-white text-[12px] font-bold text-brand-primary hover:bg-[#f3f5f8]">
-                  <FolderInput className="size-3.5" />
-                  Move
+
+                <div className="flex gap-2">
+                  <Button className="flex h-[34px] flex-1 items-center justify-center gap-2.5 rounded-[6px] border border-brand-primary bg-white text-[12px] font-bold text-brand-primary hover:bg-[#f3f5f8]">
+                    <Pencil className="size-3.5" />
+                    Rename
+                  </Button>
+                  <Button className="flex h-[34px] flex-1 items-center justify-center gap-2.5 rounded-[6px] border border-brand-primary bg-white text-[12px] font-bold text-brand-primary hover:bg-[#f3f5f8]">
+                    <FolderInput className="size-3.5" />
+                    Move
+                  </Button>
+                </div>
+
+                <Button className="flex h-[34px] w-full items-center justify-center gap-2.5 rounded-[6px] border border-brand-primary bg-white text-[12px] font-bold text-brand-primary hover:bg-[#f3f5f8]">
+                  <UploadCloud className="size-3.5" />
+                  Replace Version
                 </Button>
+
+                <button className="mt-2 flex items-center justify-center gap-2 text-[12px] font-bold leading-[1.6] text-[#d92d20] hover:text-red-700">
+                  <Trash2 className="size-3.5" />
+                  Delete Permanently
+                </button>
               </div>
-
-              <Button className="flex h-[34px] w-full items-center justify-center gap-2.5 rounded-[6px] border border-brand-primary bg-white text-[12px] font-bold text-brand-primary hover:bg-[#f3f5f8]">
-                <UploadCloud className="size-3.5" />
-                Replace Version
-              </Button>
-
-              <button className="mt-2 flex items-center justify-center gap-2 text-[12px] font-bold leading-[1.6] text-[#d92d20] hover:text-red-700">
-                <Trash2 className="size-3.5" />
-                Delete Permanently
-              </button>
             </div>
             
-            <div className="mt-auto flex h-[46px] items-center justify-between border-t border-[#e3e6ec] bg-[#f3f5f8] px-4 py-[13px]">
+            <div className="mt-auto flex h-[46px] shrink-0 items-center justify-between border-t border-[#e3e6ec] bg-[#f3f5f8] px-4 py-[13px]">
               <div className="flex items-center gap-2">
                 <Info className="size-3.5 text-brand-secondary" />
                 <span className="text-[11px] leading-[14px] text-[#45464f]">
