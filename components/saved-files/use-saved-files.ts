@@ -6,7 +6,6 @@ import {
   INITIAL_CATEGORIES,
   CATEGORY_ICON_OPTIONS,
   CATEGORY_COLOR_OPTIONS,
-  TEMPLATE_COPY_PREVIEW,
   TABS,
   SavedFile,
   CategoryEntry,
@@ -70,13 +69,19 @@ export function useSavedFiles() {
   const [editCategoryMoveExisting, setEditCategoryMoveExisting] = useState(false);
   const [editCategoryError, setEditCategoryError] = useState("");
   const [saveTemplateCategory, setSaveTemplateCategory] =
-    useState("Select category");
+    useState("Operations");
   const [saveTemplateProjectLocation, setSaveTemplateProjectLocation] =
-    useState<string>(TEMPLATE_COPY_PREVIEW.projectLocation);
+    useState<string>("Select project or site...");
+  const [saveTemplateName, setSaveTemplateName] = useState("Copy of Standard Site Induction V4");
+  const [saveTemplateTags, setSaveTemplateTags] = useState("");
+  const [saveTemplateAccessLevel, setSaveTemplateAccessLevel] = useState("Organization Wide");
   const [saveTemplateNotes, setSaveTemplateNotes] = useState("");
-  const [notifyOnDocumentUpdate, setNotifyOnDocumentUpdate] = useState(false);
-  const [saveLatestVersionByDefault, setSaveLatestVersionByDefault] =
-    useState(false);
+  
+  const [saveTemplateIncludeQuestions, setSaveTemplateIncludeQuestions] = useState(false);
+  const [saveTemplateIncludeBranding, setSaveTemplateIncludeBranding] = useState(false);
+  const [saveTemplateEditableDraft, setSaveTemplateEditableDraft] = useState(false);
+  const [saveTemplateNotifyTeam, setSaveTemplateNotifyTeam] = useState(false);
+  
   const [saveTemplateError, setSaveTemplateError] = useState("");
   const [
     returnToSaveTemplateAfterCategory,
@@ -220,11 +225,16 @@ export function useSavedFiles() {
   };
 
   const openSaveTemplateModal = () => {
-    setSaveTemplateCategory("Select category");
-    setSaveTemplateProjectLocation(TEMPLATE_COPY_PREVIEW.projectLocation);
+    setSaveTemplateCategory("Operations");
+    setSaveTemplateProjectLocation("Select project or site...");
+    setSaveTemplateName("Copy of Standard Site Induction V4");
+    setSaveTemplateTags("");
+    setSaveTemplateAccessLevel("Organization Wide");
     setSaveTemplateNotes("");
-    setNotifyOnDocumentUpdate(false);
-    setSaveLatestVersionByDefault(false);
+    setSaveTemplateIncludeQuestions(false);
+    setSaveTemplateIncludeBranding(false);
+    setSaveTemplateEditableDraft(false);
+    setSaveTemplateNotifyTeam(false);
     setSaveTemplateError("");
     setIsSaveTemplateModalOpen(true);
   };
@@ -551,12 +561,22 @@ export function useSavedFiles() {
     setSaveTemplateCategory,
     saveTemplateProjectLocation,
     setSaveTemplateProjectLocation,
+    saveTemplateName,
+    setSaveTemplateName,
+    saveTemplateTags,
+    setSaveTemplateTags,
+    saveTemplateAccessLevel,
+    setSaveTemplateAccessLevel,
     saveTemplateNotes,
     setSaveTemplateNotes,
-    notifyOnDocumentUpdate,
-    setNotifyOnDocumentUpdate,
-    saveLatestVersionByDefault,
-    setSaveLatestVersionByDefault,
+    saveTemplateIncludeQuestions,
+    setSaveTemplateIncludeQuestions,
+    saveTemplateIncludeBranding,
+    setSaveTemplateIncludeBranding,
+    saveTemplateEditableDraft,
+    setSaveTemplateEditableDraft,
+    saveTemplateNotifyTeam,
+    setSaveTemplateNotifyTeam,
     saveTemplateError,
     setSaveTemplateError,
     returnToSaveTemplateAfterCategory,
