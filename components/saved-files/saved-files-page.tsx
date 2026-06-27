@@ -30,6 +30,7 @@ import {
 import { formatLabelCount } from "./utils";
 
 import { AddCategoryModal } from "./modals/add-category-modal";
+import { EditCategoryModal } from "./modals/edit-category-modal";
 import { SaveTemplateModal } from "./modals/save-template-modal";
 import { MoveFileModal } from "./modals/move-file-modal";
 import { EditFileModal } from "./modals/edit-file-modal";
@@ -67,7 +68,7 @@ export function SavedFilesPage() {
     openSaveTemplateModal,
     openFilePreviewModal,
     openMoveFileModal,
-    openEditFileModal,
+    openEditCategoryModal,
     openDeleteFileModal,
     projectOptions,
     categoryOptions,
@@ -354,7 +355,19 @@ export function SavedFilesPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => openEditFileModal(file)}
+                        onClick={() => openEditCategoryModal({
+                          id: file.id,
+                          name: file.name,
+                          description: `File format: ${file.format}`,
+                          parent: file.category,
+                          defaultFileType: file.format,
+                          accessLevel: "All Team Members",
+                          icon: "file-text",
+                          color: "#132651",
+                          status: "Active",
+                          autoMove: false,
+                          showInForms: false,
+                        })}
                         className="flex size-7 items-center justify-center rounded-lg text-[#f97316] transition hover:bg-[#fff5eb]"
                         aria-label={`Edit ${file.name}`}
                       >
@@ -470,6 +483,7 @@ export function SavedFilesPage() {
       <UploadFileModal state={state} />
       <FilePreviewModal state={state} />
       <EditFileModal state={state} />
+      <EditCategoryModal state={state} />
       <DeleteFileModal state={state} />
     </div>
   );

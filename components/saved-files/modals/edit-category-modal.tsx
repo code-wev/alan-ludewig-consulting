@@ -1,6 +1,6 @@
 import { useSavedFiles } from "../use-saved-files";
 import React from "react";
-import { Check, X, FileBadge2, Clock } from "lucide-react";
+import { Check, X, FileBadge2, Clock, FolderInput } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SelectField } from "../components/select-field";
@@ -62,7 +62,7 @@ export function EditCategoryModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-category-title"
-        className="no-scrollbar max-h-[90vh] w-full max-w-211.5 overflow-y-auto rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white p-6 shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
+        className="no-scrollbar max-h-[90vh] w-full max-w-[846px] overflow-y-auto rounded-[12px] border-[1.5px] border-[#e3e6ec] bg-white p-6 shadow-[0_24px_64px_rgba(19,38,81,0.18)]"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="relative flex flex-col gap-6">
@@ -247,13 +247,13 @@ export function EditCategoryModal({
                 />
               </div>
 
-              <div className="flex flex-col justify-between">
+              <div className="flex flex-col gap-2">
                 <p className="text-[14px] leading-[1.6] text-brand-primary">
                   Colour/Icon Theme
                 </p>
                 <div className="flex items-center gap-2">
-                  <div className="flex size-12.75 shrink-0 items-center justify-center rounded-[6px] bg-brand-primary border border-[#e3e6ec]">
-                    <CurrentIcon className="size-5 text-white" />
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-[6px] bg-brand-primary border border-[#e3e6ec]">
+                    <CurrentIcon className="size-4 text-white" />
                   </div>
                   <SelectField
                     id="edit-icon-theme"
@@ -281,14 +281,14 @@ export function EditCategoryModal({
                 >
                   <div
                     className={cn(
-                      "flex size-5 shrink-0 items-center justify-center rounded-lg border",
+                      "flex size-5 shrink-0 items-center justify-center rounded-[4px] border",
                       editCategoryAutoMove
                         ? "border-brand-primary bg-brand-primary"
                         : "border-[#e3e6ec] bg-white",
                     )}
                   >
                     {editCategoryAutoMove && (
-                      <Check className="size-3.5 text-white" />
+                      <Check className="size-3 text-white" />
                     )}
                   </div>
                   <span className="text-[14px] leading-[1.6] text-brand-secondary">
@@ -307,14 +307,14 @@ export function EditCategoryModal({
                 >
                   <div
                     className={cn(
-                      "flex size-5 shrink-0 items-center justify-center rounded-lg border",
+                      "flex size-5 shrink-0 items-center justify-center rounded-[4px] border",
                       editCategoryShowInForms
                         ? "border-brand-primary bg-brand-primary"
                         : "border-[#e3e6ec] bg-white",
                     )}
                   >
                     {editCategoryShowInForms && (
-                      <Check className="size-3.5 text-white" />
+                      <Check className="size-3 text-white" />
                     )}
                   </div>
                   <span className="text-[14px] leading-[1.6] text-brand-secondary">
@@ -335,14 +335,14 @@ export function EditCategoryModal({
                 >
                   <div
                     className={cn(
-                      "flex size-5 shrink-0 items-center justify-center rounded-lg border",
+                      "flex size-5 shrink-0 items-center justify-center rounded-[4px] border",
                       editCategoryAllowSubcategories
                         ? "border-brand-primary bg-brand-primary"
                         : "border-[#e3e6ec] bg-white",
                     )}
                   >
                     {editCategoryAllowSubcategories && (
-                      <Check className="size-3.5 text-white" />
+                      <Check className="size-3 text-white" />
                     )}
                   </div>
                   <span className="text-[14px] leading-[1.6] text-brand-secondary">
@@ -352,9 +352,9 @@ export function EditCategoryModal({
               </div>
             </div>
 
-            <div className="flex items-center justify-between border border-[#e3e6ec] bg-[#f3f5f8] p-4.25">
-              <div className="flex items-center gap-3">
-                <FileBadge2 className="size-5 text-brand-primary" />
+              <div className="flex items-center justify-between border border-[#e3e6ec] bg-[#f3f5f8] p-4.25">
+                <div className="flex items-center gap-3">
+                  <FolderInput className="size-5 text-brand-primary" />
                 <span className="text-[16px] font-bold leading-[1.6] text-[#191c1f]">
                   Move Existing Files
                 </span>
