@@ -34,6 +34,7 @@ import { SaveTemplateModal } from "./modals/save-template-modal";
 import { MoveFileModal } from "./modals/move-file-modal";
 import { EditFileModal } from "./modals/edit-file-modal";
 import { UploadFileModal } from "./modals/upload-file-modal";
+import { FilePreviewModal } from "./modals/file-preview-modal";
 import { DeleteFileModal } from "./modals/delete-file-modal";
 
 const actionButtonClass =
@@ -64,6 +65,7 @@ export function SavedFilesPage() {
     toggleSelectAll,
     openAddCategoryModal,
     openSaveTemplateModal,
+    openFilePreviewModal,
     openMoveFileModal,
     openEditFileModal,
     openDeleteFileModal,
@@ -329,6 +331,7 @@ export function SavedFilesPage() {
                     <div className="flex h-7 items-center gap-2">
                       <button
                         type="button"
+                        onClick={() => openFilePreviewModal(file)}
                         className="flex size-7 items-center justify-center rounded-lg text-[#4f79ff] transition hover:bg-[#eef4ff]"
                         aria-label={`Preview ${file.name}`}
                       >
@@ -465,6 +468,7 @@ export function SavedFilesPage() {
       <SaveTemplateModal state={state} />
       <MoveFileModal state={state} />
       <UploadFileModal state={state} />
+      <FilePreviewModal state={state} />
       <EditFileModal state={state} />
       <DeleteFileModal state={state} />
     </div>

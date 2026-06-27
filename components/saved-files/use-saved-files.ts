@@ -25,6 +25,7 @@ export function useSavedFiles() {
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] = useState(false);
+  const [isFilePreviewModalOpen, setIsFilePreviewModalOpen] = useState(false);
   const [isUploadFileModalOpen, setIsUploadFileModalOpen] = useState(false);
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false);
@@ -84,6 +85,7 @@ export function useSavedFiles() {
   const [saveTemplateNotifyTeam, setSaveTemplateNotifyTeam] = useState(false);
   
   const [saveTemplateError, setSaveTemplateError] = useState("");
+  const [filePreviewTarget, setFilePreviewTarget] = useState<SavedFile | null>(null);
   const [
     returnToSaveTemplateAfterCategory,
     setReturnToSaveTemplateAfterCategory,
@@ -122,6 +124,7 @@ export function useSavedFiles() {
       !isMoveFileModalOpen &&
       !isEditFileModalOpen &&
       !isDeleteFileModalOpen &&
+      !isFilePreviewModalOpen &&
       !isUploadFileModalOpen
     ) {
       return;
@@ -138,6 +141,7 @@ export function useSavedFiles() {
         setIsMoveFileModalOpen(false);
         setIsEditFileModalOpen(false);
         setIsDeleteFileModalOpen(false);
+        setIsFilePreviewModalOpen(false);
         setIsUploadFileModalOpen(false);
       }
     };
@@ -155,6 +159,7 @@ export function useSavedFiles() {
     isMoveFileModalOpen,
     isEditFileModalOpen,
     isDeleteFileModalOpen,
+    isFilePreviewModalOpen,
     isUploadFileModalOpen,
   ]);
 
@@ -303,6 +308,16 @@ export function useSavedFiles() {
 
   const closeUploadFileModal = () => {
     setIsUploadFileModalOpen(false);
+  };
+
+  const openFilePreviewModal = (file: SavedFile) => {
+    setFilePreviewTarget(file);
+    setIsFilePreviewModalOpen(true);
+  };
+
+  const closeFilePreviewModal = () => {
+    setIsFilePreviewModalOpen(false);
+    setFilePreviewTarget(null);
   };
 
   const openMoveFileModal = (file: SavedFile) => {
@@ -641,6 +656,11 @@ export function useSavedFiles() {
     deleteFileError,
     setDeleteFileError,
     
+    isFilePreviewModalOpen,
+    openFilePreviewModal,
+    closeFilePreviewModal,
+    filePreviewTarget,
+
     isUploadFileModalOpen,
     openUploadFileModal,
     closeUploadFileModal,
