@@ -33,6 +33,7 @@ import { AddCategoryModal } from "./modals/add-category-modal";
 import { SaveTemplateModal } from "./modals/save-template-modal";
 import { MoveFileModal } from "./modals/move-file-modal";
 import { EditFileModal } from "./modals/edit-file-modal";
+import { UploadFileModal } from "./modals/upload-file-modal";
 import { DeleteFileModal } from "./modals/delete-file-modal";
 
 const actionButtonClass =
@@ -171,7 +172,10 @@ export function SavedFilesPage() {
                   {hasChevron ? <ChevronDown className="size-4" /> : null}
                 </Button>
               ))}
-              <Button className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-medium text-white hover:bg-[#0d1b3a]">
+              <Button 
+                onClick={state.openUploadFileModal}
+                className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-medium text-white hover:bg-[#0d1b3a]"
+              >
                 Upload File
               </Button>
             </div>
@@ -460,6 +464,7 @@ export function SavedFilesPage() {
       <AddCategoryModal state={state} />
       <SaveTemplateModal state={state} />
       <MoveFileModal state={state} />
+      <UploadFileModal state={state} />
       <EditFileModal state={state} />
       <DeleteFileModal state={state} />
     </div>

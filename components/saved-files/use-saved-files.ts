@@ -25,6 +25,7 @@ export function useSavedFiles() {
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] = useState(false);
+  const [isUploadFileModalOpen, setIsUploadFileModalOpen] = useState(false);
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false);
   const [isEditFileModalOpen, setIsEditFileModalOpen] = useState(false);
@@ -99,6 +100,17 @@ export function useSavedFiles() {
   const [editNotifyOnUpdate, setEditNotifyOnUpdate] = useState(false);
   const [editKeepLatestVersion, setEditKeepLatestVersion] = useState(false);
   const [editFileError, setEditFileError] = useState("");
+
+  const [uploadFileName, setUploadFileName] = useState("site_inspection_photo.jpg");
+  const [uploadFileDocumentDate, setUploadFileDocumentDate] = useState("10/25/2023");
+  const [uploadFileReviewDate, setUploadFileReviewDate] = useState("10/25/2023");
+  const [uploadFileFileType, setUploadFileFileType] = useState("Image (JPG/PNG)");
+  const [uploadFileTags, setUploadFileTags] = useState("");
+  const [uploadFileProjectLocation, setUploadFileProjectLocation] = useState("Central London High Rise - Phase 2");
+  const [uploadFileDescription, setUploadFileDescription] = useState("");
+  const [uploadFileInternalNote, setUploadFileInternalNote] = useState("");
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState("All");
+
   const [confirmDeleteFile, setConfirmDeleteFile] = useState(false);
   const [deleteFileError, setDeleteFileError] = useState("");
 
@@ -109,7 +121,8 @@ export function useSavedFiles() {
       !isSaveTemplateModalOpen &&
       !isMoveFileModalOpen &&
       !isEditFileModalOpen &&
-      !isDeleteFileModalOpen
+      !isDeleteFileModalOpen &&
+      !isUploadFileModalOpen
     ) {
       return;
     }
@@ -125,6 +138,7 @@ export function useSavedFiles() {
         setIsMoveFileModalOpen(false);
         setIsEditFileModalOpen(false);
         setIsDeleteFileModalOpen(false);
+        setIsUploadFileModalOpen(false);
       }
     };
 
@@ -141,6 +155,7 @@ export function useSavedFiles() {
     isMoveFileModalOpen,
     isEditFileModalOpen,
     isDeleteFileModalOpen,
+    isUploadFileModalOpen,
   ]);
 
   const filteredFiles = FILES.filter((file) => {
@@ -272,6 +287,22 @@ export function useSavedFiles() {
   const closeSaveTemplateModal = () => {
     setIsSaveTemplateModalOpen(false);
     setSaveTemplateError("");
+  };
+
+  const openUploadFileModal = () => {
+    setUploadFileName("site_inspection_photo.jpg");
+    setUploadFileDocumentDate("10/25/2023");
+    setUploadFileReviewDate("10/25/2023");
+    setUploadFileFileType("Image (JPG/PNG)");
+    setUploadFileTags("");
+    setUploadFileProjectLocation("Central London High Rise - Phase 2");
+    setUploadFileDescription("");
+    setUploadFileInternalNote("");
+    setIsUploadFileModalOpen(true);
+  };
+
+  const closeUploadFileModal = () => {
+    setIsUploadFileModalOpen(false);
   };
 
   const openMoveFileModal = (file: SavedFile) => {
@@ -609,6 +640,30 @@ export function useSavedFiles() {
     setConfirmDeleteFile,
     deleteFileError,
     setDeleteFileError,
+    
+    isUploadFileModalOpen,
+    openUploadFileModal,
+    closeUploadFileModal,
+    uploadFileName,
+    setUploadFileName,
+    uploadFileDocumentDate,
+    setUploadFileDocumentDate,
+    uploadFileReviewDate,
+    setUploadFileReviewDate,
+    uploadFileFileType,
+    setUploadFileFileType,
+    uploadFileTags,
+    setUploadFileTags,
+    uploadFileProjectLocation,
+    setUploadFileProjectLocation,
+    uploadFileDescription,
+    setUploadFileDescription,
+    uploadFileInternalNote,
+    setUploadFileInternalNote,
+    
+    activeCategoryFilter,
+    setActiveCategoryFilter,
+    
     filteredFiles,
     allVisibleSelected,
     toggleSelection,
