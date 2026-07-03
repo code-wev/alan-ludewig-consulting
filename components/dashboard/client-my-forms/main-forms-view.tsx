@@ -12,24 +12,21 @@ import {
   Briefcase, 
   CheckSquare, 
   FolderPlus, 
-  Folder, 
-  UserCheck, 
-  AlertCircle, 
-  ClipboardCheck, 
   Eye, 
   Download, 
   Edit,
   Trash2, 
   X,
   Check,
-  Clock,
   FilePlus2,
-  FolderInput
+  FolderInput,
+  AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { ComplianceForm } from "./types";
+import { OverviewCardsRow } from "./overview-cards-row";
 
 interface MainFormsViewProps {
   forms: ComplianceForm[];
@@ -332,7 +329,6 @@ export function MainFormsView({
           onClick={() => setIsStartDocModalOpen(true)}
           className="h-[34px] px-4 text-[13px] border-[#e3e6ec] bg-white text-brand-primary hover:border-brand-primary font-bold transition rounded-[6px]"
         >
-          <Plus className="w-3.5 h-3.5 mr-1.5" />
           Start New Document
         </Button>
         
@@ -341,8 +337,7 @@ export function MainFormsView({
           asChild
           className="h-[34px] px-4 text-[13px] border-[#e3e6ec] bg-white text-brand-primary hover:border-brand-primary font-bold transition rounded-[6px]"
         >
-          <Link href="/rams-builder/risk-assessment">
-            <Shield className="w-3.5 h-3.5 mr-1.5" />
+          <Link href="/dashboard/risk-assessment">
             Start Risk Assessment
           </Link>
         </Button>
@@ -352,8 +347,7 @@ export function MainFormsView({
           asChild
           className="h-[34px] px-4 text-[13px] border-[#e3e6ec] bg-white text-brand-primary hover:border-brand-primary font-bold transition rounded-[6px]"
         >
-          <Link href="/dashboard/rams">
-            <CheckSquare className="w-3.5 h-3.5 mr-1.5" />
+          <Link href="/dashboard/risk-assessment">
             Risk Assessment Completion
           </Link>
         </Button>
@@ -364,9 +358,8 @@ export function MainFormsView({
           className="h-[34px] px-4 text-[13px] border-[#e3e6ec] bg-white text-brand-primary hover:border-brand-primary font-bold transition rounded-[6px]"
         >
           <Link href="/dashboard/rams">
-            <Briefcase className="w-3.5 h-3.5 mr-1.5" />
             Create RAMS
-          </Link>
+          </Link> 
         </Button>
 
         <Button 
@@ -374,153 +367,19 @@ export function MainFormsView({
           onClick={() => setIsAddCatModalOpen(true)}
           className="h-[34px] px-4 text-[13px] border-[#e3e6ec] bg-white text-brand-primary hover:border-brand-primary font-bold transition rounded-[6px]"
         >
-          <FolderPlus className="w-3.5 h-3.5 mr-1.5" />
           Add New Category
         </Button>
       </div>
 
       {/* Overview Cards Row */}
-      <div className="w-full bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] shadow-[0px_4px_20px_rgba(19,38,81,0.02)] overflow-hidden">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-y lg:divide-y-0 lg:divide-x divide-[#e3e6ec]">
-          
-          {/* Card 1: Draft Forms */}
-          <div 
-            onClick={() => setActiveTab("Drafts")}
-            className="p-[26px] flex flex-col gap-4 hover:bg-slate-50/50 cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-brand-secondary bg-slate-50 p-2 rounded-[8px]">
-                <Clock className="w-5 h-5" />
-              </div>
-              <span className="bg-emerald-50 text-emerald-700 text-[11px] font-bold px-2 py-0.5 rounded-[4px] border border-emerald-100">
-                Active
-              </span>
-            </div>
-            <div className="flex flex-col mt-2">
-              <span className="text-[14px] text-brand-secondary font-medium font-sans">Draft Forms</span>
-              <span className="text-[32px] font-extrabold text-brand-primary font-sans leading-none mt-1">
-                {stats.draft}
-              </span>
-            </div>
-          </div>
-
-          {/* Card 2: Completed Forms */}
-          <div 
-            onClick={() => setActiveTab("Completed")}
-            className="p-[26px] flex flex-col gap-4 hover:bg-slate-50/50 cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-blue-600 bg-blue-50/50 p-2 rounded-[8px]">
-                <ClipboardCheck className="w-5 h-5" />
-              </div>
-              <span className="bg-blue-50 text-blue-700 text-[11px] font-bold px-2 py-0.5 rounded-[4px] border border-blue-100">
-                New
-              </span>
-            </div>
-            <div className="flex flex-col mt-2">
-              <span className="text-[14px] text-brand-secondary font-medium font-sans">Completed Forms</span>
-              <span className="text-[32px] font-extrabold text-brand-primary font-sans leading-none mt-1">
-                {stats.completed}
-              </span>
-            </div>
-          </div>
-
-          {/* Card 3: Requires Review */}
-          <div 
-            onClick={() => setActiveTab("Requires Review")}
-            className="p-[26px] flex flex-col gap-4 hover:bg-slate-50/50 cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-amber-600 bg-amber-50/50 p-2 rounded-[8px]">
-                <AlertCircle className="w-5 h-5" />
-              </div>
-              <span className="bg-amber-50 text-amber-700 text-[11px] font-bold px-2 py-0.5 rounded-[4px] border border-amber-100">
-                Pending
-              </span>
-            </div>
-            <div className="flex flex-col mt-2">
-              <span className="text-[14px] text-brand-secondary font-medium font-sans">Requires Review</span>
-              <span className="text-[32px] font-extrabold text-brand-primary font-sans leading-none mt-1">
-                {stats.review}
-              </span>
-            </div>
-          </div>
-
-          {/* Card 4: Assigned to Me */}
-          <div 
-            onClick={() => setActiveTab("Assigned to Me")}
-            className="p-[26px] flex flex-col gap-4 hover:bg-slate-50/50 cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-purple-600 bg-purple-50/50 p-2 rounded-[8px]">
-                <UserCheck className="w-5 h-5" />
-              </div>
-              <span className="bg-purple-50 text-purple-700 text-[11px] font-bold px-2 py-0.5 rounded-[4px] border border-purple-100">
-                Assigned
-              </span>
-            </div>
-            <div className="flex flex-col mt-2">
-              <span className="text-[14px] text-brand-secondary font-medium font-sans">Assigned to Me</span>
-              <span className="text-[32px] font-extrabold text-brand-primary font-sans leading-none mt-1">
-                {stats.assigned}
-              </span>
-            </div>
-          </div>
-
-          {/* Card 5: Documents Created */}
-          <div 
-            onClick={() => setActiveTab("All Forms")}
-            className="p-[26px] flex flex-col gap-4 hover:bg-slate-50/50 cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-teal-600 bg-teal-50/50 p-2 rounded-[8px]">
-                <FileText className="w-5 h-5" />
-              </div>
-              <span className="bg-teal-50 text-teal-700 text-[11px] font-bold px-2 py-0.5 rounded-[4px] border border-teal-100">
-                Verified
-              </span>
-            </div>
-            <div className="flex flex-col mt-2">
-              <span className="text-[14px] text-brand-secondary font-medium font-sans">Documents Created</span>
-              <span className="text-[32px] font-extrabold text-brand-primary font-sans leading-none mt-1">
-                {stats.created}
-              </span>
-            </div>
-          </div>
-
-          {/* Card 6: Categories */}
-          <div 
-            onClick={() => {
-              setActiveTab("All Forms");
-              toast.info("Filter by selecting a category dropdown in the table section.");
-            }}
-            className="p-[26px] flex flex-col gap-4 hover:bg-slate-50/50 cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="text-slate-600 bg-slate-100 p-2 rounded-[8px]">
-                <Folder className="w-5 h-5" />
-              </div>
-              <span className="bg-slate-100 text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-[4px] border border-slate-200">
-                Total
-              </span>
-            </div>
-            <div className="flex flex-col mt-2">
-              <span className="text-[14px] text-brand-secondary font-medium font-sans">Categories</span>
-              <span className="text-[32px] font-extrabold text-brand-primary font-sans leading-none mt-1">
-                {stats.categories}
-              </span>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      <OverviewCardsRow stats={stats} setActiveTab={setActiveTab} />
 
       {/* Main Table Section Wrapper */}
       <div className="bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] shadow-[0px_4px_20px_rgba(19,38,81,0.02)] overflow-hidden">
         
         {/* Tabs Headers */}
-        <div className="border-b border-[#e3e6ec] overflow-x-auto no-scrollbar">
-          <div className="flex items-center px-4 h-[48px] gap-2 min-w-[900px]">
+        <div className="p-4 border-b border-[#e3e6ec] overflow-x-auto no-scrollbar">
+          <div className="bg-[#f3f5f8] p-[3px] rounded-[12px] flex items-center gap-[4px] w-fit min-w-full lg:min-w-0">
             {tabs.map((tab) => {
               const isActive = activeTab === tab;
               return (
@@ -531,10 +390,10 @@ export function MainFormsView({
                     closeAllDropdowns();
                   }}
                   className={cn(
-                    "h-full px-4 text-[14px] font-medium font-sans relative transition duration-150 whitespace-nowrap cursor-pointer",
+                    "h-[29px] px-[12.5px] py-[5.5px] text-[14px] font-sans rounded-[9px] transition duration-150 whitespace-nowrap cursor-pointer flex items-center justify-center font-medium leading-[1.6]",
                     isActive 
-                      ? "text-brand-primary font-bold border-b-2 border-brand-primary" 
-                      : "text-brand-secondary hover:text-brand-primary"
+                      ? "bg-white text-[#132651] font-bold shadow-[0_1px_3px_rgba(19,38,81,0.08)] border border-slate-200/40" 
+                      : "text-[#5a6886] hover:text-[#132651] hover:bg-white/40"
                   )}
                 >
                   {tab}
@@ -759,16 +618,16 @@ export function MainFormsView({
           {filteredForms.length > 0 ? (
             <table className="w-full border-collapse min-w-[1100px] text-[14px]">
               <thead>
-                <tr className="bg-[#f8fafc] border-b border-[#e3e6ec] text-brand-primary font-bold text-[13.5px]">
+                <tr className="bg-[#D6E9FF] border-b border-[#e3e6ec] text-brand-primary font-bold text-[13.5px]">
                   <th className="px-6 py-4 text-left font-sans w-[28%]">Documentation / Form</th>
                   <th className="px-6 py-4 text-left font-sans w-[10%]">Type</th>
-                  <th className="px-6 py-4 text-left font-sans w-[13%]">Category</th>
-                  <th className="px-6 py-4 text-left font-sans w-[13%]">Project / Site</th>
-                  <th className="px-6 py-4 text-left font-sans w-[10%]">Status</th>
-                  <th className="px-6 py-4 text-left font-sans w-[9%]">Created</th>
-                  <th className="px-6 py-4 text-left font-sans w-[9%]">Last Updated</th>
-                  <th className="px-6 py-4 text-center font-sans w-[6%]">Version</th>
-                  <th className="px-6 py-4 text-center font-sans w-[12%]">Actions</th>
+                  <th className="px-6 py-4 text-left font-sans w-[17%]">Category</th>
+                  <th className="px-6 py-4 text-left font-sans w-[18%]">Project / Site</th>
+                  <th className="px-6 py-4 text-left font-sans w-[6%]">Status</th>
+                  <th className="px-6 py-4 text-left font-sans w-[8%]">Created</th>
+                  <th className="px-6 py-4 text-left font-sans w-[17%]">Last Updated</th>
+                  <th className="px-6 py-4 text-center font-sans w-[2%]">Version</th>
+                  <th className="px-6 py-4 text-center font-sans w-[5%]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#f3f5f8]">
@@ -816,10 +675,10 @@ export function MainFormsView({
                     {/* Status Badge */}
                     <td className="px-6 py-4">
                       <span className={cn(
-                        "inline-flex items-center text-[12px] font-bold px-[10px] py-[3px] rounded-full border shadow-sm select-none font-sans",
-                        form.status === "Completed" && "bg-emerald-50 text-emerald-700 border-emerald-200",
-                        form.status === "Draft" && "bg-slate-100 text-slate-700 border-slate-200",
-                        form.status === "Assigned" && "bg-purple-50 text-purple-700 border-purple-200",
+                        "inline-flex items-center text-[12px] font-bold px-[10px] py-[3px] rounded-md border shadow-sm select-none font-sans",
+                        form.status === "Completed" && "bg-green-600 text-white",
+                        form.status === "Draft" && "bg-slate-700 text-white",
+                        form.status === "Assigned" && "bg-blue-500 text-white",
                         form.status === "Requires Review" && "bg-amber-50 text-amber-700 border-amber-200"
                       )}>
                         {form.status}
@@ -863,16 +722,6 @@ export function MainFormsView({
                           className="p-1.5 rounded-full hover:bg-slate-100 text-brand-secondary hover:text-brand-primary transition cursor-pointer"
                         >
                           <Download className="w-[16px] h-[16px]" />
-                        </button>
-
-                        {/* Edit Button */}
-                        <button
-                          type="button"
-                          onClick={() => handleEditForm(form.name)}
-                          title="Edit Document"
-                          className="p-1.5 rounded-full hover:bg-slate-100 text-brand-secondary hover:text-brand-primary transition cursor-pointer"
-                        >
-                          <Edit className="w-[16px] h-[16px]" />
                         </button>
 
                         {/* Move Button */}
