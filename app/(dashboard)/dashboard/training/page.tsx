@@ -9,6 +9,7 @@ import {
   CircleAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function TrainingPage() {
   return (
@@ -92,9 +93,11 @@ export default function TrainingPage() {
               </li>
             ))}
           </ul>
-          <Button className="mt-8 h-12.75 w-full rounded-[6px] bg-brand-primary text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
-            Access Courses
-          </Button>
+          <Link href="/dashboard/training/details" className="mt-8">
+            <Button className="h-12.75 w-full rounded-[6px] bg-brand-primary text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
+              Access Courses
+            </Button>
+          </Link>
         </div>
 
         {/* Business Account Training */}
@@ -121,9 +124,11 @@ export default function TrainingPage() {
               </li>
             ))}
           </ul>
-          <Button className="mt-8 h-12.75 w-full rounded-[6px] bg-brand-primary text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
-            Access Courses
-          </Button>
+          <Link href="/dashboard/training/details" className="mt-8">
+            <Button className="h-12.75 w-full rounded-[6px] bg-brand-primary text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
+              Access Courses
+            </Button>
+          </Link>
         </div>
       </div>
 
