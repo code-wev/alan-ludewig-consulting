@@ -23,13 +23,15 @@ export default function TrainingPage() {
             Access accredited training resources and claim your member discount.
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            className="h-[34px] rounded-[6px] border-brand-primary px-4 text-[12px] font-bold text-brand-primary hover:bg-gray-50"
-          >
-            Training History & Certificates
-          </Button>
+        <div className="flex shrink-0 items-center gap-3">
+          <Link href="/dashboard/training/history">
+            <Button
+              variant="outline"
+              className="h-[34px] rounded-[6px] border-brand-primary px-4 text-[12px] font-bold text-brand-primary hover:bg-gray-50"
+            >
+              Training History & Certificates
+            </Button>
+          </Link>
           <Button className="h-[34px] rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
             Browse Training
           </Button>
