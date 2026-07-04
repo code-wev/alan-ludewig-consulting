@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   ChevronRight,
@@ -16,8 +16,12 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CertificatePreviewModal } from "@/components/dashboard/training/modals/certificate-preview-modal";
 
 export default function TrainingHistoryPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
+
   const tableData = [
     {
       courseName: "Fire Safety Marshal Level 2",
@@ -83,6 +87,16 @@ export default function TrainingHistoryPage() {
       score: "45%",
     },
   ];
+
+  const handleOpenModal = (row: any) => {
+    setSelectedRecord(row);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedRecord(null);
+  };
 
   return (
     <div className="flex flex-col gap-8 text-brand-primary pb-10">
@@ -253,7 +267,10 @@ export default function TrainingHistoryPage() {
                   <td className="px-4 py-4 text-[14px] text-brand-secondary">{row.score}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
-                      <button className="flex size-7 items-center justify-center rounded-[6px] text-[#155dfc] hover:bg-blue-50">
+                      <button 
+                        onClick={() => handleOpenModal(row)}
+                        className="flex size-7 items-center justify-center rounded-[6px] text-[#155dfc] hover:bg-blue-50"
+                      >
                         <Eye className="size-4" />
                       </button>
                       <button className="flex size-7 items-center justify-center rounded-[6px] text-[#10b981] hover:bg-green-50">
@@ -315,6 +332,12 @@ export default function TrainingHistoryPage() {
           </div>
         </div>
       </div>
+      
+      <CertificatePreviewModal 
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        record={selectedRecord}
+      />
     </div>
   );
 }
