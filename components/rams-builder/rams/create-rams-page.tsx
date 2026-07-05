@@ -6,6 +6,7 @@ import { ChevronRight, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProjectDetailsStep } from "./project-details-step";
 import { ScopeOfWorksStep } from "./scope-of-works-step";
+import { ArrangementsStep } from "./arrangements-step";
 
 const STEPPER_STEPS = [
   "Project Details",
@@ -21,7 +22,7 @@ const STEPPER_STEPS = [
 const STEP_TITLES = [
   "Step 1 — Project Details",
   "Step 2 — Scope of Works",
-  "Step 3 — Arrangements",
+  "Step 3 — Arrangements, Plant & Equipment",
   "Step 4 — PPE",
   "Step 5 — Methodology",
   "Step 6 — Env / Emergency",
@@ -32,7 +33,7 @@ const STEP_TITLES = [
 const STEP_DESCRIPTIONS = [
   "Initialize your Risk Assessment and Method Statement.",
   "Define the project's parameters, constraints, and work types to generate specific safety protocols.",
-  "Define the arrangements...",
+  "Add reference documents, work timing, permits site arrangements, labour requirements, and plant, materials & equipment for the project.",
   "Define PPE...",
   "Define Methodology...",
   "Define Env / Emergency...",
@@ -118,6 +119,7 @@ export function CreateRamsPage() {
       {/* Main Content Render */}
       {currentStep === 0 && <ProjectDetailsStep onNext={handleNext} />}
       {currentStep === 1 && <ScopeOfWorksStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {currentStep === 2 && <ArrangementsStep onPrevious={handlePrevious} onNext={handleNext} />}
 
     </div>
   );
