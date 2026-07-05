@@ -77,7 +77,7 @@ export const PRIMARY_DOCUMENT_TYPE_CARDS: RamsDocumentTypeCard[] = [
   {
     title: "RAMS",
     description: "Risk Assessment & Method Statement for specific tasks and sites",
-    buttonLabel: "Start Building",
+    buttonLabel: "Start New Assessment",
     icon: Briefcase,
     iconContainerClassName: "bg-brand-primary text-white",
     iconClassName: "size-5",
@@ -85,7 +85,7 @@ export const PRIMARY_DOCUMENT_TYPE_CARDS: RamsDocumentTypeCard[] = [
   {
     title: "Risk Assessment",
     description: "Standalone risk assessment templates",
-    buttonLabel: "Start Building",
+    buttonLabel: "Start New Assessment",
     icon: AlertTriangle,
     iconContainerClassName: "bg-[#eef2ff] text-brand-primary",
     iconClassName: "size-5",
@@ -93,7 +93,7 @@ export const PRIMARY_DOCUMENT_TYPE_CARDS: RamsDocumentTypeCard[] = [
   {
     title: "Method Statement",
     description: "Safe systems of work procedures",
-    buttonLabel: "Start Building",
+    buttonLabel: "Start New Assessment",
     icon: FileText,
     iconContainerClassName: "bg-[#eef2ff] text-brand-primary",
     iconClassName: "size-5",
@@ -101,7 +101,7 @@ export const PRIMARY_DOCUMENT_TYPE_CARDS: RamsDocumentTypeCard[] = [
   {
     title: "COSHH Risk Assessment",
     description: "Chemical substance assessments for site safety compliance",
-    buttonLabel: "Start Building",
+    buttonLabel: "Start New Assessment",
     icon: Beaker,
     iconContainerClassName: "bg-[#eef2ff] text-brand-primary",
     iconClassName: "size-5",
@@ -109,7 +109,7 @@ export const PRIMARY_DOCUMENT_TYPE_CARDS: RamsDocumentTypeCard[] = [
   {
     title: "Inspection / Forms",
     description: "Dynamic inspection and audit forms",
-    buttonLabel: "Start Building",
+    buttonLabel: "Start New Assessment",
     icon: ClipboardList,
     iconContainerClassName: "bg-[#eef2ff] text-brand-primary",
     iconClassName: "size-5",
@@ -117,7 +117,7 @@ export const PRIMARY_DOCUMENT_TYPE_CARDS: RamsDocumentTypeCard[] = [
   {
     title: "Permit Template",
     description: "Hot work, confined space, and work permits",
-    buttonLabel: "Start Building",
+    buttonLabel: "Start New Assessment",
     icon: ReceiptText,
     iconContainerClassName: "bg-[#eef2ff] text-brand-primary",
     iconClassName: "size-5",

@@ -74,6 +74,10 @@ export function useRamsBuilder() {
   };
 
   const startBuilding = (title: (typeof PRIMARY_DOCUMENT_TYPE_CARDS)[number]['title']) => {
+    if (title === 'RAMS') {
+      router.push('/rams-builder/rams');
+      return;
+    }
     if (title === 'Permit Template') {
       router.push('/rams-builder/permit-template');
       return;
