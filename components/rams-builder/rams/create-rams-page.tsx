@@ -263,51 +263,60 @@ export function CreateRamsPage() {
         </div>
 
         {/* Right: RAMS Summary Sidebar */}
-        <div className="flex flex-col w-full xl:w-[30%] rounded-[12px] bg-brand-primary p-6 text-white sticky top-6">
-          <h3 className="text-[16px] font-bold mb-6">RAMS Summary</h3>
+        <div className="flex flex-col gap-10 w-full xl:w-[30%] sticky top-6">
           
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1 border-b border-white/20 pb-4">
-              <span className="text-[10px] text-white/70">Project Name</span>
-              <span className="text-[14px] font-bold">Unnamed Project</span>
-            </div>
+          {/* Summary Box */}
+          <div className="flex flex-col gap-4 rounded-[12px] border border-[#e3e6ec] bg-brand-primary p-6 shadow-sm relative">
+            {/* Subtle shadow overlay from design */}
+            <div className="absolute -inset-px rounded-[8px] shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)] pointer-events-none" />
             
-            <div className="flex flex-col gap-1 border-b border-white/20 pb-4">
-              <span className="text-[10px] text-white/70">Reference</span>
-              <span className="text-[14px] font-bold">RAMS-2023-0042</span>
-            </div>
+            <h3 className="text-[16px] font-bold text-white relative z-10">RAMS Summary</h3>
+            
+            <div className="flex flex-col gap-4 relative z-10">
+              <div className="flex flex-col">
+                <span className="text-[12px] text-white opacity-60 leading-[1.6]">Project Name</span>
+                <span className="text-[14px] font-bold text-white leading-[1.6]">Unnamed Project</span>
+              </div>
+              
+              <div className="flex flex-col">
+                <span className="text-[12px] text-white opacity-60 leading-[1.6]">Reference</span>
+                <span className="text-[14px] font-bold text-white leading-[1.6]">RAMS-2023-0042</span>
+              </div>
 
-            <div className="flex flex-col gap-2 border-b border-white/20 pb-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[12px] font-bold">Completion</span>
-                <span className="text-[12px] font-bold">12.5%</span>
+              <div className="flex flex-col gap-2 border-t border-white/10 pt-4 mt-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[14px] font-bold text-white leading-[1.6]">Completion</span>
+                  <span className="text-[12px] font-bold text-white leading-[1.6]">12.5%</span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-brand-secondary overflow-hidden">
+                  <div className="h-full bg-white" style={{ width: "12.5%" }} />
+                </div>
               </div>
-              <div className="h-2 w-full rounded-full bg-white/20 overflow-hidden">
-                <div className="h-full bg-white" style={{ width: "12.5%" }} />
-              </div>
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-white/70">Current Step</span>
-                <span className="text-[14px] font-bold">01 / 08</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] text-white/70">Draft Status</span>
-                <div className="flex items-center gap-1.5">
-                  <div className="size-2 rounded-full bg-[#10b981]" />
-                  <span className="text-[14px] font-bold">Active</span>
+              <div className="flex items-start justify-between border-t border-white/10 pt-4 mt-1">
+                <div className="flex flex-col">
+                  <span className="text-[12px] text-white opacity-60 leading-[1.6]">Current Step</span>
+                  <span className="text-[14px] font-bold text-white leading-[1.6]">01 / 08</span>
+                </div>
+                <div className="flex flex-col gap-1 min-w-[106px]">
+                  <span className="text-[12px] text-white opacity-60 leading-[1.6]">Draft Status</span>
+                  <div className="flex items-center gap-2">
+                    <div className="size-2 rounded-full bg-[#b4c5fa]" />
+                    <span className="text-[14px] font-bold text-white leading-[1.6]">Active</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-8 relative overflow-hidden rounded-[8px] bg-white/10 aspect-video flex flex-col justify-end p-4">
-            {/* Visual site planner placeholder image */}
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541888086925-0c1332dd0946?q=80&w=2940&auto=format&fit=crop')" }}>
-               <div className="absolute inset-0 bg-linear-to-t from-brand-primary/90 to-transparent" />
+          {/* Image Placeholder Box */}
+          <div className="border border-[#e3e6ec] rounded-[12px] h-[192px] p-px relative overflow-hidden flex flex-col justify-end">
+            <div className="absolute inset-0 bg-cover bg-center opacity-80" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541888086925-0c1332dd0946?q=80&w=2940&auto=format&fit=crop')" }}>
             </div>
-            <span className="relative z-10 text-[12px] font-bold">Visual Site Planner Placeholder</span>
+            <div className="absolute inset-0 bg-linear-to-t from-[rgba(0,0,0,0.6)] to-transparent" />
+            <div className="relative z-10 p-4">
+              <span className="text-[14px] font-bold text-white">Visual Site Planner Placeholder</span>
+            </div>
           </div>
 
         </div>
