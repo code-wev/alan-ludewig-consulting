@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { AddCustomWorkTypeModal } from "./add-custom-work-type-modal";
 
 interface ScopeOfWorksStepProps {
   onPrevious: () => void;
@@ -27,6 +28,7 @@ const WORK_TYPES = [
 
 export function ScopeOfWorksStep({ onPrevious, onNext }: ScopeOfWorksStepProps) {
   const [selectedWorkTypes, setSelectedWorkTypes] = useState<string[]>(["excavation"]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleWorkType = (id: string) => {
     setSelectedWorkTypes(prev => 
@@ -35,7 +37,7 @@ export function ScopeOfWorksStep({ onPrevious, onNext }: ScopeOfWorksStepProps) 
   };
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start w-full text-brand-primary">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start w-full text-brand-primary relative">
       
       {/* Left: Core Details (2 columns) */}
       <div className="col-span-1 xl:col-span-2 flex flex-col gap-6 w-full">
@@ -163,7 +165,7 @@ export function ScopeOfWorksStep({ onPrevious, onNext }: ScopeOfWorksStepProps) 
                 Select all activities and hazard relevant to this project. You can choose multiple options. This Selections will help tailor recommended controls and guidance later in the RAMS
               </p>
             </div>
-            <Button className="h-[34px] px-4 rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+            <Button onClick={() => setIsModalOpen(true)} className="h-[34px] px-4 rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
               Add Custom Work Type
             </Button>
           </div>
@@ -262,6 +264,11 @@ export function ScopeOfWorksStep({ onPrevious, onNext }: ScopeOfWorksStepProps) 
         </div>
 
       </div>
+
+      <AddCustomWorkTypeModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
 
     </div>
   );
