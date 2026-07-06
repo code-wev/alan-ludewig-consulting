@@ -3,6 +3,8 @@ import { Folder, Clock, FileText, MapPin, Users, Wrench, Trash2, Upload, GripVer
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { AddReferenceDocumentModal } from "./add-reference-document-modal";
+import { AddRoleModal } from "./add-role-modal";
 
 interface ArrangementsStepProps {
   onPrevious: () => void;
@@ -11,6 +13,8 @@ interface ArrangementsStepProps {
 
 export function ArrangementsStep({ onPrevious, onNext }: ArrangementsStepProps) {
   const [selectedArrangements, setSelectedArrangements] = useState<string[]>(["Induction", "Sign-in"]);
+  const [isRefModalOpen, setIsRefModalOpen] = useState(false);
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
 
   const toggleArrangement = (label: string) => {
     setSelectedArrangements(prev => 
@@ -28,7 +32,7 @@ export function ArrangementsStep({ onPrevious, onNext }: ArrangementsStepProps) 
             <Folder className="size-5 text-brand-primary" />
             <h3 className="text-[16px] font-bold text-brand-primary">Section A: Reference Documents</h3>
           </div>
-          <Button className="h-[34px] px-4 rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+          <Button onClick={() => setIsRefModalOpen(true)} className="h-[34px] px-4 rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
             Add Reference Document
           </Button>
         </div>
@@ -322,7 +326,7 @@ export function ArrangementsStep({ onPrevious, onNext }: ArrangementsStepProps) 
             <Users className="size-5 text-brand-primary" />
             <h3 className="text-[16px] font-bold text-brand-primary">Section E: Labour Requirements</h3>
           </div>
-          <Button className="h-[34px] px-4 rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
+          <Button onClick={() => setIsRoleModalOpen(true)} className="h-[34px] px-4 rounded-[6px] bg-brand-primary text-[12px] font-bold text-white hover:bg-[#0d1b3a]">
             Add Role
           </Button>
         </div>
@@ -441,6 +445,16 @@ export function ArrangementsStep({ onPrevious, onNext }: ArrangementsStepProps) 
           Next: PPE
         </Button>
       </div>
+
+      <AddReferenceDocumentModal 
+        isOpen={isRefModalOpen} 
+        onClose={() => setIsRefModalOpen(false)} 
+      />
+
+      <AddRoleModal 
+        isOpen={isRoleModalOpen}
+        onClose={() => setIsRoleModalOpen(false)}
+      />
 
     </div>
   );
