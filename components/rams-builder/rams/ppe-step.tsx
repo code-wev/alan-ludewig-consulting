@@ -5,6 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import { AddCustomPPEModal } from "./add-custom-ppe-modal";
 import { AutoSuggestPPEModal } from "./auto-suggest-ppe-modal";
 import { PPESuggestionDetailsModal } from "./ppe-suggestion-details-modal";
+import { EditPPESuggestionModal } from "./edit-ppe-suggestion-modal";
 
 interface PPEStepProps {
   onPrevious: () => void;
@@ -15,6 +16,7 @@ export function PPEStep({ onPrevious, onNext }: PPEStepProps) {
   const [isCustomPPEModalOpen, setIsCustomPPEModalOpen] = useState(false);
   const [isAutoSuggestPPEModalOpen, setIsAutoSuggestPPEModalOpen] = useState(false);
   const [isPPEDetailsModalOpen, setIsPPEDetailsModalOpen] = useState(false);
+  const [isEditPPESuggestionModalOpen, setIsEditPPESuggestionModalOpen] = useState(false);
 
   return (
     <div className="flex flex-col gap-6 w-full text-brand-primary">
@@ -222,13 +224,25 @@ export function PPEStep({ onPrevious, onNext }: PPEStepProps) {
           setIsAutoSuggestPPEModalOpen(false);
           setIsPPEDetailsModalOpen(true);
         }}
+        onEditPPE={() => {
+          setIsAutoSuggestPPEModalOpen(false);
+          setIsEditPPESuggestionModalOpen(true);
+        }}
       />
       
       <PPESuggestionDetailsModal
         isOpen={isPPEDetailsModalOpen}
         onClose={() => setIsPPEDetailsModalOpen(false)}
         onAdd={() => setIsPPEDetailsModalOpen(false)}
-        onEdit={() => setIsPPEDetailsModalOpen(false)}
+        onEdit={() => {
+          setIsPPEDetailsModalOpen(false);
+          setIsEditPPESuggestionModalOpen(true);
+        }}
+      />
+
+      <EditPPESuggestionModal
+        isOpen={isEditPPESuggestionModalOpen}
+        onClose={() => setIsEditPPESuggestionModalOpen(false)}
       />
 
     </div>
