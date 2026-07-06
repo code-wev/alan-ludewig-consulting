@@ -6,9 +6,10 @@ import { Switch } from "@/components/ui/switch";
 interface AutoSuggestPPEModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onViewPPE?: () => void;
 }
 
-export function AutoSuggestPPEModal({ isOpen, onClose }: AutoSuggestPPEModalProps) {
+export function AutoSuggestPPEModal({ isOpen, onClose, onViewPPE }: AutoSuggestPPEModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -181,7 +182,7 @@ export function AutoSuggestPPEModal({ isOpen, onClose }: AutoSuggestPPEModalProp
                     </td>
                     <td className="py-4 pr-4 pl-2 align-middle">
                       <div className="flex items-center gap-3">
-                        <button className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
+                        <button onClick={onViewPPE} className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
                         <button className="text-[#22c55e] hover:text-[#16a34a]"><Pencil className="size-4" /></button>
                         <button className="text-[#0d1b2a] hover:text-black"><Plus className="size-5 font-bold stroke-3" /></button>
                       </div>
@@ -231,7 +232,7 @@ export function AutoSuggestPPEModal({ isOpen, onClose }: AutoSuggestPPEModalProp
                     </td>
                     <td className="py-4 pr-4 pl-2 align-middle">
                       <div className="flex items-center gap-3">
-                        <button className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
+                        <button onClick={onViewPPE} className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
                         <button className="text-[#22c55e] hover:text-[#16a34a]"><Pencil className="size-4" /></button>
                         <button className="text-[#0d1b2a] hover:text-black"><Plus className="size-5 font-bold stroke-3" /></button>
                       </div>
@@ -288,7 +289,7 @@ export function AutoSuggestPPEModal({ isOpen, onClose }: AutoSuggestPPEModalProp
                     </td>
                     <td className="py-4 pr-4 pl-2 align-middle">
                       <div className="flex items-center gap-3">
-                        <button className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
+                        <button onClick={onViewPPE} className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
                         <button className="text-[#22c55e] hover:text-[#16a34a]"><Pencil className="size-4" /></button>
                         <button className="text-[#0d1b2a] hover:text-black"><Plus className="size-5 font-bold stroke-3" /></button>
                       </div>
@@ -338,7 +339,7 @@ export function AutoSuggestPPEModal({ isOpen, onClose }: AutoSuggestPPEModalProp
                     </td>
                     <td className="py-4 pr-4 pl-2 align-middle">
                       <div className="flex items-center gap-3">
-                        <button className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
+                        <button onClick={onViewPPE} className="text-[#2563eb] hover:text-[#1d4ed8]"><Eye className="size-4" /></button>
                         <button className="text-[#22c55e] hover:text-[#16a34a]"><Pencil className="size-4" /></button>
                         <button className="text-[#0d1b2a] hover:text-black"><Plus className="size-5 font-bold stroke-3" /></button>
                       </div>
