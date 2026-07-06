@@ -3,6 +3,7 @@ import { Sparkles, ShieldCheck, Trash2, Info, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { AddCustomPPEModal } from "./add-custom-ppe-modal";
+import { AutoSuggestPPEModal } from "./auto-suggest-ppe-modal";
 
 interface PPEStepProps {
   onPrevious: () => void;
@@ -11,6 +12,7 @@ interface PPEStepProps {
 
 export function PPEStep({ onPrevious, onNext }: PPEStepProps) {
   const [isCustomPPEModalOpen, setIsCustomPPEModalOpen] = useState(false);
+  const [isAutoSuggestPPEModalOpen, setIsAutoSuggestPPEModalOpen] = useState(false);
 
   return (
     <div className="flex flex-col gap-6 w-full text-brand-primary">
@@ -29,7 +31,7 @@ export function PPEStep({ onPrevious, onNext }: PPEStepProps) {
           </div>
         </div>
         <div className="flex items-center gap-3 shrink-0">
-          <Button variant="outline" className="h-[38px] px-4 rounded-[6px] border-[#c7d2fe] bg-white text-[13px] font-bold text-[#1e3a8a] hover:bg-[#e0e7ff]">
+          <Button onClick={() => setIsAutoSuggestPPEModalOpen(true)} variant="outline" className="h-[38px] px-4 rounded-[6px] border-[#c7d2fe] bg-white text-[13px] font-bold text-[#1e3a8a] hover:bg-[#e0e7ff]">
             Auto-suggest PPE
           </Button>
           <Button onClick={() => setIsCustomPPEModalOpen(true)} className="h-[38px] px-4 rounded-[6px] bg-[#1e3a8a] text-[13px] font-bold text-white hover:bg-[#1e3a8a]/90">
@@ -209,6 +211,11 @@ export function PPEStep({ onPrevious, onNext }: PPEStepProps) {
       <AddCustomPPEModal 
         isOpen={isCustomPPEModalOpen}
         onClose={() => setIsCustomPPEModalOpen(false)}
+      />
+
+      <AutoSuggestPPEModal 
+        isOpen={isAutoSuggestPPEModalOpen}
+        onClose={() => setIsAutoSuggestPPEModalOpen(false)}
       />
 
     </div>
