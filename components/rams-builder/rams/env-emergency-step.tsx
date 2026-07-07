@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Recycle, Hand, BriefcaseMedical, FireExtinguisher,
@@ -6,6 +6,7 @@ import {
   Pencil, Map
 } from "lucide-react";
 import Image from "next/image";
+import { WasteEnvironmentModal } from "./waste-environment-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -13,6 +14,8 @@ interface EnvEmergencyStepProps {
 }
 
 export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) {
+  const [isWasteModalOpen, setIsWasteModalOpen] = useState(false);
+
   const cards = [
     {
       icon: <Recycle className="size-5 text-[#1e3a8a]" />,
@@ -104,7 +107,12 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
                 <span className="text-[11px] text-brand-secondary">Records</span>
                 <span className="text-[13px] font-bold text-brand-primary">0 Items</span>
               </div>
-              <button className="text-[#22c55e] hover:text-[#16a34a] transition-colors">
+              <button 
+                onClick={() => {
+                  if (index === 0) setIsWasteModalOpen(true);
+                }}
+                className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
+              >
                 <Pencil className="size-[18px]" />
               </button>
             </div>
@@ -158,6 +166,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
           Next: Risk Assessment
         </Button>
       </div>
+      
+      <WasteEnvironmentModal 
+        isOpen={isWasteModalOpen} 
+        onClose={() => setIsWasteModalOpen(false)} 
+      />
       
     </div>
   );
