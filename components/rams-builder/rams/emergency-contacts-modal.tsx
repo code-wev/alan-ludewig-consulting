@@ -9,9 +9,10 @@ import { Switch } from "@/components/ui/switch";
 interface EmergencyContactsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onEditContact?: () => void;
 }
 
-export function EmergencyContactsModal({ isOpen, onClose }: EmergencyContactsModalProps) {
+export function EmergencyContactsModal({ isOpen, onClose, onEditContact }: EmergencyContactsModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -177,7 +178,10 @@ export function EmergencyContactsModal({ isOpen, onClose }: EmergencyContactsMod
                     </td>
                     <td className="py-4 px-4 align-middle">
                       <div className="flex items-center justify-center gap-3">
-                        <button className="text-[#22c55e] hover:text-[#16a34a] transition-colors">
+                        <button 
+                          onClick={() => onEditContact && onEditContact()}
+                          className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
+                        >
                           <Pencil className="size-[16px]" />
                         </button>
                         <button className="text-red-500 hover:text-red-600 transition-colors">
@@ -211,7 +215,10 @@ export function EmergencyContactsModal({ isOpen, onClose }: EmergencyContactsMod
                     </td>
                     <td className="py-4 px-4 align-middle">
                       <div className="flex items-center justify-center gap-3">
-                        <button className="text-[#22c55e] hover:text-[#16a34a] transition-colors">
+                        <button 
+                          onClick={() => onEditContact && onEditContact()}
+                          className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
+                        >
                           <Pencil className="size-[16px]" />
                         </button>
                         <button className="text-red-500 hover:text-red-600 transition-colors">
@@ -245,7 +252,10 @@ export function EmergencyContactsModal({ isOpen, onClose }: EmergencyContactsMod
                     </td>
                     <td className="py-4 px-4 align-middle">
                       <div className="flex items-center justify-center gap-3">
-                        <button className="text-[#22c55e] hover:text-[#16a34a] transition-colors">
+                        <button 
+                          onClick={() => onEditContact && onEditContact()}
+                          className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
+                        >
                           <Pencil className="size-[16px]" />
                         </button>
                         <button className="text-red-500 hover:text-red-600 transition-colors">

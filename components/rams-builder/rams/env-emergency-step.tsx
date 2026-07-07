@@ -12,6 +12,7 @@ import { FirstAidArrangementsModal } from "./first-aid-arrangements-modal";
 import { FireArrangementsModal } from "./fire-arrangements-modal";
 import { SiteSpecificArrangementsModal } from "./site-specific-arrangements-modal";
 import { EmergencyContactsModal } from "./emergency-contacts-modal";
+import { SitePlanModal } from "./site-plan-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -25,6 +26,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
   const [isFireModalOpen, setIsFireModalOpen] = useState(false);
   const [isSiteSpecificModalOpen, setIsSiteSpecificModalOpen] = useState(false);
   const [isEmergencyContactsModalOpen, setIsEmergencyContactsModalOpen] = useState(false);
+  const [isSitePlanModalOpen, setIsSitePlanModalOpen] = useState(false);
 
   const cards = [
     {
@@ -210,6 +212,15 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <EmergencyContactsModal 
         isOpen={isEmergencyContactsModalOpen} 
         onClose={() => setIsEmergencyContactsModalOpen(false)} 
+        onEditContact={() => {
+          setIsEmergencyContactsModalOpen(false);
+          setIsSitePlanModalOpen(true);
+        }}
+      />
+
+      <SitePlanModal 
+        isOpen={isSitePlanModalOpen} 
+        onClose={() => setIsSitePlanModalOpen(false)} 
       />
       
     </div>
