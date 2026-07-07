@@ -13,6 +13,7 @@ import { FireArrangementsModal } from "./fire-arrangements-modal";
 import { SiteSpecificArrangementsModal } from "./site-specific-arrangements-modal";
 import { EmergencyContactsModal } from "./emergency-contacts-modal";
 import { SitePlanModal } from "./site-plan-modal";
+import { NearestHospitalModal } from "./nearest-hospital-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -27,6 +28,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
   const [isSiteSpecificModalOpen, setIsSiteSpecificModalOpen] = useState(false);
   const [isEmergencyContactsModalOpen, setIsEmergencyContactsModalOpen] = useState(false);
   const [isSitePlanModalOpen, setIsSitePlanModalOpen] = useState(false);
+  const [isNearestHospitalModalOpen, setIsNearestHospitalModalOpen] = useState(false);
 
   const cards = [
     {
@@ -127,6 +129,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
                   if (index === 3) setIsFireModalOpen(true);
                   if (index === 4) setIsSiteSpecificModalOpen(true);
                   if (index === 5) setIsEmergencyContactsModalOpen(true);
+                  if (index === 6) setIsNearestHospitalModalOpen(true);
                 }}
                 className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
               >
@@ -221,6 +224,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <SitePlanModal 
         isOpen={isSitePlanModalOpen} 
         onClose={() => setIsSitePlanModalOpen(false)} 
+      />
+
+      <NearestHospitalModal 
+        isOpen={isNearestHospitalModalOpen} 
+        onClose={() => setIsNearestHospitalModalOpen(false)} 
       />
       
     </div>
