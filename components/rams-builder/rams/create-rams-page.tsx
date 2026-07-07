@@ -9,6 +9,7 @@ import { ScopeOfWorksStep } from "./scope-of-works-step";
 import { ArrangementsStep } from "./arrangements-step";
 import { PPEStep } from "./ppe-step";
 import { MethodologyStep } from "./methodology-step";
+import { EnvEmergencyStep } from "./env-emergency-step";
 
 const STEPPER_STEPS = [
   "Project Details",
@@ -27,7 +28,7 @@ const STEP_TITLES = [
   "Step 3 — Arrangements, Plant & Equipment",
   "Step 4 — Personal Protective Equipment",
   "Step 5 — Sequence of Works",
-  "Step 6 — Env / Emergency",
+  "Step 6 — Environment, Hold Points & Emergency Arrangements",
   "Step 7 — Risk Assessment",
   "Step 8 — Review & Generate",
 ];
@@ -38,7 +39,7 @@ const STEP_DESCRIPTIONS = [
   "Add reference documents, work timing, permits site arrangements, labour requirements, and plant, materials & equipment for the project.",
   "Specify the safety gear required for this work activity based on identified risks.",
   "Outline the step-by-step methodology to ensure safety and compliance on-site.",
-  "Define Env / Emergency...",
+  "Define site-specific emergency protocols and environmental compliance measures.",
   "Define Risk Assessment...",
   "Review & Generate...",
 ];
@@ -109,13 +110,21 @@ export function CreateRamsPage() {
       </div>
 
       {/* Header - Section Intro */}
-      <div className="flex flex-col gap-1 border-b border-[#e3e6ec] pb-6">
-        <h2 className="text-[28px] font-bold text-brand-primary">
-          {STEP_TITLES[currentStep]}
-        </h2>
-        <p className="text-[18px] text-brand-secondary">
-          {STEP_DESCRIPTIONS[currentStep]}
-        </p>
+      <div className="flex items-start justify-between border-b border-[#e3e6ec] pb-6">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-[28px] font-bold text-brand-primary">
+            {STEP_TITLES[currentStep]}
+          </h2>
+          <p className="text-[18px] text-brand-secondary">
+            {STEP_DESCRIPTIONS[currentStep]}
+          </p>
+        </div>
+        {currentStep === 5 && (
+          <div className="flex items-center gap-1 mt-2 text-[14px]">
+            <span className="font-bold text-brand-primary">Progress</span>
+            <span className="text-[#ef4444]">0 of 7 Completed</span>
+          </div>
+        )}
       </div>
 
       {/* Main Content Render */}
@@ -124,6 +133,7 @@ export function CreateRamsPage() {
       {currentStep === 2 && <ArrangementsStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 3 && <PPEStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 4 && <MethodologyStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {currentStep === 5 && <EnvEmergencyStep onPrevious={handlePrevious} onNext={handleNext} />}
 
     </div>
   );
