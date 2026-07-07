@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import { WasteEnvironmentModal } from "./waste-environment-modal";
 import { HoldPointsModal } from "./hold-points-modal";
+import { FirstAidArrangementsModal } from "./first-aid-arrangements-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -17,6 +18,7 @@ interface EnvEmergencyStepProps {
 export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) {
   const [isWasteModalOpen, setIsWasteModalOpen] = useState(false);
   const [isHoldPointsModalOpen, setIsHoldPointsModalOpen] = useState(false);
+  const [isFirstAidModalOpen, setIsFirstAidModalOpen] = useState(false);
 
   const cards = [
     {
@@ -113,6 +115,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
                 onClick={() => {
                   if (index === 0) setIsWasteModalOpen(true);
                   if (index === 1) setIsHoldPointsModalOpen(true);
+                  if (index === 2) setIsFirstAidModalOpen(true);
                 }}
                 className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
               >
@@ -178,6 +181,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <HoldPointsModal 
         isOpen={isHoldPointsModalOpen} 
         onClose={() => setIsHoldPointsModalOpen(false)} 
+      />
+
+      <FirstAidArrangementsModal 
+        isOpen={isFirstAidModalOpen} 
+        onClose={() => setIsFirstAidModalOpen(false)} 
       />
       
     </div>
