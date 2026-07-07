@@ -11,6 +11,7 @@ import { HoldPointsModal } from "./hold-points-modal";
 import { FirstAidArrangementsModal } from "./first-aid-arrangements-modal";
 import { FireArrangementsModal } from "./fire-arrangements-modal";
 import { SiteSpecificArrangementsModal } from "./site-specific-arrangements-modal";
+import { EmergencyContactsModal } from "./emergency-contacts-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -23,6 +24,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
   const [isFirstAidModalOpen, setIsFirstAidModalOpen] = useState(false);
   const [isFireModalOpen, setIsFireModalOpen] = useState(false);
   const [isSiteSpecificModalOpen, setIsSiteSpecificModalOpen] = useState(false);
+  const [isEmergencyContactsModalOpen, setIsEmergencyContactsModalOpen] = useState(false);
 
   const cards = [
     {
@@ -122,6 +124,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
                   if (index === 2) setIsFirstAidModalOpen(true);
                   if (index === 3) setIsFireModalOpen(true);
                   if (index === 4) setIsSiteSpecificModalOpen(true);
+                  if (index === 5) setIsEmergencyContactsModalOpen(true);
                 }}
                 className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
               >
@@ -202,6 +205,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <SiteSpecificArrangementsModal 
         isOpen={isSiteSpecificModalOpen} 
         onClose={() => setIsSiteSpecificModalOpen(false)} 
+      />
+
+      <EmergencyContactsModal 
+        isOpen={isEmergencyContactsModalOpen} 
+        onClose={() => setIsEmergencyContactsModalOpen(false)} 
       />
       
     </div>
