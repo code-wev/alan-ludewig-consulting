@@ -95,6 +95,7 @@ export function SitePlanModal({ isOpen, onClose }: SitePlanModalProps) {
                     src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=2000"
                     alt="Plan"
                     fill
+                    sizes=""
                     className="object-cover opacity-40 mix-blend-multiply pointer-events-none"
                   />
                   {/* Fake Annotations (Assembly Point A) */}

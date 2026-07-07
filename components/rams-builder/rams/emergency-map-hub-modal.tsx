@@ -46,6 +46,7 @@ export function EmergencyMapHubModal({ isOpen, onClose }: EmergencyMapHubModalPr
                   src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=2000"
                   alt="Site Map"
                   fill
+                  sizes=""
                   className="object-cover opacity-80 mix-blend-multiply"
                 />
               </div>

@@ -78,7 +78,7 @@ export function ScopeOfWorksStep({ onPrevious, onNext }: ScopeOfWorksStepProps) 
               {/* Image Thumbnail 1 */}
               <div className="flex flex-col rounded-[12px] border border-[#e3e6ec] bg-white overflow-hidden pb-4">
                 <div className="h-[211px] w-full relative">
-                  <Image src="https://images.unsplash.com/photo-1541888086925-0c1332dd0946?q=80&w=2940&auto=format&fit=crop" alt="Site layout" fill className="absolute inset-0 size-full object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1541888086925-0c1332dd0946?q=80&w=2940&auto=format&fit=crop" alt="Site layout" fill sizes="" className="absolute inset-0 size-full object-cover" />
                 </div>
                 <div className="flex items-center justify-between px-4 pt-4">
                   <div className="flex flex-col">
@@ -99,7 +99,7 @@ export function ScopeOfWorksStep({ onPrevious, onNext }: ScopeOfWorksStepProps) 
               {/* Image Thumbnail 2 */}
               <div className="flex flex-col rounded-[12px] border border-[#e3e6ec] bg-white overflow-hidden pb-4">
                 <div className="h-[211px] w-full relative">
-                  <Image src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2831&auto=format&fit=crop" alt="Drainage drawing" fill className="absolute inset-0 size-full object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2831&auto=format&fit=crop" alt="Drainage drawing" fill sizes="" className="absolute inset-0 size-full object-cover" />
                 </div>
                 <div className="flex items-center justify-between px-4 pt-4">
                   <div className="flex flex-col">

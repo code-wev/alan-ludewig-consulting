@@ -211,6 +211,7 @@ export function NearestHospitalModal({ isOpen, onClose }: NearestHospitalModalPr
                         src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000"
                         alt="Map Preview"
                         fill
+                        sizes=""
                         className="object-cover opacity-60 mix-blend-multiply pointer-events-none"
                       />
                       <div className="relative z-10 flex flex-col items-center">
