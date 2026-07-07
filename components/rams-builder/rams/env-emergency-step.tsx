@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { WasteEnvironmentModal } from "./waste-environment-modal";
+import { HoldPointsModal } from "./hold-points-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -15,6 +16,7 @@ interface EnvEmergencyStepProps {
 
 export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) {
   const [isWasteModalOpen, setIsWasteModalOpen] = useState(false);
+  const [isHoldPointsModalOpen, setIsHoldPointsModalOpen] = useState(false);
 
   const cards = [
     {
@@ -110,6 +112,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
               <button 
                 onClick={() => {
                   if (index === 0) setIsWasteModalOpen(true);
+                  if (index === 1) setIsHoldPointsModalOpen(true);
                 }}
                 className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
               >
@@ -170,6 +173,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <WasteEnvironmentModal 
         isOpen={isWasteModalOpen} 
         onClose={() => setIsWasteModalOpen(false)} 
+      />
+
+      <HoldPointsModal 
+        isOpen={isHoldPointsModalOpen} 
+        onClose={() => setIsHoldPointsModalOpen(false)} 
       />
       
     </div>
