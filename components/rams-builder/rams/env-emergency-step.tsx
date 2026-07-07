@@ -9,6 +9,7 @@ import Image from "next/image";
 import { WasteEnvironmentModal } from "./waste-environment-modal";
 import { HoldPointsModal } from "./hold-points-modal";
 import { FirstAidArrangementsModal } from "./first-aid-arrangements-modal";
+import { FireArrangementsModal } from "./fire-arrangements-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -19,6 +20,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
   const [isWasteModalOpen, setIsWasteModalOpen] = useState(false);
   const [isHoldPointsModalOpen, setIsHoldPointsModalOpen] = useState(false);
   const [isFirstAidModalOpen, setIsFirstAidModalOpen] = useState(false);
+  const [isFireModalOpen, setIsFireModalOpen] = useState(false);
 
   const cards = [
     {
@@ -116,6 +118,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
                   if (index === 0) setIsWasteModalOpen(true);
                   if (index === 1) setIsHoldPointsModalOpen(true);
                   if (index === 2) setIsFirstAidModalOpen(true);
+                  if (index === 3) setIsFireModalOpen(true);
                 }}
                 className="text-[#22c55e] hover:text-[#16a34a] transition-colors"
               >
@@ -186,6 +189,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <FirstAidArrangementsModal 
         isOpen={isFirstAidModalOpen} 
         onClose={() => setIsFirstAidModalOpen(false)} 
+      />
+
+      <FireArrangementsModal 
+        isOpen={isFireModalOpen} 
+        onClose={() => setIsFireModalOpen(false)} 
       />
       
     </div>
