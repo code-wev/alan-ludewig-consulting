@@ -14,6 +14,7 @@ import { SiteSpecificArrangementsModal } from "./site-specific-arrangements-moda
 import { EmergencyContactsModal } from "./emergency-contacts-modal";
 import { SitePlanModal } from "./site-plan-modal";
 import { NearestHospitalModal } from "./nearest-hospital-modal";
+import { EmergencyMapHubModal } from "./emergency-map-hub-modal";
 
 interface EnvEmergencyStepProps {
   onPrevious: () => void;
@@ -29,6 +30,7 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
   const [isEmergencyContactsModalOpen, setIsEmergencyContactsModalOpen] = useState(false);
   const [isSitePlanModalOpen, setIsSitePlanModalOpen] = useState(false);
   const [isNearestHospitalModalOpen, setIsNearestHospitalModalOpen] = useState(false);
+  const [isMapHubModalOpen, setIsMapHubModalOpen] = useState(false);
 
   const cards = [
     {
@@ -163,7 +165,10 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
             </p>
           </div>
           
-          <Button className="bg-white text-[#1e293b] hover:bg-slate-100 font-bold text-[13px] h-[40px] px-4 rounded-[6px] flex items-center gap-2">
+          <Button 
+            onClick={() => setIsMapHubModalOpen(true)}
+            className="bg-white text-[#1e293b] hover:bg-slate-100 font-bold text-[13px] h-[40px] px-4 rounded-[6px] flex items-center gap-2"
+          >
             <Map className="size-4" />
             Open Map Hub
           </Button>
@@ -229,6 +234,11 @@ export function EnvEmergencyStep({ onPrevious, onNext }: EnvEmergencyStepProps) 
       <NearestHospitalModal 
         isOpen={isNearestHospitalModalOpen} 
         onClose={() => setIsNearestHospitalModalOpen(false)} 
+      />
+
+      <EmergencyMapHubModal
+        isOpen={isMapHubModalOpen}
+        onClose={() => setIsMapHubModalOpen(false)}
       />
       
     </div>
