@@ -8,6 +8,7 @@ import { ProjectDetailsStep } from "./project-details-step";
 import { ScopeOfWorksStep } from "./scope-of-works-step";
 import { ArrangementsStep } from "./arrangements-step";
 import { PPEStep } from "./ppe-step";
+import { MethodologyStep } from "./methodology-step";
 
 const STEPPER_STEPS = [
   "Project Details",
@@ -25,7 +26,7 @@ const STEP_TITLES = [
   "Step 2 — Scope of Works",
   "Step 3 — Arrangements, Plant & Equipment",
   "Step 4 — Personal Protective Equipment",
-  "Step 5 — Methodology",
+  "Step 5 — Sequence of Works",
   "Step 6 — Env / Emergency",
   "Step 7 — Risk Assessment",
   "Step 8 — Review & Generate",
@@ -36,7 +37,7 @@ const STEP_DESCRIPTIONS = [
   "Define the project's parameters, constraints, and work types to generate specific safety protocols.",
   "Add reference documents, work timing, permits site arrangements, labour requirements, and plant, materials & equipment for the project.",
   "Specify the safety gear required for this work activity based on identified risks.",
-  "Define Methodology...",
+  "Outline the step-by-step methodology to ensure safety and compliance on-site.",
   "Define Env / Emergency...",
   "Define Risk Assessment...",
   "Review & Generate...",
@@ -122,6 +123,7 @@ export function CreateRamsPage() {
       {currentStep === 1 && <ScopeOfWorksStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 2 && <ArrangementsStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 3 && <PPEStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {currentStep === 4 && <MethodologyStep onPrevious={handlePrevious} onNext={handleNext} />}
 
     </div>
   );
