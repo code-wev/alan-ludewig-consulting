@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Info, Grid, Download, Plus, Pencil, Trash2, Lightbulb, BarChart3, Sparkles, CheckCircle2
 } from "lucide-react";
+import { AddRiskRowModal } from "./add-risk-row-modal";
 
 interface RiskAssessmentStepProps {
   onPrevious: () => void;
@@ -10,6 +11,8 @@ interface RiskAssessmentStepProps {
 }
 
 export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepProps) {
+  const [isAddRowModalOpen, setIsAddRowModalOpen] = useState(false);
+
   const quickTemplates = [
     "Working at Height", "Manual Handling", "Electrical", "Plant",
     "Slips & Falls", "Excavation", "Dust", "COSHH",
@@ -220,7 +223,10 @@ export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepPro
               <Download className="size-4 mr-2" />
               Export CSV
             </Button>
-            <Button className="h-[34px] text-[12px] font-bold bg-brand-primary text-white">
+            <Button 
+              className="h-[34px] text-[12px] font-bold bg-brand-primary text-white"
+              onClick={() => setIsAddRowModalOpen(true)}
+            >
               <Plus className="size-4 mr-2" />
               Add New Row
             </Button>
@@ -427,6 +433,11 @@ export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepPro
           Progress: 82%
         </div>
       </div>
+
+      <AddRiskRowModal 
+        isOpen={isAddRowModalOpen}
+        onClose={() => setIsAddRowModalOpen(false)}
+      />
 
     </div>
   );
