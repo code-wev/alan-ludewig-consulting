@@ -11,6 +11,7 @@ import { PPEStep } from "./ppe-step";
 import { MethodologyStep } from "./methodology-step";
 import { EnvEmergencyStep } from "./env-emergency-step";
 import { RiskAssessmentStep } from "./risk-assessment-step";
+import { ReviewGenerateStep } from "./review-generate-step";
 
 const STEPPER_STEPS = [
   "Project Details",
@@ -136,6 +137,7 @@ export function CreateRamsPage() {
       {currentStep === 4 && <MethodologyStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 5 && <EnvEmergencyStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 6 && <RiskAssessmentStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {currentStep === 7 && <ReviewGenerateStep onPrevious={handlePrevious} onNext={handleNext} />}
 
     </div>
   );
