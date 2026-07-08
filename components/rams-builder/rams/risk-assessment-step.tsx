@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { AddRiskRowModal } from "./add-risk-row-modal";
 import { DeleteRiskRowModal } from "./delete-risk-row-modal";
+import { PreviewRiskOutputModal } from "./preview-risk-output-modal";
 
 interface RiskAssessmentStepProps {
   onPrevious: () => void;
@@ -14,6 +15,7 @@ interface RiskAssessmentStepProps {
 export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepProps) {
   const [isAddRowModalOpen, setIsAddRowModalOpen] = useState(false);
   const [isDeleteRowModalOpen, setIsDeleteRowModalOpen] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   const quickTemplates = [
     "Working at Height", "Manual Handling", "Electrical", "Plant",
@@ -425,17 +427,29 @@ export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepPro
             className="h-[42px] px-6 rounded-[6px] border-[#1e293b] text-[#1e293b] font-bold text-[14px] hover:bg-slate-50"
             onClick={onPrevious}
           >
+            Back
+          </Button>
+          <Button 
+            variant="outline" 
+            className="h-[42px] px-6 rounded-[6px] border-[#1e293b] text-[#1e293b] font-bold text-[14px] hover:bg-slate-50"
+          >
             Save Draft
           </Button>
+          <Button 
+            variant="outline" 
+            className="h-[42px] px-6 rounded-[6px] border-[#1e293b] text-[#1e293b] font-bold text-[14px] hover:bg-slate-50"
+            onClick={() => setIsPreviewModalOpen(true)}
+          >
+            Preview Output
+          </Button>
+        </div>
+        <div className="text-[14px] font-bold text-brand-primary">
           <Button 
             className="h-[42px] px-6 rounded-[6px] bg-[#0d1b2a] text-white font-bold text-[14px] hover:bg-black"
             onClick={onNext}
           >
             Next: Review & Generate
           </Button>
-        </div>
-        <div className="text-[14px] font-bold text-brand-primary">
-          Progress: 82%
         </div>
       </div>
 
@@ -447,6 +461,11 @@ export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepPro
       <DeleteRiskRowModal 
         isOpen={isDeleteRowModalOpen}
         onClose={() => setIsDeleteRowModalOpen(false)}
+      />
+
+      <PreviewRiskOutputModal 
+        isOpen={isPreviewModalOpen}
+        onClose={() => setIsPreviewModalOpen(false)}
       />
 
     </div>
