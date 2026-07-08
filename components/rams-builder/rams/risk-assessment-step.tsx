@@ -4,6 +4,7 @@ import {
   Info, Grid, Download, Plus, Pencil, Trash2, Lightbulb, BarChart3, Sparkles, CheckCircle2
 } from "lucide-react";
 import { AddRiskRowModal } from "./add-risk-row-modal";
+import { DeleteRiskRowModal } from "./delete-risk-row-modal";
 
 interface RiskAssessmentStepProps {
   onPrevious: () => void;
@@ -12,6 +13,7 @@ interface RiskAssessmentStepProps {
 
 export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepProps) {
   const [isAddRowModalOpen, setIsAddRowModalOpen] = useState(false);
+  const [isDeleteRowModalOpen, setIsDeleteRowModalOpen] = useState(false);
 
   const quickTemplates = [
     "Working at Height", "Manual Handling", "Electrical", "Plant",
@@ -283,7 +285,10 @@ export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepPro
                       <button className="text-brand-secondary hover:text-brand-primary transition-colors">
                         <Pencil className="size-4" />
                       </button>
-                      <button className="text-brand-secondary hover:text-red-500 transition-colors">
+                      <button 
+                        className="text-brand-secondary hover:text-red-500 transition-colors"
+                        onClick={() => setIsDeleteRowModalOpen(true)}
+                      >
                         <Trash2 className="size-4" />
                       </button>
                     </div>
@@ -437,6 +442,11 @@ export function RiskAssessmentStep({ onPrevious, onNext }: RiskAssessmentStepPro
       <AddRiskRowModal 
         isOpen={isAddRowModalOpen}
         onClose={() => setIsAddRowModalOpen(false)}
+      />
+
+      <DeleteRiskRowModal 
+        isOpen={isDeleteRowModalOpen}
+        onClose={() => setIsDeleteRowModalOpen(false)}
       />
 
     </div>
