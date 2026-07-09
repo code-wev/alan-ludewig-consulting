@@ -28,6 +28,7 @@ export function useRamsBuilder() {
   const [statusFilter, setStatusFilter] = useState('All Status');
   const [dateRangeFilter, setDateRangeFilter] = useState('Date Range');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [isCreateRamsModalOpen, setIsCreateRamsModalOpen] = useState(false);
 
   const filteredActivity = useMemo(() => {
     return RAMS_RECENT_ACTIVITY.filter((item) => {
@@ -75,7 +76,7 @@ export function useRamsBuilder() {
 
   const startBuilding = (title: (typeof PRIMARY_DOCUMENT_TYPE_CARDS)[number]['title']) => {
     if (title === 'RAMS') {
-      router.push('/rams-builder/rams');
+      setIsCreateRamsModalOpen(true);
       return;
     }
     if (title === 'Permit Template') {
@@ -155,7 +156,9 @@ export function useRamsBuilder() {
     handleDelete,
     categoryOptions: [...RAMS_ACTIVITY_CATEGORY_OPTIONS],
     typeOptions: [...RAMS_ACTIVITY_TYPE_OPTIONS],
-    statusOptions: [...RAMS_ACTIVITY_STATUS_OPTIONS],
-    dateRangeOptions: [...RAMS_ACTIVITY_DATE_RANGE_OPTIONS],
+    statusOptions: RAMS_ACTIVITY_STATUS_OPTIONS,
+    dateRangeOptions: RAMS_ACTIVITY_DATE_RANGE_OPTIONS,
+    isCreateRamsModalOpen,
+    setIsCreateRamsModalOpen,
   };
 }

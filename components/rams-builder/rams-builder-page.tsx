@@ -18,6 +18,8 @@ import {
   SECONDARY_DOCUMENT_TYPE_CARDS,
 } from "./types";
 import { useRamsBuilder } from "./use-rams-builder";
+import { BeforeCreateRamsModal } from "./before-create-rams-modal";
+import { useRouter } from "next/navigation";
 
 const getStatusBadgeClassName = (status: string) => {
   if (status === "Completed") {
@@ -58,7 +60,11 @@ export function RamsBuilderPage() {
     typeOptions,
     statusOptions,
     dateRangeOptions,
+    isCreateRamsModalOpen,
+    setIsCreateRamsModalOpen,
   } = state;
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-8 text-brand-primary">
@@ -379,6 +385,15 @@ export function RamsBuilderPage() {
           </div>
         </div>
       </section>
+
+      <BeforeCreateRamsModal 
+        isOpen={isCreateRamsModalOpen}
+        onClose={() => setIsCreateRamsModalOpen(false)}
+        onContinue={() => {
+          setIsCreateRamsModalOpen(false);
+          router.push('/rams-builder/rams');
+        }}
+      />
     </div>
   );
 }
