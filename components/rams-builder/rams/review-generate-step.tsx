@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { PreviewRiskOutputModal } from "./preview-risk-output-modal";
 import { AddAttachmentModal } from "./add-attachment-modal";
 import { ViewAttachmentModal } from "./view-attachment-modal";
+import { SubmitReviewModal } from "./submit-review-modal";
 
 interface ReviewGenerateStepProps {
   onPrevious: () => void;
@@ -93,6 +94,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [isAddAttachmentModalOpen, setIsAddAttachmentModalOpen] = useState(false);
   const [isViewAttachmentModalOpen, setIsViewAttachmentModalOpen] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
   const toggleSection = (id: number) => {
     setExpandedSections(prev => 
@@ -497,6 +499,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
           </Button>
           <Button 
             className="h-[42px] px-6 rounded-[6px] bg-[#0d1b2a] text-white font-bold text-[14px] hover:bg-black"
+            onClick={() => setIsSubmitModalOpen(true)}
           >
             Submit for Review
           </Button>
@@ -531,6 +534,11 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
       <ViewAttachmentModal
         isOpen={isViewAttachmentModalOpen}
         onClose={() => setIsViewAttachmentModalOpen(false)}
+      />
+
+      <SubmitReviewModal
+        isOpen={isSubmitModalOpen}
+        onClose={() => setIsSubmitModalOpen(false)}
       />
 
     </div>
