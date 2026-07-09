@@ -23,6 +23,7 @@ import { ViewAttachmentModal } from "./view-attachment-modal";
 import { SubmitReviewModal } from "./submit-review-modal";
 import { PreviewRamsModal } from "./preview-rams-modal";
 import { RamsReviewCommentsModal } from "./rams-review-comments-modal";
+import { GenerateRamsPdfModal } from "./generate-rams-pdf-modal";
 
 interface ReviewGenerateStepProps {
   onPrevious: () => void;
@@ -99,6 +100,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [isPreviewRamsModalOpen, setIsPreviewRamsModalOpen] = useState(false);
   const [isReviewCommentsModalOpen, setIsReviewCommentsModalOpen] = useState(false);
+  const [isGeneratePdfModalOpen, setIsGeneratePdfModalOpen] = useState(false);
 
   const toggleSection = (id: number) => {
     setExpandedSections(prev => 
@@ -519,6 +521,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
           <Button 
             variant="outline"  
             className="h-[42px] px-6 rounded-[6px] border-[#1e293b] text-[#1e293b] font-bold text-[14px] hover:bg-slate-50"
+            onClick={() => setIsGeneratePdfModalOpen(true)}
           >
             Generate RAMS PDF
           </Button>
@@ -557,6 +560,11 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
       <RamsReviewCommentsModal
         isOpen={isReviewCommentsModalOpen}
         onClose={() => setIsReviewCommentsModalOpen(false)}
+      />
+
+      <GenerateRamsPdfModal
+        isOpen={isGeneratePdfModalOpen}
+        onClose={() => setIsGeneratePdfModalOpen(false)}
       />
 
     </div>
