@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PreviewRiskOutputModal } from "./preview-risk-output-modal";
 import { AddAttachmentModal } from "./add-attachment-modal";
+import { ViewAttachmentModal } from "./view-attachment-modal";
 
 interface ReviewGenerateStepProps {
   onPrevious: () => void;
@@ -91,6 +92,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
   const [expandedSections, setExpandedSections] = useState<number[]>([]);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [isAddAttachmentModalOpen, setIsAddAttachmentModalOpen] = useState(false);
+  const [isViewAttachmentModalOpen, setIsViewAttachmentModalOpen] = useState(false);
 
   const toggleSection = (id: number) => {
     setExpandedSections(prev => 
@@ -304,7 +306,12 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
                     <td className="p-3 text-brand-secondary">Oct 24, 2023</td>
                     <td className="p-3">
                       <div className="flex items-center justify-center gap-3 text-brand-primary">
-                        <button className="hover:text-[#2563eb]"><Eye className="size-4" /></button>
+                        <button 
+                          className="hover:text-[#2563eb]"
+                          onClick={() => setIsViewAttachmentModalOpen(true)}
+                        >
+                          <Eye className="size-4" />
+                        </button>
                         <button className="hover:text-[#16a34a]"><Download className="size-4" /></button>
                         <button className="hover:text-[#dc2626] text-[#ef4444]"><Trash2 className="size-4" /></button>
                       </div>
@@ -320,7 +327,12 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
                     <td className="p-3 text-brand-secondary">Oct 24, 2023</td>
                     <td className="p-3">
                       <div className="flex items-center justify-center gap-3 text-brand-primary">
-                        <button className="hover:text-[#2563eb]"><Eye className="size-4" /></button>
+                        <button 
+                          className="hover:text-[#2563eb]"
+                          onClick={() => setIsViewAttachmentModalOpen(true)}
+                        >
+                          <Eye className="size-4" />
+                        </button>
                         <button className="hover:text-[#16a34a]"><Download className="size-4" /></button>
                         <button className="hover:text-[#dc2626] text-[#ef4444]"><Trash2 className="size-4" /></button>
                       </div>
@@ -514,6 +526,11 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
       <AddAttachmentModal
         isOpen={isAddAttachmentModalOpen}
         onClose={() => setIsAddAttachmentModalOpen(false)}
+      />
+
+      <ViewAttachmentModal
+        isOpen={isViewAttachmentModalOpen}
+        onClose={() => setIsViewAttachmentModalOpen(false)}
       />
 
     </div>
