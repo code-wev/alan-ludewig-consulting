@@ -22,6 +22,7 @@ import { AddAttachmentModal } from "./add-attachment-modal";
 import { ViewAttachmentModal } from "./view-attachment-modal";
 import { SubmitReviewModal } from "./submit-review-modal";
 import { PreviewRamsModal } from "./preview-rams-modal";
+import { RamsReviewCommentsModal } from "./rams-review-comments-modal";
 
 interface ReviewGenerateStepProps {
   onPrevious: () => void;
@@ -97,6 +98,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
   const [isViewAttachmentModalOpen, setIsViewAttachmentModalOpen] = useState(false);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [isPreviewRamsModalOpen, setIsPreviewRamsModalOpen] = useState(false);
+  const [isReviewCommentsModalOpen, setIsReviewCommentsModalOpen] = useState(false);
 
   const toggleSection = (id: number) => {
     setExpandedSections(prev => 
@@ -546,6 +548,15 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
       <PreviewRamsModal
         isOpen={isPreviewRamsModalOpen}
         onClose={() => setIsPreviewRamsModalOpen(false)}
+        onSubmit={() => {
+          setIsPreviewRamsModalOpen(false);
+          setIsReviewCommentsModalOpen(true);
+        }}
+      />
+
+      <RamsReviewCommentsModal
+        isOpen={isReviewCommentsModalOpen}
+        onClose={() => setIsReviewCommentsModalOpen(false)}
       />
 
     </div>

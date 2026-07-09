@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 interface PreviewRamsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSubmit: () => void;
 }
 
 const SIDEBAR_NAV = [
@@ -33,7 +34,7 @@ const SIDEBAR_NAV = [
   { id: "attachments", label: "Attachments", icon: Paperclip },
 ];
 
-export function PreviewRamsModal({ isOpen, onClose }: PreviewRamsModalProps) {
+export function PreviewRamsModal({ isOpen, onClose, onSubmit }: PreviewRamsModalProps) {
   const [activeTab, setActiveTab] = useState("cover");
 
   if (!isOpen) return null;
@@ -189,7 +190,7 @@ export function PreviewRamsModal({ isOpen, onClose }: PreviewRamsModalProps) {
           </Button>
           <Button 
             className="h-[42px] px-6 rounded-[6px] bg-brand-primary text-white font-bold text-[14px] hover:bg-[#0a1530]"
-            onClick={onClose}
+            onClick={onSubmit}
           >
             Submit for Review
           </Button>
