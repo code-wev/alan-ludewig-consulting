@@ -102,6 +102,14 @@ export function useRamsBuilder() {
     });
   };
 
+  const handleViewPreviousAssessments = (title: string) => {
+    if (title === 'RAMS' || title === 'COSHH Risk Assessment') {
+      router.push('/rams-builder/rams/previous-assessments');
+      return;
+    }
+    toast.message(`Previous assessments for ${title} coming soon.`);
+  };
+
   const handleCreateNewDocument = () => {
     startBuilding('RAMS');
   };
@@ -155,10 +163,11 @@ export function useRamsBuilder() {
     handleDownload,
     handleDelete,
     categoryOptions: [...RAMS_ACTIVITY_CATEGORY_OPTIONS],
-    typeOptions: [...RAMS_ACTIVITY_TYPE_OPTIONS],
+    typeOptions: RAMS_ACTIVITY_TYPE_OPTIONS,
     statusOptions: RAMS_ACTIVITY_STATUS_OPTIONS,
     dateRangeOptions: RAMS_ACTIVITY_DATE_RANGE_OPTIONS,
     isCreateRamsModalOpen,
     setIsCreateRamsModalOpen,
+    handleViewPreviousAssessments,
   };
 }

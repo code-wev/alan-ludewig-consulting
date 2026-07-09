@@ -62,6 +62,7 @@ export function RamsBuilderPage() {
     dateRangeOptions,
     isCreateRamsModalOpen,
     setIsCreateRamsModalOpen,
+    handleViewPreviousAssessments,
   } = state;
 
   const router = useRouter();
@@ -166,6 +167,7 @@ export function RamsBuilderPage() {
                   <Button
                     type="button"
                     variant="outline"
+                    onClick={() => handleViewPreviousAssessments(title)}
                     className="flex-1 h-9 rounded-[4px] border-brand-primary bg-white text-[11px] font-bold text-brand-primary hover:bg-slate-50 shadow-none px-2"
                   >
                     View Previous Assessments
