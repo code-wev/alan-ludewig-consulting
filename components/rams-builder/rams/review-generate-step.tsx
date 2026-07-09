@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PreviewRiskOutputModal } from "./preview-risk-output-modal";
+import { AddAttachmentModal } from "./add-attachment-modal";
 
 interface ReviewGenerateStepProps {
   onPrevious: () => void;
@@ -89,6 +90,7 @@ const ACCORDION_ITEMS = [
 export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
   const [expandedSections, setExpandedSections] = useState<number[]>([]);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [isAddAttachmentModalOpen, setIsAddAttachmentModalOpen] = useState(false);
 
   const toggleSection = (id: number) => {
     setExpandedSections(prev => 
@@ -102,6 +104,8 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
 
   return (
     <div className="flex flex-col gap-6 w-full">
+      <PreviewRiskOutputModal isOpen={isPreviewModalOpen} onClose={() => setIsPreviewModalOpen(false)} />
+      <AddAttachmentModal isOpen={isAddAttachmentModalOpen} onClose={() => setIsAddAttachmentModalOpen(false)} />
       
       {/* Main 2-Column Grid */}
       <div className="flex flex-col lg:flex-row gap-6 items-start w-full">
@@ -267,7 +271,10 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
           <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-6 shadow-sm flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h3 className="text-[16px] font-bold text-brand-primary">Attachments & Supporting Documents</h3>
-              <Button className="h-[34px] px-4 text-[12px] font-bold bg-brand-primary text-white hover:bg-black rounded-[6px]">
+              <Button 
+                className="h-[34px] px-4 text-[12px] font-bold bg-brand-primary text-white hover:bg-black rounded-[6px]"
+                onClick={() => setIsAddAttachmentModalOpen(true)}
+              >
                 Add Attachment
               </Button>
             </div>
@@ -502,6 +509,11 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
       <PreviewRiskOutputModal 
         isOpen={isPreviewModalOpen}
         onClose={() => setIsPreviewModalOpen(false)}
+      />
+
+      <AddAttachmentModal
+        isOpen={isAddAttachmentModalOpen}
+        onClose={() => setIsAddAttachmentModalOpen(false)}
       />
 
     </div>
