@@ -21,6 +21,7 @@ import { PreviewRiskOutputModal } from "./preview-risk-output-modal";
 import { AddAttachmentModal } from "./add-attachment-modal";
 import { ViewAttachmentModal } from "./view-attachment-modal";
 import { SubmitReviewModal } from "./submit-review-modal";
+import { PreviewRamsModal } from "./preview-rams-modal";
 
 interface ReviewGenerateStepProps {
   onPrevious: () => void;
@@ -95,6 +96,7 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
   const [isAddAttachmentModalOpen, setIsAddAttachmentModalOpen] = useState(false);
   const [isViewAttachmentModalOpen, setIsViewAttachmentModalOpen] = useState(false);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isPreviewRamsModalOpen, setIsPreviewRamsModalOpen] = useState(false);
 
   const toggleSection = (id: number) => {
     setExpandedSections(prev => 
@@ -508,12 +510,12 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
           <Button 
             variant="outline" 
             className="h-[42px] px-6 rounded-[6px] border-[#1e293b] text-[#1e293b] font-bold text-[14px] hover:bg-slate-50"
-            onClick={() => setIsPreviewModalOpen(true)}
+            onClick={() => setIsPreviewRamsModalOpen(true)}
           >
             Preview RAMS
           </Button>
           <Button 
-            variant="outline" 
+            variant="outline"  
             className="h-[42px] px-6 rounded-[6px] border-[#1e293b] text-[#1e293b] font-bold text-[14px] hover:bg-slate-50"
           >
             Generate RAMS PDF
@@ -539,6 +541,11 @@ export function ReviewGenerateStep({ onPrevious }: ReviewGenerateStepProps) {
       <SubmitReviewModal
         isOpen={isSubmitModalOpen}
         onClose={() => setIsSubmitModalOpen(false)}
+      />
+
+      <PreviewRamsModal
+        isOpen={isPreviewRamsModalOpen}
+        onClose={() => setIsPreviewRamsModalOpen(false)}
       />
 
     </div>
