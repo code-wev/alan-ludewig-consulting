@@ -29,6 +29,7 @@ export function useRamsBuilder() {
   const [dateRangeFilter, setDateRangeFilter] = useState('Date Range');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isCreateRamsModalOpen, setIsCreateRamsModalOpen] = useState(false);
+  const [isCreatePermitModalOpen, setIsCreatePermitModalOpen] = useState(false);
 
   const filteredActivity = useMemo(() => {
     return RAMS_RECENT_ACTIVITY.filter((item) => {
@@ -80,7 +81,7 @@ export function useRamsBuilder() {
       return;
     }
     if (title === 'Permit Template') {
-      router.push('/rams-builder/permit-template');
+      setIsCreatePermitModalOpen(true);
       return;
     }
     if (title === 'COSHH Risk Assessment') {
@@ -168,6 +169,8 @@ export function useRamsBuilder() {
     dateRangeOptions: RAMS_ACTIVITY_DATE_RANGE_OPTIONS,
     isCreateRamsModalOpen,
     setIsCreateRamsModalOpen,
+    isCreatePermitModalOpen,
+    setIsCreatePermitModalOpen,
     handleViewPreviousAssessments,
   };
 }

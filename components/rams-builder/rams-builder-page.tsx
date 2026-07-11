@@ -19,6 +19,7 @@ import {
 } from "./types";
 import { useRamsBuilder } from "./use-rams-builder";
 import { BeforeCreateRamsModal } from "./before-create-rams-modal";
+import { BeforeCreatePermitModal } from "./permit-template/before-create-permit-modal";
 import { useRouter } from "next/navigation";
 
 const getStatusBadgeClassName = (status: string) => {
@@ -62,6 +63,8 @@ export function RamsBuilderPage() {
     dateRangeOptions,
     isCreateRamsModalOpen,
     setIsCreateRamsModalOpen,
+    isCreatePermitModalOpen,
+    setIsCreatePermitModalOpen,
     handleViewPreviousAssessments,
   } = state;
 
@@ -400,6 +403,15 @@ export function RamsBuilderPage() {
         onContinue={() => {
           setIsCreateRamsModalOpen(false);
           router.push('/rams-builder/rams');
+        }}
+      />
+
+      <BeforeCreatePermitModal
+        isOpen={isCreatePermitModalOpen}
+        onClose={() => setIsCreatePermitModalOpen(false)}
+        onContinue={() => {
+          setIsCreatePermitModalOpen(false);
+          router.push('/rams-builder/permit-template');
         }}
       />
     </div>
