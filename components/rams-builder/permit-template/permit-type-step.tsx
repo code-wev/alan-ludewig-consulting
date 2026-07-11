@@ -14,6 +14,7 @@ import {
   Lightbulb,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CreateCustomPermitModal } from "./create-custom-permit-modal";
 
 interface PermitTypeStepProps {
   onNext: () => void;
@@ -101,6 +102,7 @@ export function PermitTypeStep({ onNext }: PermitTypeStepProps) {
   const [selectedPermit, setSelectedPermit] = useState<PermitType | null>(
     "Hot Works",
   );
+  const [isCustomPermitModalOpen, setIsCustomPermitModalOpen] = useState(false);
 
   const selectedInsight = PERMIT_OPTIONS.find(
     (p) => p.id === selectedPermit,
@@ -155,7 +157,7 @@ export function PermitTypeStep({ onNext }: PermitTypeStepProps) {
 
           {/* Add Custom Permit Card */}
           <div
-            onClick={() => alert("Open Custom Permit Configuration Modal")}
+            onClick={() => setIsCustomPermitModalOpen(true)}
             className="px-[25px] py-[27px] rounded-[12px] border border-[#e3e6ec] border-dashed bg-white flex flex-col items-center justify-center min-h-[160px] cursor-pointer hover:bg-[#f3f5f8]/50 transition-colors"
           >
             <div className="size-12 rounded-full border border-[#c6c5cf] bg-white flex items-center justify-center mb-4">
@@ -203,6 +205,15 @@ export function PermitTypeStep({ onNext }: PermitTypeStepProps) {
           Next: Job / Site Details
         </Button>
       </div>
+
+      <CreateCustomPermitModal 
+        isOpen={isCustomPermitModalOpen}
+        onClose={() => setIsCustomPermitModalOpen(false)}
+        onSave={() => {
+          setSelectedPermit("Custom");
+          setIsCustomPermitModalOpen(false);
+        }}
+      />
     </div>
   );
 }
