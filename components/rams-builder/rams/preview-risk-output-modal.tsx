@@ -68,163 +68,163 @@ export function PreviewRiskOutputModal({ isOpen, onClose }: PreviewRiskOutputMod
           </div>
 
           {/* Professional Landscape Table */}
-          <div className="w-full">
-            <table className="w-full border-collapse border border-brand-light-grey text-[12px]">
+          <div className="w-full overflow-x-auto rounded-[8px] border border-[#e3e6ec]">
+            <table className="w-full min-w-[1200px] border-collapse text-[12px]">
               <thead>
                 <tr className="bg-[#f0f2f5] text-brand-primary font-bold">
-                  <th className="border border-brand-light-grey p-3 text-center w-12 align-middle" rowSpan={2}>NO.</th>
-                  <th className="border border-brand-light-grey p-3 text-left align-middle" rowSpan={2}>ACTIVITY / TASK</th>
-                  <th className="border border-brand-light-grey p-3 text-left align-middle" rowSpan={2}>HAZARD DESCRIPTION</th>
-                  <th className="border border-brand-light-grey p-3 text-left align-middle" rowSpan={2}>PERSONS AT RISK</th>
-                  <th className="border border-brand-light-grey p-2 text-center" colSpan={3}>INITIAL RISK</th>
-                  <th className="border border-brand-light-grey p-3 text-left align-middle" rowSpan={2}>EXISTING & ADDITIONAL<br/>CONTROLS</th>
-                  <th className="border border-brand-light-grey p-2 text-center" colSpan={4}>RESIDUAL RISK</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-3 text-center w-12 align-middle" rowSpan={2}>NO.</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-3 text-left align-middle min-w-[180px]" rowSpan={2}>ACTIVITY / TASK</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-3 text-left align-middle min-w-[220px]" rowSpan={2}>HAZARD DESCRIPTION</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-3 text-left align-middle" rowSpan={2}>PERSONS AT RISK</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center" colSpan={3}>INITIAL RISK</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-3 text-left align-middle min-w-[280px]" rowSpan={2}>EXISTING & ADDITIONAL<br/>CONTROLS</th>
+                  <th className="border-b border-[#e3e6ec] p-2 text-center" colSpan={4}>RESIDUAL RISK</th>
                 </tr>
                 <tr className="bg-[#f0f2f5] text-brand-primary font-bold">
                   {/* Initial Risk Sub-headers */}
-                  <th className="border border-brand-light-grey p-2 text-center w-8">L</th>
-                  <th className="border border-brand-light-grey p-2 text-center w-8">S</th>
-                  <th className="border border-brand-light-grey p-2 text-center w-10">SC</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center w-8">L</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center w-8">S</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center w-10">SC</th>
                   
                   {/* Residual Risk Sub-headers */}
-                  <th className="border border-brand-light-grey p-2 text-center w-8">L</th>
-                  <th className="border border-brand-light-grey p-2 text-center w-8">S</th>
-                  <th className="border border-brand-light-grey p-2 text-center w-10">SC</th>
-                  <th className="border border-brand-light-grey p-2 text-center w-16">RATING</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center w-8">L</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center w-8">S</th>
+                  <th className="border-b border-r border-[#e3e6ec] p-2 text-center w-10">SC</th>
+                  <th className="border-b border-[#e3e6ec] p-2 text-center w-16">RAT.</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 
                 {/* Row 1 */}
                 <tr className="bg-white">
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-[#191c1e] align-top">1.1</td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-[#191c1e] align-top">1.1</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 font-bold text-brand-primary align-top">
                     Work at Height:<br/>Scaffold Erection
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
-                    Falls from height, falling objects/materials.
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
+                    Falls from height, falling objects/materials striking personnel below.
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
-                    Operatives,<br/>Public
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
+                    Operatives, Public
                   </td>
                   
                   {/* Initial Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">4</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">5</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">20</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">4</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">5</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">20</td>
                   
                   {/* Controls */}
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     <div className="flex flex-col gap-3">
                       <p>Full body harness and 100% tie-off mandatory.</p>
                       <p>Exclusion zones established below work area.</p>
                       <p>Advanced guardrail systems to be used during build.</p>
-                      <p>Only trained/ certifiedscaffolders (CISRS).</p>
+                      <p>Only trained/certified scaffolders (CISRS) permitted.</p>
                     </div>
                   </td>
                   
                   {/* Residual Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">2</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">4</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">8</td>
-                  <td className="border border-brand-light-grey p-3 align-top">
-                    <div className="bg-[#fef3c7] text-[#92400e] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">M</div>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">2</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">4</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">8</td>
+                  <td className="border-b border-[#e3e6ec] p-3 align-top">
+                    <div className="bg-[#fef3c7] text-[#b45309] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">Med</div>
                   </td>
                 </tr>
 
                 {/* Row 2 */}
                 <tr className="bg-[#fafafc]">
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-[#191c1e] align-top">1.2</td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-[#191c1e] align-top">1.2</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 font-bold text-brand-primary align-top">
                     Manual Handling:<br/>Timber Frames
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     Musculoskeletal injuries, crushing, splinters.
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     Operatives
                   </td>
                   
                   {/* Initial Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">3</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">3</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">9</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">3</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">3</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">9</td>
                   
                   {/* Controls */}
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     <div className="flex flex-col gap-3">
                       <p>Team lifting for all loads over 20kg.</p>
-                      <p>Mechanical aid (HIAB) used for positioning.</p>
-                      <p>Wearing of heavy-duty rigger gloves.</p>
+                      <p>Mechanical aid (HIAB) used for positioning where possible.</p>
+                      <p>Wearing of heavy-duty rigger gloves mandatory.</p>
                     </div>
                   </td>
                   
                   {/* Residual Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">1</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">3</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">3</td>
-                  <td className="border border-brand-light-grey p-3 align-top">
-                    <div className="bg-[#dcfce7] text-[#166534] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">L</div>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">1</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">3</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">3</td>
+                  <td className="border-b border-[#e3e6ec] p-3 align-top">
+                    <div className="bg-[#dcfce7] text-[#166534] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">Low</div>
                   </td>
                 </tr>
 
                 {/* Row 3 */}
                 <tr className="bg-white">
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-[#191c1e] align-top">2.1</td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
-                    Power Tool Usage (Saws)
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-[#191c1e] align-top">2.1</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 font-bold text-brand-primary align-top">
+                    Power Tool Usage<br/>(Saws)
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
-                    Cuts, noise, vibration, airborne dust.
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
+                    Cuts, noise, vibration (HAVS), airborne dust.
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     Operatives
                   </td>
                   
                   {/* Initial Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">4</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">4</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">16</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">4</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">4</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">16</td>
                   
                   {/* Controls */}
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     <div className="flex flex-col gap-3">
                       <p>M-Class extraction mandatory on all tools.</p>
                       <p>Hearing protection zones established.</p>
                       <p>Daily vibration monitoring via HAVS tags.</p>
-                      <p>Weekly equipment inspection logs.</p>
+                      <p>Weekly equipment inspection logs maintained.</p>
                     </div>
                   </td>
                   
                   {/* Residual Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">2</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">3</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">6</td>
-                  <td className="border border-brand-light-grey p-3 align-top">
-                    <div className="bg-[#dcfce7] text-[#166534] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">L</div>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">2</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">3</td>
+                  <td className="border-b border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">6</td>
+                  <td className="border-b border-[#e3e6ec] p-3 align-top">
+                    <div className="bg-[#dcfce7] text-[#166534] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">Low</div>
                   </td>
                 </tr>
 
                 {/* Row 4 */}
                 <tr className="bg-[#fafafc]">
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-[#191c1e] align-top">3.1</td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-r border-[#e3e6ec] p-3 text-center font-bold text-[#191c1e] align-top">3.1</td>
+                  <td className="border-r border-[#e3e6ec] p-3 font-bold text-brand-primary align-top">
                     Electrical Connection
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     Electrocution, fire, equipment damage.
                   </td>
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     Electricians, Site Staff
                   </td>
                   
                   {/* Initial Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">2</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">5</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">10</td>
+                  <td className="border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">2</td>
+                  <td className="border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">5</td>
+                  <td className="border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">10</td>
                   
                   {/* Controls */}
-                  <td className="border border-brand-light-grey p-3 text-brand-primary align-top">
+                  <td className="border-r border-[#e3e6ec] p-3 text-brand-secondary align-top">
                     <div className="flex flex-col gap-3">
                       <p>LOTO procedures strictly enforced.</p>
                       <p>Testing for dead before every connection.</p>
@@ -233,11 +233,11 @@ export function PreviewRiskOutputModal({ isOpen, onClose }: PreviewRiskOutputMod
                   </td>
                   
                   {/* Residual Risk */}
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">1</td>
-                  <td className="border border-brand-light-grey p-3 text-center text-brand-primary align-top">5</td>
-                  <td className="border border-brand-light-grey p-3 text-center font-bold text-brand-primary align-top">5</td>
-                  <td className="border border-brand-light-grey p-3 align-top">
-                    <div className="bg-[#dcfce7] text-[#166534] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">L</div>
+                  <td className="border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">1</td>
+                  <td className="border-r border-[#e3e6ec] p-3 text-center text-brand-primary align-top">5</td>
+                  <td className="border-r border-[#e3e6ec] p-3 text-center font-bold text-brand-primary align-top">5</td>
+                  <td className="p-3 align-top">
+                    <div className="bg-[#dcfce7] text-[#166534] font-bold text-center py-1 rounded-[2px] w-full text-[11px]">Low</div>
                   </td>
                 </tr>
 
@@ -249,19 +249,18 @@ export function PreviewRiskOutputModal({ isOpen, onClose }: PreviewRiskOutputMod
           <div className="flex items-end justify-between mt-4">
             
             <div className="flex flex-col gap-3">
-              <h4 className="text-[14px] font-bold text-brand-primary">RISK SCORING LEGEND (L X S = SCORE)</h4>
-              <div className="flex gap-4">
-                <div className="border border-[#e3e6ec] rounded-[4px] p-3 w-[180px]">
-                  <p className="text-[10px] font-bold text-brand-primary mb-1">Likelihood (L)</p>
-                  <p className="text-[10px] text-brand-secondary leading-tight">1: Rare | 2: Unlikely | 3: Possible | 4: Likely | 5: Almost Certain</p>
+              <div className="flex flex-wrap gap-4">
+                <div className="bg-[#f8f9fc] rounded-[4px] py-2 px-3 min-w-[200px]">
+                  <p className="text-[11px] font-bold text-brand-primary mb-1 uppercase">Likelihood (L)</p>
+                  <p className="text-[10px] text-brand-secondary uppercase leading-tight">1: Rare | 2: Unlikely | 3: Possible | 4: Likely | 5: Almost Certain</p>
                 </div>
-                <div className="border border-[#e3e6ec] rounded-[4px] p-3 w-[180px]">
-                  <p className="text-[10px] font-bold text-brand-primary mb-1">Severity (S)</p>
-                  <p className="text-[10px] text-brand-secondary leading-tight">1: Insignificant | 2: Minor | 3: Moderate | 4: Major | 5: Catastrophic</p>
+                <div className="bg-[#f8f9fc] rounded-[4px] py-2 px-3 min-w-[200px]">
+                  <p className="text-[11px] font-bold text-brand-primary mb-1 uppercase">Severity (S)</p>
+                  <p className="text-[10px] text-brand-secondary uppercase leading-tight">1: Insignificant | 2: Minor | 3: Moderate | 4: Major | 5: Catastrophic</p>
                 </div>
-                <div className="border border-[#e3e6ec] rounded-[4px] p-3 w-[180px]">
-                  <p className="text-[10px] font-bold text-brand-primary mb-1">Rating (Score)</p>
-                  <p className="text-[10px] text-brand-secondary leading-tight">1-6: Low | 8-12: Medium | 15-25: High / Stop Work</p>
+                <div className="bg-[#f8f9fc] rounded-[4px] py-2 px-3 min-w-[200px]">
+                  <p className="text-[11px] font-bold text-brand-primary mb-1 uppercase">Rating (Score)</p>
+                  <p className="text-[10px] text-brand-secondary uppercase leading-tight">1-6: Low | 8-12: Medium | 15-25: High / Stop Work</p>
                 </div>
               </div>
             </div>
@@ -274,13 +273,7 @@ export function PreviewRiskOutputModal({ isOpen, onClose }: PreviewRiskOutputMod
           </div>
 
           {/* Small Footer Text */}
-          <div className="flex items-center justify-between border-t border-[#e3e6ec] pt-6 mt-4">
-            <span className="text-[10px] text-brand-secondary">© 2024 Alan Ludewig Consulting Ltd - All Rights Reserved</span>
-            <div className="flex items-center gap-4 text-[10px] font-bold text-brand-secondary">
-              <span>ISO 45001 COMPLIANT</span>
-              <span>UK HSE STANDARD</span>
-            </div>
-          </div>
+          {/* Removed as per Figma layout focusing on the main structure */}
           
         </div>
 
