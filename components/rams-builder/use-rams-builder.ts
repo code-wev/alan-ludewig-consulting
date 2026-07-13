@@ -28,6 +28,7 @@ export function useRamsBuilder() {
   const [statusFilter, setStatusFilter] = useState('All Status');
   const [dateRangeFilter, setDateRangeFilter] = useState('Date Range');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [isCreateRamsModalOpen, setIsCreateRamsModalOpen] = useState(false);
 
   const filteredActivity = useMemo(() => {
     return RAMS_RECENT_ACTIVITY.filter((item) => {
@@ -74,6 +75,10 @@ export function useRamsBuilder() {
   };
 
   const startBuilding = (title: (typeof PRIMARY_DOCUMENT_TYPE_CARDS)[number]['title']) => {
+    if (title === 'RAMS') {
+      setIsCreateRamsModalOpen(true);
+      return;
+    }
     if (title === 'Permit Template') {
       router.push('/rams-builder/permit-template');
       return;
@@ -95,6 +100,14 @@ export function useRamsBuilder() {
       description:
         'This landing page is in place. The multi-step document builder can be wired from here.',
     });
+  };
+
+  const handleViewPreviousAssessments = (title: string) => {
+    if (title === 'RAMS' || title === 'COSHH Risk Assessment') {
+      router.push('/rams-builder/rams/previous-assessments');
+      return;
+    }
+    toast.message(`Previous assessments for ${title} coming soon.`);
   };
 
   const handleCreateNewDocument = () => {
@@ -150,8 +163,11 @@ export function useRamsBuilder() {
     handleDownload,
     handleDelete,
     categoryOptions: [...RAMS_ACTIVITY_CATEGORY_OPTIONS],
-    typeOptions: [...RAMS_ACTIVITY_TYPE_OPTIONS],
-    statusOptions: [...RAMS_ACTIVITY_STATUS_OPTIONS],
-    dateRangeOptions: [...RAMS_ACTIVITY_DATE_RANGE_OPTIONS],
+    typeOptions: RAMS_ACTIVITY_TYPE_OPTIONS,
+    statusOptions: RAMS_ACTIVITY_STATUS_OPTIONS,
+    dateRangeOptions: RAMS_ACTIVITY_DATE_RANGE_OPTIONS,
+    isCreateRamsModalOpen,
+    setIsCreateRamsModalOpen,
+    handleViewPreviousAssessments,
   };
 }

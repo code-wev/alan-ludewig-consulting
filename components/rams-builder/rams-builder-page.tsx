@@ -18,6 +18,8 @@ import {
   SECONDARY_DOCUMENT_TYPE_CARDS,
 } from "./types";
 import { useRamsBuilder } from "./use-rams-builder";
+import { BeforeCreateRamsModal } from "./before-create-rams-modal";
+import { useRouter } from "next/navigation";
 
 const getStatusBadgeClassName = (status: string) => {
   if (status === "Completed") {
@@ -58,7 +60,12 @@ export function RamsBuilderPage() {
     typeOptions,
     statusOptions,
     dateRangeOptions,
+    isCreateRamsModalOpen,
+    setIsCreateRamsModalOpen,
+    handleViewPreviousAssessments,
   } = state;
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-8 text-brand-primary">
@@ -136,36 +143,43 @@ export function RamsBuilderPage() {
             }) => (
               <article
                 key={title}
-                className="flex min-h-70 flex-col justify-between rounded-[12px] border border-[#e3e6ec] bg-white p-6.25"
+                className="flex flex-col rounded-[12px] border border-[#e3e6ec] bg-white p-6 min-h-[220px]"
               >
-                <div className="space-y-6">
-                  <div
-                    className={cn(
-                      "flex size-14 items-center justify-center rounded-[8px]",
-                      iconContainerClassName,
-                    )}
-                  >
-                    <Icon className={iconClassName} />
-                  </div>
-
-                  <div className="space-y-2">
-                    <h3 className="text-[20px] font-bold leading-[1.6] text-brand-primary">
-                      {title}
-                    </h3>
-                    <p className="max-w-[320px] text-[14px] leading-[1.6] text-brand-secondary">
-                      {description}
-                    </p>
-                  </div>
+                <div
+                  className={cn(
+                    "flex size-10 items-center justify-center rounded-[8px] mb-6",
+                    iconContainerClassName,
+                  )}
+                >
+                  <Icon className={iconClassName} />
                 </div>
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => startBuilding(title)}
-                  className="h-8.5 rounded-[6px] border-brand-primary bg-white px-4 text-[12px] font-bold text-brand-primary shadow-none hover:bg-brand-bg-main"
-                >
-                  {buttonLabel}
-                </Button>
+                <div className="space-y-2 mb-6 flex-1">
+                  <h3 className="text-[16px] font-bold leading-[1.4] text-brand-primary">
+                    {title}
+                  </h3>
+                  <p className="text-[13px] leading-[1.6] text-brand-secondary">
+                    {description}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4 mt-auto pt-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => handleViewPreviousAssessments(title)}
+                    className="flex-1 h-9 rounded-[4px] border-brand-primary bg-white text-[11px] font-bold text-brand-primary hover:bg-slate-50 shadow-none px-2"
+                  >
+                    View Previous Assessments
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => startBuilding(title)}
+                    className="flex-1 h-9 rounded-[4px] bg-brand-primary text-[11px] font-bold text-white hover:bg-[#0a1530] shadow-none px-2"
+                  >
+                    {buttonLabel}
+                  </Button>
+                </div>
               </article>
             ),
           )}
@@ -379,6 +393,15 @@ export function RamsBuilderPage() {
           </div>
         </div>
       </section>
+
+      <BeforeCreateRamsModal 
+        isOpen={isCreateRamsModalOpen}
+        onClose={() => setIsCreateRamsModalOpen(false)}
+        onContinue={() => {
+          setIsCreateRamsModalOpen(false);
+          router.push('/rams-builder/rams');
+        }}
+      />
     </div>
   );
 }
