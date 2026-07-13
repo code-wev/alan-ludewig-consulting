@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { AddNewSiteModal } from "./add-new-site-modal";
 import { AddPermitHolderModal } from "./add-permit-holder-modal";
 import { AddSupportingDocumentModal } from "./add-supporting-document-modal";
+import { DeleteAttachmentModal } from "./delete-attachment-modal";
 import { 
   Info, 
   MapPin, 
@@ -29,6 +30,13 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
   const [showAddNewSiteModal, setShowAddNewSiteModal] = useState(false);
   const [showAddPermitHolderModal, setShowAddPermitHolderModal] = useState(false);
   const [showAddSupportingDocumentModal, setShowAddSupportingDocumentModal] = useState(false);
+  const [showDeleteAttachmentModal, setShowDeleteAttachmentModal] = useState(false);
+  const [fileToDelete, setFileToDelete] = useState("");
+
+  const handleDeleteAttachment = (fileName: string) => {
+    setFileToDelete(fileName);
+    setShowDeleteAttachmentModal(true);
+  };
 
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
@@ -214,7 +222,10 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
                   <button className="text-[#0453cd] hover:opacity-80">
                     <Eye className="size-4" />
                   </button>
-                  <button className="text-[#d92d20] hover:opacity-80">
+                  <button 
+                    className="text-[#d92d20] hover:opacity-80"
+                    onClick={() => handleDeleteAttachment("site_layout_plan_v2.pdf")}
+                  >
                     <Trash2 className="size-4" />
                   </button>
                 </div>
@@ -235,7 +246,10 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
                   <button className="text-[#0453cd] hover:opacity-80">
                     <Eye className="size-4" />
                   </button>
-                  <button className="text-[#d92d20] hover:opacity-80">
+                  <button 
+                    className="text-[#d92d20] hover:opacity-80"
+                    onClick={() => handleDeleteAttachment("excavation_point_A.jpg")}
+                  >
                     <Trash2 className="size-4" />
                   </button>
                 </div>
@@ -333,6 +347,12 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
       )}
       {showAddSupportingDocumentModal && (
         <AddSupportingDocumentModal onClose={() => setShowAddSupportingDocumentModal(false)} />
+      )}
+      {showDeleteAttachmentModal && (
+        <DeleteAttachmentModal 
+          onClose={() => setShowDeleteAttachmentModal(false)} 
+          fileName={fileToDelete}
+        />
       )}
 
     </div>
