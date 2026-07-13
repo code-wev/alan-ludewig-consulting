@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronRight, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PermitTypeStep } from "./permit-type-step";
+import { JobDetailsStep } from "./job-details-step";
 
 const STEPPER_STEPS = [
   "Permit Type",
@@ -26,7 +27,7 @@ const STEP_TITLES = [
 
 const STEP_DESCRIPTIONS = [
   "Select the primary high-risk activity for this permit. Steps 3 through 5 will be automatically configured based on your selection.",
-  "Job details...",
+  "",
   "Hazards...",
   "Auth...",
   "Validity...",
@@ -37,7 +38,7 @@ export function PermitTemplatePage() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
-  // const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
+  const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
 
   return (
     <div className="flex flex-col gap-8 pb-12 w-full text-brand-primary">
@@ -110,16 +111,18 @@ export function PermitTemplatePage() {
           <h2 className="text-[20px] font-bold text-brand-primary">
             {STEP_TITLES[currentStep]}
           </h2>
-          <p className="text-[14px] text-brand-secondary max-w-[1200px] leading-[1.6]">
-            {STEP_DESCRIPTIONS[currentStep]}
-          </p>
+          {STEP_DESCRIPTIONS[currentStep] && (
+            <p className="text-[14px] text-brand-secondary max-w-[1200px] leading-[1.6]">
+              {STEP_DESCRIPTIONS[currentStep]}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Main Content Render */}
       {currentStep === 0 && <PermitTypeStep onNext={handleNext} />}
-      {/* 
       {currentStep === 1 && <JobDetailsStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {/* 
       {currentStep === 2 && <HazardsControlsStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 3 && <AuthorisationStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
