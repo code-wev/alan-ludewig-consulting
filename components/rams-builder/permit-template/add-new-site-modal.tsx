@@ -40,7 +40,7 @@ export function AddNewSiteModal({ onClose }: AddNewSiteModalProps) {
         </div>
 
         {/* Scrollable Form Content */}
-        <div className="flex-1 overflow-y-auto px-[32px] pb-[32px]">
+        <div className="flex-1 overflow-y-auto px-[32px] pb-[32px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
           <div className="flex flex-col gap-[24px] w-full">
             
             {/* Section: Site Information */}
