@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { AddNewSiteModal } from "./add-new-site-modal";
 import { 
   Info, 
   MapPin, 
@@ -23,6 +24,8 @@ interface JobDetailsStepProps {
 }
 
 export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
+  const [showAddNewSiteModal, setShowAddNewSiteModal] = useState(false);
+
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
       
@@ -56,7 +59,10 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
                 placeholder="Enter formal project title"
                 className="w-full h-[51px] rounded-[6px] border-[1.5px] border-[#dce0e7] px-[16px] text-[14px] text-brand-primary placeholder:text-[#a3acba] focus:outline-none focus:border-brand-primary"
               />
-              <button className="h-[33px] px-[13px] rounded-[6px] border border-brand-primary border-dashed text-brand-primary text-[12px] hover:bg-gray-50 mt-1">
+              <button 
+                onClick={() => setShowAddNewSiteModal(true)}
+                className="h-[33px] px-[13px] rounded-[6px] border border-brand-primary border-dashed text-brand-primary text-[12px] hover:bg-gray-50 mt-1"
+              >
                 + Add New Site
               </button>
             </div>
@@ -307,6 +313,11 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
           Next: Hazards & Controls
         </Button>
       </div>
+
+      {/* Modals */}
+      {showAddNewSiteModal && (
+        <AddNewSiteModal onClose={() => setShowAddNewSiteModal(false)} />
+      )}
 
     </div>
   );
