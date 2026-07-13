@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AddNewSiteModal } from "./add-new-site-modal";
 import { AddPermitHolderModal } from "./add-permit-holder-modal";
+import { AddSupportingDocumentModal } from "./add-supporting-document-modal";
 import { 
   Info, 
   MapPin, 
@@ -27,6 +28,7 @@ interface JobDetailsStepProps {
 export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
   const [showAddNewSiteModal, setShowAddNewSiteModal] = useState(false);
   const [showAddPermitHolderModal, setShowAddPermitHolderModal] = useState(false);
+  const [showAddSupportingDocumentModal, setShowAddSupportingDocumentModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
@@ -173,10 +175,13 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
           {/* Box 4: Upload Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
             {/* Supporting Document */}
-            <div className="bg-white border border-[#a3acba] border-dashed rounded-[6px] p-[33px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors h-[156px]">
+            <div 
+              className="bg-white border border-[#a3acba] border-dashed rounded-[10px] p-[24px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors h-[213px]"
+              onClick={() => setShowAddSupportingDocumentModal(true)}
+            >
               <UploadCloud className="size-8 text-brand-secondary mb-3" />
-              <span className="text-[14px] font-bold text-brand-secondary leading-[1.6]">Supporting Document</span>
-              <span className="text-[12px] text-[#a3acba] leading-[1.6]">PDF, DOCX up to 10MB</span>
+              <span className="text-[14px] font-bold text-brand-secondary leading-[1.6]">Upload Supporting Document</span>
+              <span className="text-[12px] text-[#a3acba] leading-[1.6]">PDF, JPG, PNG (Max 10MB)</span>
             </div>
             {/* Site Image */}
             <div className="bg-white border border-[#a3acba] border-dashed rounded-[6px] p-[33px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors h-[156px]">
@@ -325,6 +330,9 @@ export function JobDetailsStep({ onPrevious, onNext }: JobDetailsStepProps) {
       )}
       {showAddPermitHolderModal && (
         <AddPermitHolderModal onClose={() => setShowAddPermitHolderModal(false)} />
+      )}
+      {showAddSupportingDocumentModal && (
+        <AddSupportingDocumentModal onClose={() => setShowAddSupportingDocumentModal(false)} />
       )}
 
     </div>
