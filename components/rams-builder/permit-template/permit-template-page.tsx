@@ -156,7 +156,7 @@ export function PermitTemplatePage() {
       {/* Main Content Render */}
       {currentStep === 0 && <PermitTypeStep onNext={handleNext} />}
       {currentStep === 1 && <JobDetailsStep onPrevious={handlePrevious} onNext={handleNext} />}
-      {currentStep === 2 && <HazardsControlsStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {currentStep === 2 && <HazardsControlsStep onPrevious={handlePrevious} onNext={handleNext} onOpenIsolationModal={() => setShowIsolationModal(true)} />}
       {/* 
       {currentStep === 3 && <AuthorisationStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}

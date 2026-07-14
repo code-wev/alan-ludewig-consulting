@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 interface HazardsControlsStepProps {
   onPrevious: () => void;
   onNext: () => void;
+  onOpenIsolationModal?: () => void;
 }
 
 const HAZARDS = [
@@ -51,7 +52,7 @@ const PPE_ITEMS = [
   { id: "boots", label: "Boots", icon: Footprints, selected: true },
 ];
 
-export function HazardsControlsStep({ onPrevious, onNext }: HazardsControlsStepProps) {
+export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }: HazardsControlsStepProps) {
   const [hazards, setHazards] = useState(HAZARDS);
   const [ppe, setPpe] = useState(PPE_ITEMS);
 
@@ -264,7 +265,10 @@ export function HazardsControlsStep({ onPrevious, onNext }: HazardsControlsStepP
                     <span className="text-[12px] text-brand-secondary leading-[1.6]">LOTO Status: 0 Active</span>
                   </div>
                 </div>
-                <Button className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90">
+                <Button 
+                  onClick={onOpenIsolationModal}
+                  className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90"
+                >
                   Record Action
                 </Button>
               </div>
