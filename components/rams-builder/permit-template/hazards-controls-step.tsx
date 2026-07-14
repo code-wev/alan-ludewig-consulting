@@ -27,6 +27,7 @@ import {
   PlusCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AddPermitControlModal } from "./add-permit-control-modal";
 
 interface HazardsControlsStepProps {
   onPrevious: () => void;
@@ -55,6 +56,7 @@ const PPE_ITEMS = [
 export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }: HazardsControlsStepProps) {
   const [hazards, setHazards] = useState(HAZARDS);
   const [ppe, setPpe] = useState(PPE_ITEMS);
+  const [isAddControlModalOpen, setIsAddControlModalOpen] = useState(false);
 
   const toggleHazard = (id: string) => {
     setHazards(prev => prev.map(h => h.id === id ? { ...h, checked: !h.checked } : h));
@@ -146,7 +148,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
                 <h3 className="text-[20px] font-bold text-brand-primary leading-[1.6]">Permit Question Set</h3>
                 <p className="text-[14px] text-brand-secondary leading-[1.6]">Questions can be edited for this permit only. Changes here will not alter the global admin template.</p>
               </div>
-              <Button className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90 shrink-0">
+              <Button 
+                className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90 shrink-0"
+                onClick={() => setIsAddControlModalOpen(true)}
+              >
                 Add Control
               </Button>
             </div>
@@ -363,7 +368,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
               <span className="px-2 py-1 bg-[#12b76a] text-white text-[12px] font-bold rounded-[4px]">Verified</span>
             </div>
             <div className="col-span-1 flex items-center">
-              <button className="text-[#059669] hover:opacity-80 transition-opacity">
+              <button 
+                className="text-[#059669] hover:opacity-80 transition-opacity"
+                onClick={() => setIsAddControlModalOpen(true)}
+              >
                 <Edit2 className="size-4" />
               </button>
             </div>
@@ -386,7 +394,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
               <span className="px-2 py-1 bg-[#12b76a] text-white text-[12px] font-bold rounded-[4px]">Verified</span>
             </div>
             <div className="col-span-1 flex items-center">
-              <button className="text-[#059669] hover:opacity-80 transition-opacity">
+              <button 
+                className="text-[#059669] hover:opacity-80 transition-opacity"
+                onClick={() => setIsAddControlModalOpen(true)}
+              >
                 <Edit2 className="size-4" />
               </button>
             </div>
@@ -409,7 +420,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
               <span className="px-2 py-1 bg-[#12b76a] text-white text-[12px] font-bold rounded-[4px]">Verified</span>
             </div>
             <div className="col-span-1 flex items-center">
-              <button className="text-[#059669] hover:opacity-80 transition-opacity">
+              <button 
+                className="text-[#059669] hover:opacity-80 transition-opacity"
+                onClick={() => setIsAddControlModalOpen(true)}
+              >
                 <Edit2 className="size-4" />
               </button>
             </div>
@@ -432,7 +446,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
               <span className="px-2 py-1 bg-[#12b76a] text-white text-[12px] font-bold rounded-[4px]">Verified</span>
             </div>
             <div className="col-span-1 flex items-center">
-              <button className="text-[#059669] hover:opacity-80 transition-opacity">
+              <button 
+                className="text-[#059669] hover:opacity-80 transition-opacity"
+                onClick={() => setIsAddControlModalOpen(true)}
+              >
                 <Edit2 className="size-4" />
               </button>
             </div>
@@ -457,6 +474,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
           Next: Authorisation
         </Button>
       </div>
+
+      {isAddControlModalOpen && (
+        <AddPermitControlModal onClose={() => setIsAddControlModalOpen(false)} />
+      )}
 
     </div>
   );
