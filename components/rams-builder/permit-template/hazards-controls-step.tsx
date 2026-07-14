@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 interface HazardsControlsStepProps {
   onPrevious: () => void;
   onNext: () => void;
-  onOpenIsolationModal?: () => void;
+  onOpenIsolationModal?: (tab?: string) => void;
 }
 
 const HAZARDS = [
@@ -266,7 +266,7 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
                   </div>
                 </div>
                 <Button 
-                  onClick={onOpenIsolationModal}
+                  onClick={() => onOpenIsolationModal?.('electrical')}
                   className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90"
                 >
                   Record Action
@@ -283,7 +283,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
                     <span className="text-[12px] text-brand-secondary leading-[1.6]">Last Reading: N/A</span>
                   </div>
                 </div>
-                <Button className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90">
+                <Button 
+                  onClick={() => onOpenIsolationModal?.('gas')}
+                  className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90"
+                >
                   Record Action
                 </Button>
               </div>

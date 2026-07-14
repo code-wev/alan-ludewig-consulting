@@ -43,6 +43,7 @@ export function PermitTemplatePage() {
   const [currentStep, setCurrentStep] = useState(2);
   const [showSuggestedControlsModal, setShowSuggestedControlsModal] = useState(false);
   const [showIsolationModal, setShowIsolationModal] = useState(false);
+  const [isolationModalTab, setIsolationModalTab] = useState("electrical");
   const [showAddHazardModal, setShowAddHazardModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
@@ -138,7 +139,10 @@ export function PermitTemplatePage() {
             </Button>
             <Button 
               variant="outline" 
-              onClick={() => setShowIsolationModal(true)}
+              onClick={() => {
+                setIsolationModalTab("electrical");
+                setShowIsolationModal(true);
+              }}
               className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50"
             >
               Add Isolation / Gas Test Record
@@ -156,7 +160,16 @@ export function PermitTemplatePage() {
       {/* Main Content Render */}
       {currentStep === 0 && <PermitTypeStep onNext={handleNext} />}
       {currentStep === 1 && <JobDetailsStep onPrevious={handlePrevious} onNext={handleNext} />}
-      {currentStep === 2 && <HazardsControlsStep onPrevious={handlePrevious} onNext={handleNext} onOpenIsolationModal={() => setShowIsolationModal(true)} />}
+      {currentStep === 2 && (
+        <HazardsControlsStep 
+          onPrevious={handlePrevious} 
+          onNext={handleNext} 
+          onOpenIsolationModal={(tab) => {
+            setIsolationModalTab(tab || "electrical");
+            setShowIsolationModal(true);
+          }} 
+        />
+      )}
       {/* 
       {currentStep === 3 && <AuthorisationStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
@@ -168,7 +181,10 @@ export function PermitTemplatePage() {
         <SuggestedControlsModal onClose={() => setShowSuggestedControlsModal(false)} />
       )}
       {showIsolationModal && (
-        <IsolationGasRecordModal onClose={() => setShowIsolationModal(false)} />
+        <IsolationGasRecordModal 
+          onClose={() => setShowIsolationModal(false)} 
+          initialTab={isolationModalTab}
+        />
       )}
       {showAddHazardModal && (
         <AddHazardModal onClose={() => setShowAddHazardModal(false)} />
