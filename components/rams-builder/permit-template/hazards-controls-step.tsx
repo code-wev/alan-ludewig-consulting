@@ -301,7 +301,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
                     <span className="text-[12px] text-brand-secondary leading-[1.6]">Periodic Checks Req.</span>
                   </div>
                 </div>
-                <Button className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90">
+                <Button 
+                  onClick={() => onOpenIsolationModal?.('lockout')}
+                  className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90"
+                >
                   Record Action
                 </Button>
               </div>
@@ -316,7 +319,10 @@ export function HazardsControlsStep({ onPrevious, onNext, onOpenIsolationModal }
                     <span className="text-[12px] text-brand-secondary leading-[1.6]">Approved & Attached</span>
                   </div>
                 </div>
-                <Button className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90">
+                <Button 
+                  onClick={() => onOpenIsolationModal?.('height')}
+                  className="h-[30px] rounded-[6px] bg-brand-primary text-white font-bold text-[11px] px-4 hover:bg-opacity-90"
+                >
                   Record Action
                 </Button>
               </div>
