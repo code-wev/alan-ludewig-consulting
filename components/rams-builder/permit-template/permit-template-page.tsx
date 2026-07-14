@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { PermitTypeStep } from "./permit-type-step";
 import { JobDetailsStep } from "./job-details-step";
 import { HazardsControlsStep } from "./hazards-controls-step";
+import { SuggestedControlsModal } from "./suggested-controls-modal";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -37,7 +38,8 @@ const STEP_DESCRIPTIONS = [
 ];
 
 export function PermitTemplatePage() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(2);
+  const [showSuggestedControlsModal, setShowSuggestedControlsModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
   const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -123,7 +125,11 @@ export function PermitTemplatePage() {
         {/* Step 3 Header Actions */}
         {currentStep === 2 && (
           <div className="flex items-center gap-4 shrink-0">
-            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowSuggestedControlsModal(true)}
+              className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50"
+            >
               Suggested Controls
             </Button>
             <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
@@ -145,6 +151,11 @@ export function PermitTemplatePage() {
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 5 && <CloseOutStep onPrevious={handlePrevious} onNext={handleNext} />}
       */}
+
+      {/* Modals */}
+      {showSuggestedControlsModal && (
+        <SuggestedControlsModal onClose={() => setShowSuggestedControlsModal(false)} />
+      )}
 
     </div>
   );
