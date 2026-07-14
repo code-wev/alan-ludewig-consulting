@@ -8,6 +8,7 @@ import { PermitTypeStep } from "./permit-type-step";
 import { JobDetailsStep } from "./job-details-step";
 import { HazardsControlsStep } from "./hazards-controls-step";
 import { SuggestedControlsModal } from "./suggested-controls-modal";
+import { IsolationGasRecordModal } from "./isolation-gas-record-modal";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -40,6 +41,7 @@ const STEP_DESCRIPTIONS = [
 export function PermitTemplatePage() {
   const [currentStep, setCurrentStep] = useState(2);
   const [showSuggestedControlsModal, setShowSuggestedControlsModal] = useState(false);
+  const [showIsolationModal, setShowIsolationModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
   const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -132,7 +134,11 @@ export function PermitTemplatePage() {
             >
               Suggested Controls
             </Button>
-            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowIsolationModal(true)}
+              className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50"
+            >
               Add Isolation / Gas Test Record
             </Button>
             <Button className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90">
@@ -155,6 +161,9 @@ export function PermitTemplatePage() {
       {/* Modals */}
       {showSuggestedControlsModal && (
         <SuggestedControlsModal onClose={() => setShowSuggestedControlsModal(false)} />
+      )}
+      {showIsolationModal && (
+        <IsolationGasRecordModal onClose={() => setShowIsolationModal(false)} />
       )}
 
     </div>
