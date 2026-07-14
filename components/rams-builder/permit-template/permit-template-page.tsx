@@ -6,6 +6,8 @@ import { ChevronRight, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PermitTypeStep } from "./permit-type-step";
 import { JobDetailsStep } from "./job-details-step";
+import { HazardsControlsStep } from "./hazards-controls-step";
+import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
   "Permit Type",
@@ -28,7 +30,7 @@ const STEP_TITLES = [
 const STEP_DESCRIPTIONS = [
   "Select the primary high-risk activity for this permit. Steps 3 through 5 will be automatically configured based on your selection.",
   "",
-  "Hazards...",
+  "",
   "Auth...",
   "Validity...",
   "Close Out..."
@@ -117,13 +119,28 @@ export function PermitTemplatePage() {
             </p>
           )}
         </div>
+        
+        {/* Step 3 Header Actions */}
+        {currentStep === 2 && (
+          <div className="flex items-center gap-4 shrink-0">
+            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+              Suggested Controls
+            </Button>
+            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+              Add Isolation / Gas Test Record
+            </Button>
+            <Button className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90">
+              Add Hazard
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Main Content Render */}
       {currentStep === 0 && <PermitTypeStep onNext={handleNext} />}
       {currentStep === 1 && <JobDetailsStep onPrevious={handlePrevious} onNext={handleNext} />}
-      {/* 
       {currentStep === 2 && <HazardsControlsStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {/* 
       {currentStep === 3 && <AuthorisationStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 5 && <CloseOutStep onPrevious={handlePrevious} onNext={handleNext} />}
