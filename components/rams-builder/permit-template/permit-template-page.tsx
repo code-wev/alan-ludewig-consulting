@@ -9,6 +9,7 @@ import { JobDetailsStep } from "./job-details-step";
 import { HazardsControlsStep } from "./hazards-controls-step";
 import { SuggestedControlsModal } from "./suggested-controls-modal";
 import { IsolationGasRecordModal } from "./isolation-gas-record-modal";
+import { AddHazardModal } from "./add-hazard-modal";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -42,6 +43,7 @@ export function PermitTemplatePage() {
   const [currentStep, setCurrentStep] = useState(2);
   const [showSuggestedControlsModal, setShowSuggestedControlsModal] = useState(false);
   const [showIsolationModal, setShowIsolationModal] = useState(false);
+  const [showAddHazardModal, setShowAddHazardModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
   const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -141,7 +143,10 @@ export function PermitTemplatePage() {
             >
               Add Isolation / Gas Test Record
             </Button>
-            <Button className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90">
+            <Button 
+              onClick={() => setShowAddHazardModal(true)}
+              className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90"
+            >
               Add Hazard
             </Button>
           </div>
@@ -164,6 +169,9 @@ export function PermitTemplatePage() {
       )}
       {showIsolationModal && (
         <IsolationGasRecordModal onClose={() => setShowIsolationModal(false)} />
+      )}
+      {showAddHazardModal && (
+        <AddHazardModal onClose={() => setShowAddHazardModal(false)} />
       )}
 
     </div>
