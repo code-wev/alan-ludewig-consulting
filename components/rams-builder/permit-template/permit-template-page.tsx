@@ -10,6 +10,7 @@ import { HazardsControlsStep } from "./hazards-controls-step";
 import { SuggestedControlsModal } from "./suggested-controls-modal";
 import { IsolationGasRecordModal } from "./isolation-gas-record-modal";
 import { AddHazardModal } from "./add-hazard-modal";
+import { AuthorisationStep } from "./authorisation-step";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -34,7 +35,7 @@ const STEP_DESCRIPTIONS = [
   "Select the primary high-risk activity for this permit. Steps 3 through 5 will be automatically configured based on your selection.",
   "",
   "",
-  "Auth...",
+  "",
   "Validity...",
   "Close Out..."
 ];
@@ -155,6 +156,21 @@ export function PermitTemplatePage() {
             </Button>
           </div>
         )}
+
+        {/* Step 4 Header Actions */}
+        {currentStep === 3 && (
+          <div className="flex items-center gap-3 shrink-0">
+            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+              View Approval Status
+            </Button>
+            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+              Request Permit Approval
+            </Button>
+            <Button className="h-[34px] rounded-[6px] bg-brand-primary text-white font-bold text-[12px] px-4 hover:bg-opacity-90">
+              Add Authorised Person
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Main Content Render */}
@@ -170,8 +186,8 @@ export function PermitTemplatePage() {
           }} 
         />
       )}
-      {/* 
       {currentStep === 3 && <AuthorisationStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {/* 
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 5 && <CloseOutStep onPrevious={handlePrevious} onNext={handleNext} />}
       */}
