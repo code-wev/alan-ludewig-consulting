@@ -27,7 +27,7 @@ export function CreateCustomPermitModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/40 backdrop-blur-sm p-4 md:p-8 overflow-y-auto font-['Sansation']">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/40 backdrop-blur-sm p-4 md:p-8 overflow-y-auto font-['Sansation'] no-scrollbar">
       {/* Modal Container */}
       <div className="bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] w-full max-w-[894px] flex flex-col relative shadow-2xl my-auto max-h-[90vh] overflow-hidden">
         
@@ -39,7 +39,7 @@ export function CreateCustomPermitModal({
           <X className="size-4 text-brand-secondary" />
         </button>
 
-        <div className="p-6 md:p-[24px] flex flex-col gap-6 w-full overflow-y-auto">
+        <div className="p-6 md:p-[24px] flex flex-col gap-6 w-full overflow-y-auto no-scrollbar">
           {/* Header */}
           <div className="flex flex-col gap-1.5 w-full max-w-[448px]">
             <h2 className="text-[20px] font-bold text-brand-primary leading-[1.6]">

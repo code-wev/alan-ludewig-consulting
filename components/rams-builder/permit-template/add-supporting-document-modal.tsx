@@ -54,7 +54,7 @@ export function AddSupportingDocumentModal({ onClose }: AddSupportingDocumentMod
         </div>
 
         {/* Scrollable Form Content */}
-        <div className="flex-1 overflow-y-auto px-[32px] pb-[32px] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+        <div className="flex-1 overflow-y-auto px-[32px] pb-[32px] no-scrollbar">
           <div className="flex flex-col gap-[24px] w-full">
             
             {/* Section: Identity & Contact (as per Figma screenshot text) */}

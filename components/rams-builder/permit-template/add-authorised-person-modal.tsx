@@ -28,7 +28,7 @@ export function AddAuthorisedPersonModal({ onClose }: AddAuthorisedPersonModalPr
         </div>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto px-6 pb-6 flex flex-col gap-10 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto px-6 pb-6 flex flex-col gap-10 no-scrollbar">
           
           {/* Personal Details */}
           <div className="flex flex-col gap-6">

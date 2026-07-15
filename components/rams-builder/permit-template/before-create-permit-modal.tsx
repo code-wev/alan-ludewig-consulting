@@ -22,7 +22,7 @@ export function BeforeCreatePermitModal({ isOpen, onClose, onContinue }: BeforeC
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/40 backdrop-blur-sm p-4 md:p-8 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-primary/40 backdrop-blur-sm p-4 md:p-8 overflow-y-auto no-scrollbar">
       {/* Modal Container */}
       <div className="bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] p-6 flex flex-col gap-6 w-full max-w-[894px] relative shadow-2xl my-auto">
         
@@ -48,7 +48,7 @@ export function BeforeCreatePermitModal({ isOpen, onClose, onContinue }: BeforeC
         </div>
 
         {/* Content Body */}
-        <div className="flex flex-col gap-6 overflow-y-auto max-h-[70vh]">
+        <div className="flex flex-col gap-6 overflow-y-auto max-h-[70vh] no-scrollbar">
           
           {/* Checklist */}
           <div className="bg-[#f3f5f8] border-l-4 border-l-brand-primary rounded-r-[12px] rounded-l-[4px] pl-6 pr-5 py-5 flex flex-col gap-4">
