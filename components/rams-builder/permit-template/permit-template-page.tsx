@@ -14,6 +14,7 @@ import { AuthorisationStep } from "./authorisation-step";
 import { AddAuthorisedPersonModal } from "./add-authorised-person-modal";
 import { AssignPermitIssuerModal } from "./assign-permit-issuer-modal";
 import { AssignPermitHolderModal } from "./assign-permit-holder-modal";
+import { PermitApprovalStatusModal } from "./permit-approval-status-modal";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -52,6 +53,7 @@ export function PermitTemplatePage() {
   const [showAddAuthorisedPersonModal, setShowAddAuthorisedPersonModal] = useState(false);
   const [showAssignPermitIssuerModal, setShowAssignPermitIssuerModal] = useState(false);
   const [showAssignPermitHolderModal, setShowAssignPermitHolderModal] = useState(false);
+  const [showPermitApprovalStatusModal, setShowPermitApprovalStatusModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
   const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -166,10 +168,14 @@ export function PermitTemplatePage() {
         {/* Step 4 Header Actions */}
         {currentStep === 3 && (
           <div className="flex items-center gap-3 shrink-0">
-            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+            <Button variant="outline" className="h-[34px] bg-white border-[#e3e6ec] text-brand-primary font-bold text-[13px] rounded-[6px]" onClick={() => setShowPermitApprovalStatusModal(true)}>
               View Approval Status
             </Button>
-            <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-4 hover:bg-gray-50">
+            <Button 
+              variant="outline" 
+              className="h-[34px] bg-[#f8fafd] border-[#e3e6ec] text-brand-primary font-bold text-[13px] rounded-[6px]"
+              onClick={() => setShowPermitApprovalStatusModal(true)}
+            >
               Request Permit Approval
             </Button>
             <Button 
@@ -201,6 +207,7 @@ export function PermitTemplatePage() {
           onNext={handleNext} 
           onAssignPermitIssuer={() => setShowAssignPermitIssuerModal(true)}
           onAssignPermitHolder={() => setShowAssignPermitHolderModal(true)}
+          onRequestPermitApproval={() => setShowPermitApprovalStatusModal(true)}
         />
       )}
       {/* 
@@ -229,6 +236,9 @@ export function PermitTemplatePage() {
       )}
       {showAssignPermitHolderModal && (
         <AssignPermitHolderModal onClose={() => setShowAssignPermitHolderModal(false)} />
+      )}
+      {showPermitApprovalStatusModal && (
+        <PermitApprovalStatusModal onClose={() => setShowPermitApprovalStatusModal(false)} />
       )}
 
     </div>

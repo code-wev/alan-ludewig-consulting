@@ -9,9 +9,10 @@ interface AuthorisationStepProps {
   onNext: () => void;
   onAssignPermitIssuer?: () => void;
   onAssignPermitHolder?: () => void;
+  onRequestPermitApproval?: () => void;
 }
 
-export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer, onAssignPermitHolder }: AuthorisationStepProps) {
+export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer, onAssignPermitHolder, onRequestPermitApproval }: AuthorisationStepProps) {
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 w-full items-start">
@@ -226,7 +227,11 @@ export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer, on
             Next: Validity Period
           </Button>
         </div>
-        <Button variant="outline" className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-6 hover:bg-gray-50">
+        <Button 
+          variant="outline" 
+          className="h-[34px] rounded-[6px] border-brand-primary text-brand-primary font-bold text-[12px] px-6 hover:bg-gray-50"
+          onClick={onRequestPermitApproval}
+        >
           Request Permit Approval
         </Button>
       </div>
