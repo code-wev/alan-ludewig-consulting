@@ -7,9 +7,10 @@ import { CheckCircle2, Circle, Target, ShieldCheck } from "lucide-react";
 interface AuthorisationStepProps {
   onPrevious: () => void;
   onNext: () => void;
+  onAssignPermitIssuer?: () => void;
 }
 
-export function AuthorisationStep({ onPrevious, onNext }: AuthorisationStepProps) {
+export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer }: AuthorisationStepProps) {
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 w-full items-start">
@@ -22,7 +23,12 @@ export function AuthorisationStep({ onPrevious, onNext }: AuthorisationStepProps
               <h3 className="text-[18px] font-bold text-brand-primary leading-[1.6]">1. Permit Issuer</h3>
               <div className="flex items-center gap-3">
                 <span className="px-2 py-0.5 bg-[#12b76a] text-white text-[12px] font-bold rounded-[4px]">Approved</span>
-                <span className="text-[13px] font-bold text-brand-primary cursor-pointer hover:underline">Assign Permit Issuer</span>
+                <span 
+                  className="text-[13px] font-bold text-brand-primary cursor-pointer hover:underline"
+                  onClick={onAssignPermitIssuer}
+                >
+                  Assign Permit Issuer
+                </span>
               </div>
             </div>
 

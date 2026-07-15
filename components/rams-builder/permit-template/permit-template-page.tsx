@@ -12,6 +12,7 @@ import { IsolationGasRecordModal } from "./isolation-gas-record-modal";
 import { AddHazardModal } from "./add-hazard-modal";
 import { AuthorisationStep } from "./authorisation-step";
 import { AddAuthorisedPersonModal } from "./add-authorised-person-modal";
+import { AssignPermitIssuerModal } from "./assign-permit-issuer-modal";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -48,6 +49,7 @@ export function PermitTemplatePage() {
   const [isolationModalTab, setIsolationModalTab] = useState("electrical");
   const [showAddHazardModal, setShowAddHazardModal] = useState(false);
   const [showAddAuthorisedPersonModal, setShowAddAuthorisedPersonModal] = useState(false);
+  const [showAssignPermitIssuerModal, setShowAssignPermitIssuerModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
   const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -191,7 +193,13 @@ export function PermitTemplatePage() {
           }} 
         />
       )}
-      {currentStep === 3 && <AuthorisationStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {currentStep === 3 && (
+        <AuthorisationStep 
+          onPrevious={handlePrevious} 
+          onNext={handleNext} 
+          onAssignPermitIssuer={() => setShowAssignPermitIssuerModal(true)}
+        />
+      )}
       {/* 
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
       {currentStep === 5 && <CloseOutStep onPrevious={handlePrevious} onNext={handleNext} />}
@@ -212,6 +220,9 @@ export function PermitTemplatePage() {
       )}
       {showAddAuthorisedPersonModal && (
         <AddAuthorisedPersonModal onClose={() => setShowAddAuthorisedPersonModal(false)} />
+      )}
+      {showAssignPermitIssuerModal && (
+        <AssignPermitIssuerModal onClose={() => setShowAssignPermitIssuerModal(false)} />
       )}
 
     </div>
