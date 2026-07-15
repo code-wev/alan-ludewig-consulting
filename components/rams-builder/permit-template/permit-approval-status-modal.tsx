@@ -23,8 +23,8 @@ export function PermitApprovalStatusModal({
   onClose,
 }: PermitApprovalStatusModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#101828]/50 font-['Sansation'] p-4 md:p-8 overflow-y-auto no-scrollbar">
-      <div className="w-[1202px] max-w-[95vw] bg-white rounded-[12px] flex flex-col gap-[40px] p-[24px] shadow-xl border-[1.5px] border-[#e3e6ec] relative my-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#101828]/50 font-['Sansation']">
+      <div className="w-[1202px] max-w-[95vw] max-h-[90vh] bg-white rounded-[12px] flex flex-col shadow-xl border-[1.5px] border-[#e3e6ec] relative">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -33,9 +33,8 @@ export function PermitApprovalStatusModal({
           <X className="size-4 text-brand-secondary" />
         </button>
 
-        <div className="flex flex-col gap-[24px] w-full relative">
-          {/* Header */}
-          <div className="flex flex-col gap-[6px] w-[318px]">
+        {/* Header */}
+        <div className="flex flex-col gap-[6px] w-[318px] pt-[24px] px-[24px] shrink-0">
             <h2 className="text-[20px] font-bold text-brand-primary leading-[1.6]">
               Permit Approval Status
             </h2>
@@ -50,8 +49,9 @@ export function PermitApprovalStatusModal({
           </div>
 
           {/* Modal Content - Split layout */}
-          <div className="flex items-start w-full border border-[#e3e6ec] rounded-[12px] overflow-hidden">
-            {/* Left Column - Approval Timeline */}
+          <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col gap-[24px] w-full px-[24px] mt-[24px]">
+            <div className="flex items-start w-full border border-[#e3e6ec] rounded-[12px] overflow-hidden shrink-0">
+              {/* Left Column - Approval Timeline */}
             <div className="flex-1 pl-[32px] pr-[33px] py-[32px] flex flex-col bg-white border-r border-[#e3e6ec]">
               <h3 className="text-[16px] font-bold text-brand-primary leading-[1.6] mb-[48px]">
                 Approval Timeline
@@ -188,6 +188,8 @@ export function PermitApprovalStatusModal({
                   <div className="flex items-center gap-[16px]">
                     <div className="relative shrink-0">
                       <Image
+                        width={48}
+                        height={48}
                         src="https://i.pravatar.cc/150?u=1"
                         alt="Marcus"
                         className="size-[48px] rounded-[6px]"
@@ -279,6 +281,8 @@ export function PermitApprovalStatusModal({
                   <div className="flex items-center gap-[16px]">
                     <div className="relative shrink-0">
                       <Image
+                        width={48}
+                        height={48}
                         src="https://i.pravatar.cc/150?u=4"
                         alt="Robert"
                         className="size-[48px] rounded-[6px]"
@@ -319,7 +323,7 @@ export function PermitApprovalStatusModal({
           </div>
 
           {/* Bottom Guidance Section */}
-          <div className="bg-[#f3f5f8] rounded-[12px] px-[32px] py-[24px] flex justify-between items-center w-full">
+          <div className="bg-[#f3f5f8] rounded-[12px] px-[32px] py-[24px] flex justify-between items-center w-full shrink-0">
             <div className="flex items-start gap-[12px]">
               <MessageSquare className="size-[24px] text-brand-primary shrink-0 mt-1" />
               <div className="flex flex-col gap-[8px]">
@@ -352,7 +356,7 @@ export function PermitApprovalStatusModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full px-[24px] pb-[24px] pt-[24px] shrink-0">
           <div className="flex gap-[20px] items-center">
             <Button
               variant="outline"
