@@ -8,9 +8,10 @@ interface AuthorisationStepProps {
   onPrevious: () => void;
   onNext: () => void;
   onAssignPermitIssuer?: () => void;
+  onAssignPermitHolder?: () => void;
 }
 
-export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer }: AuthorisationStepProps) {
+export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer, onAssignPermitHolder }: AuthorisationStepProps) {
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 w-full items-start">
@@ -62,7 +63,12 @@ export function AuthorisationStep({ onPrevious, onNext, onAssignPermitIssuer }: 
             <div className="flex items-center justify-between border-b border-[#e3e6ec] pb-4">
               <h3 className="text-[18px] font-bold text-brand-primary leading-[1.6]">2. Permit Receiver</h3>
               <div className="flex items-center gap-3">
-                <span className="text-[13px] font-bold text-brand-primary cursor-pointer hover:underline">Assigned Permit Holder</span>
+                <span 
+                  className="text-[13px] font-bold text-brand-primary cursor-pointer hover:underline"
+                  onClick={onAssignPermitHolder}
+                >
+                  Assigned Permit Holder
+                </span>
               </div>
             </div>
 

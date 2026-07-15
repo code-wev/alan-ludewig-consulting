@@ -13,6 +13,7 @@ import { AddHazardModal } from "./add-hazard-modal";
 import { AuthorisationStep } from "./authorisation-step";
 import { AddAuthorisedPersonModal } from "./add-authorised-person-modal";
 import { AssignPermitIssuerModal } from "./assign-permit-issuer-modal";
+import { AssignPermitHolderModal } from "./assign-permit-holder-modal";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -50,6 +51,7 @@ export function PermitTemplatePage() {
   const [showAddHazardModal, setShowAddHazardModal] = useState(false);
   const [showAddAuthorisedPersonModal, setShowAddAuthorisedPersonModal] = useState(false);
   const [showAssignPermitIssuerModal, setShowAssignPermitIssuerModal] = useState(false);
+  const [showAssignPermitHolderModal, setShowAssignPermitHolderModal] = useState(false);
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, STEPPER_STEPS.length - 1));
   const handlePrevious = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -198,6 +200,7 @@ export function PermitTemplatePage() {
           onPrevious={handlePrevious} 
           onNext={handleNext} 
           onAssignPermitIssuer={() => setShowAssignPermitIssuerModal(true)}
+          onAssignPermitHolder={() => setShowAssignPermitHolderModal(true)}
         />
       )}
       {/* 
@@ -223,6 +226,9 @@ export function PermitTemplatePage() {
       )}
       {showAssignPermitIssuerModal && (
         <AssignPermitIssuerModal onClose={() => setShowAssignPermitIssuerModal(false)} />
+      )}
+      {showAssignPermitHolderModal && (
+        <AssignPermitHolderModal onClose={() => setShowAssignPermitHolderModal(false)} />
       )}
 
     </div>
