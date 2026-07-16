@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ExtendPermitModal } from "./extend-permit-modal";
+import { SuspendPermitModal } from "./suspend-permit-modal";
 
 interface ValidityPeriodStepProps {
   onPrevious: () => void;
@@ -29,6 +30,7 @@ interface ValidityPeriodStepProps {
 
 export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepProps) {
   const [showExtendModal, setShowExtendModal] = useState(false);
+  const [showSuspendModal, setShowSuspendModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
@@ -186,7 +188,10 @@ export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepPro
                      </div>
                      <ExternalLink className="size-[13.5px] text-[#0453cd]" />
                   </button>
-                  <button className="bg-[#ba1a1a]/5 border border-[#ba1a1a]/20 rounded-[8px] py-[13px] px-[13px] flex justify-between items-center w-full group hover:bg-[#ba1a1a]/10">
+                  <button 
+                    onClick={() => setShowSuspendModal(true)}
+                    className="bg-[#ba1a1a]/5 border border-[#ba1a1a]/20 rounded-[8px] py-[13px] px-[13px] flex justify-between items-center w-full group hover:bg-[#ba1a1a]/10"
+                  >
                      <div className="flex gap-[12px] items-center">
                         <PauseCircle className="size-[20px] text-[#ba1a1a]" />
                         <span className="text-[14px] text-[#ba1a1a]">Suspend Permit</span>
@@ -272,6 +277,9 @@ export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepPro
       {/* Modals */}
       {showExtendModal && (
         <ExtendPermitModal onClose={() => setShowExtendModal(false)} />
+      )}
+      {showSuspendModal && (
+        <SuspendPermitModal onClose={() => setShowSuspendModal(false)} />
       )}
     </div>
   );
