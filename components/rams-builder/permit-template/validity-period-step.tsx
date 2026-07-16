@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExtendPermitModal } from "./extend-permit-modal";
 import { SuspendPermitModal } from "./suspend-permit-modal";
+import { RevalidatePermitModal } from "./revalidate-permit-modal";
 
 interface ValidityPeriodStepProps {
   onPrevious: () => void;
@@ -31,6 +32,7 @@ interface ValidityPeriodStepProps {
 export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepProps) {
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [showSuspendModal, setShowSuspendModal] = useState(false);
+  const [showRevalidateModal, setShowRevalidateModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
@@ -198,9 +200,12 @@ export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepPro
                      </div>
                      <AlertOctagon className="size-[15px] text-[#ba1a1a]" />
                   </button>
-                  <button className="bg-white border border-[#c6c5cf] rounded-[8px] py-[13px] px-[13px] flex justify-between items-center w-full group hover:bg-gray-50">
+                  <button 
+                    onClick={() => setShowRevalidateModal(true)}
+                    className="bg-white border border-[#c6c5cf] rounded-[8px] py-[13px] px-[13px] flex justify-between items-center w-full group hover:bg-gray-50"
+                  >
                      <div className="flex gap-[12px] items-center">
-                        <RotateCw className="size-[20px] text-brand-primary" />
+                        <RotateCw className="size-[18px] text-brand-primary" />
                         <span className="text-[14px] text-brand-primary">Revalidate</span>
                      </div>
                      <RefreshCw className="size-[12px] text-brand-primary" />
@@ -280,6 +285,9 @@ export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepPro
       )}
       {showSuspendModal && (
         <SuspendPermitModal onClose={() => setShowSuspendModal(false)} />
+      )}
+      {showRevalidateModal && (
+        <RevalidatePermitModal onClose={() => setShowRevalidateModal(false)} />
       )}
     </div>
   );
