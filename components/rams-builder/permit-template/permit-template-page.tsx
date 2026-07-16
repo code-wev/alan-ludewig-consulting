@@ -15,6 +15,7 @@ import { AddAuthorisedPersonModal } from "./add-authorised-person-modal";
 import { AssignPermitIssuerModal } from "./assign-permit-issuer-modal";
 import { AssignPermitHolderModal } from "./assign-permit-holder-modal";
 import { PermitApprovalStatusModal } from "./permit-approval-status-modal";
+import { ValidityPeriodStep } from "./validity-period-step";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -40,7 +41,7 @@ const STEP_DESCRIPTIONS = [
   "",
   "",
   "",
-  "Validity...",
+  "",
   "Close Out..."
 ];
 
@@ -210,8 +211,8 @@ export function PermitTemplatePage() {
           onRequestPermitApproval={() => setShowPermitApprovalStatusModal(true)}
         />
       )}
-      {/* 
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
+      {/* 
       {currentStep === 5 && <CloseOutStep onPrevious={handlePrevious} onNext={handleNext} />}
       */}
 
