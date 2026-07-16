@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { 
   Calendar, 
   Clock, 
@@ -20,6 +20,7 @@ import {
   CalendarClock
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ExtendPermitModal } from "./extend-permit-modal";
 
 interface ValidityPeriodStepProps {
   onPrevious: () => void;
@@ -27,6 +28,8 @@ interface ValidityPeriodStepProps {
 }
 
 export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepProps) {
+  const [showExtendModal, setShowExtendModal] = useState(false);
+
   return (
     <div className="flex flex-col gap-6 w-full font-['Sansation']">
       
@@ -173,7 +176,10 @@ export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepPro
             <div className="bg-white border border-[#e3e6ec] rounded-[12px] p-[25px] flex flex-col gap-[16px] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.03)]">
                <h4 className="text-[20px] font-bold text-brand-primary">Operational Actions</h4>
                <div className="flex flex-col gap-[12px]">
-                  <button className="bg-[#0453cd]/5 border border-[#0453cd]/20 rounded-[8px] py-[13px] px-[13px] flex justify-between items-center w-full group hover:bg-[#0453cd]/10">
+                  <button 
+                    onClick={() => setShowExtendModal(true)}
+                    className="bg-[#0453cd]/5 border border-[#0453cd]/20 rounded-[8px] py-[13px] px-[13px] flex justify-between items-center w-full group hover:bg-[#0453cd]/10"
+                  >
                      <div className="flex gap-[12px] items-center">
                         <CalendarClock className="size-[18px] text-[#0453cd]" />
                         <span className="text-[14px] text-[#0453cd]">Extend Permit</span>
@@ -262,6 +268,11 @@ export function ValidityPeriodStep({ onPrevious, onNext }: ValidityPeriodStepPro
           Next: Close Out/Review
         </Button>
       </div>
+
+      {/* Modals */}
+      {showExtendModal && (
+        <ExtendPermitModal onClose={() => setShowExtendModal(false)} />
+      )}
     </div>
   );
 }
