@@ -16,6 +16,7 @@ import { AssignPermitIssuerModal } from "./assign-permit-issuer-modal";
 import { AssignPermitHolderModal } from "./assign-permit-holder-modal";
 import { PermitApprovalStatusModal } from "./permit-approval-status-modal";
 import { ValidityPeriodStep } from "./validity-period-step";
+import { CloseOutReviewStep } from "./close-out-review-step";
 import { Button } from "@/components/ui/button";
 
 const STEPPER_STEPS = [
@@ -42,7 +43,7 @@ const STEP_DESCRIPTIONS = [
   "",
   "",
   "",
-  "Close Out..."
+  ""
 ];
 
 export function PermitTemplatePage() {
@@ -212,9 +213,7 @@ export function PermitTemplatePage() {
         />
       )}
       {currentStep === 4 && <ValidityPeriodStep onPrevious={handlePrevious} onNext={handleNext} />}
-      {/* 
-      {currentStep === 5 && <CloseOutStep onPrevious={handlePrevious} onNext={handleNext} />}
-      */}
+      {currentStep === 5 && <CloseOutReviewStep onPrevious={handlePrevious} />}
 
       {/* Modals */}
       {showSuggestedControlsModal && (
