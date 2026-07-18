@@ -26,6 +26,7 @@ import { UploadCloseOutEvidenceModal } from "./upload-close-out-evidence-modal";
 import { CloseOutEvidencePreviewModal } from "./close-out-evidence-preview-modal";
 import { DeleteEvidenceModal } from "./delete-evidence-modal";
 import { SubmitForReviewModal } from "./submit-for-review-modal";
+import { GeneratePdfModal } from "./generate-pdf-modal";
 
 interface CloseOutReviewStepProps {
   onPrevious: () => void;
@@ -36,6 +37,7 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [showGeneratePdfModal, setShowGeneratePdfModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-[20px] w-full font-['Sansation']">
@@ -425,6 +427,7 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
             Save Draft
           </Button>
           <Button 
+            onClick={() => setShowGeneratePdfModal(true)}
             className="h-[34px] w-[110px] bg-brand-primary text-white font-bold text-[12px] hover:bg-opacity-90"
           >
             Generate PDF
@@ -460,6 +463,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
 
       {showSubmitModal && (
         <SubmitForReviewModal onClose={() => setShowSubmitModal(false)} />
+      )}
+
+      {showGeneratePdfModal && (
+        <GeneratePdfModal onClose={() => setShowGeneratePdfModal(false)} />
       )}
 
     </div>
