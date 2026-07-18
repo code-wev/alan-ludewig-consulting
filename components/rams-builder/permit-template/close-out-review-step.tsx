@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { 
   FileText,
   MapPin,
@@ -22,12 +22,15 @@ import {
   PenTool
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { UploadCloseOutEvidenceModal } from "./upload-close-out-evidence-modal";
 
 interface CloseOutReviewStepProps {
   onPrevious: () => void;
 }
 
 export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
   return (
     <div className="flex flex-col gap-[20px] w-full font-['Sansation']">
       {/* Permit Type & Job Site Details */}
@@ -298,7 +301,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
             <UploadCloud className="size-[20px] text-brand-primary" />
             <h3 className="text-[20px] font-bold text-brand-primary">Close-out Evidence Upload</h3>
           </div>
-          <Button className="bg-brand-primary text-white font-bold text-[12px] h-[34px] px-[16px] rounded-[6px] hover:bg-opacity-90">
+          <Button 
+            onClick={() => setShowUploadModal(true)}
+            className="bg-brand-primary text-white font-bold text-[12px] h-[34px] px-[16px] rounded-[6px] hover:bg-opacity-90"
+          >
             Upload Close Out Evidence
           </Button>
         </div>
@@ -420,6 +426,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
           </Button>
         </div>
       </div>
+
+      {showUploadModal && (
+        <UploadCloseOutEvidenceModal onClose={() => setShowUploadModal(false)} />
+      )}
 
     </div>
   );
