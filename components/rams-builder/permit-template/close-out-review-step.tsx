@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { UploadCloseOutEvidenceModal } from "./upload-close-out-evidence-modal";
 import { CloseOutEvidencePreviewModal } from "./close-out-evidence-preview-modal";
+import { DeleteEvidenceModal } from "./delete-evidence-modal";
 
 interface CloseOutReviewStepProps {
   onPrevious: () => void;
@@ -32,6 +33,7 @@ interface CloseOutReviewStepProps {
 export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-[20px] w-full font-['Sansation']">
@@ -329,7 +331,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
               >
                 <EyeIcon className="size-[16px] text-brand-primary" />
               </button>
-              <button className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200">
+              <button 
+                onClick={() => setShowDeleteModal(true)}
+                className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200"
+              >
                 <Trash2 className="size-[16px] text-red-500" />
               </button>
             </div>
@@ -352,7 +357,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
               >
                 <EyeIcon className="size-[16px] text-brand-primary" />
               </button>
-              <button className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200">
+              <button 
+                onClick={() => setShowDeleteModal(true)}
+                className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200"
+              >
                 <Trash2 className="size-[16px] text-red-500" />
               </button>
             </div>
@@ -441,6 +449,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
 
       {showPreviewModal && (
         <CloseOutEvidencePreviewModal onClose={() => setShowPreviewModal(false)} />
+      )}
+
+      {showDeleteModal && (
+        <DeleteEvidenceModal onClose={() => setShowDeleteModal(false)} />
       )}
 
     </div>
