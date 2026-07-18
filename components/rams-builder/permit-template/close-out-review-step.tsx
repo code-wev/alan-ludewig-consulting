@@ -292,21 +292,15 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
       </div>
 
       {/* Close-out Evidence Upload */}
-      <div className="bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] p-[20px] flex flex-col gap-[20px]">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border border-[#e3e6ec] rounded-[12px] drop-shadow-[0px_4px_10px_rgba(0,0,0,0.02)] px-[25px] pt-[41px] pb-[25px] flex flex-col gap-[24px]">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-[8px]">
             <UploadCloud className="size-[20px] text-brand-primary" />
-            <h3 className="text-[16px] font-bold text-brand-primary">Close-out Evidence Upload</h3>
+            <h3 className="text-[20px] font-bold text-brand-primary">Close-out Evidence Upload</h3>
           </div>
-          <span className="text-[14px] text-brand-secondary">Max file size: 10MB (JPG, PNG, PDF)</span>
-        </div>
-        
-        <div className="border-[1.5px] border-dashed border-[#c5c6d0] rounded-[6px] bg-[#f9fafb] flex flex-col items-center justify-center py-[40px] gap-[12px] cursor-pointer hover:bg-gray-50">
-          <FileImage className="size-[24px] text-brand-primary" />
-          <div className="flex flex-col items-center">
-            <span className="text-[14px] font-bold text-brand-primary">Drag and drop files here</span>
-            <span className="text-[12px] text-brand-secondary">or <span className="font-bold">browse your computer</span> to upload evidence photos.</span>
-          </div>
+          <Button className="bg-brand-primary text-white font-bold text-[12px] h-[34px] px-[16px] rounded-[6px] hover:bg-opacity-90">
+            Upload Close Out Evidence
+          </Button>
         </div>
 
         <div className="flex flex-col gap-[12px]">
