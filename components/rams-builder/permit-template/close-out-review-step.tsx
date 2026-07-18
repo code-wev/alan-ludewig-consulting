@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UploadCloseOutEvidenceModal } from "./upload-close-out-evidence-modal";
+import { CloseOutEvidencePreviewModal } from "./close-out-evidence-preview-modal";
 
 interface CloseOutReviewStepProps {
   onPrevious: () => void;
@@ -30,6 +31,7 @@ interface CloseOutReviewStepProps {
 
 export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-[20px] w-full font-['Sansation']">
@@ -321,7 +323,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
               </div>
             </div>
             <div className="flex items-center gap-[8px]">
-              <button className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200">
+              <button 
+                onClick={() => setShowPreviewModal(true)}
+                className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200"
+              >
                 <EyeIcon className="size-[16px] text-brand-primary" />
               </button>
               <button className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200">
@@ -341,7 +346,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
               </div>
             </div>
             <div className="flex items-center gap-[8px]">
-              <button className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200">
+              <button 
+                onClick={() => setShowPreviewModal(true)}
+                className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200"
+              >
                 <EyeIcon className="size-[16px] text-brand-primary" />
               </button>
               <button className="size-[28px] rounded-[4px] flex items-center justify-center hover:bg-gray-200">
@@ -429,6 +437,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
 
       {showUploadModal && (
         <UploadCloseOutEvidenceModal onClose={() => setShowUploadModal(false)} />
+      )}
+
+      {showPreviewModal && (
+        <CloseOutEvidencePreviewModal onClose={() => setShowPreviewModal(false)} />
       )}
 
     </div>
