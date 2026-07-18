@@ -9,12 +9,17 @@ import {
   FileText 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import Link from "next/link";
+import { IssueNewPermitModal } from "./issue-new-permit-modal";
 
 interface GeneratePdfModalProps {
   onClose: () => void;
 }
 
 export function GeneratePdfModal({ onClose }: GeneratePdfModalProps) {
+  const [showIssuePermitModal, setShowIssuePermitModal] = useState(false);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 font-['Sansation']">
       <div className="bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] p-[24px] flex flex-col gap-[32px] w-full max-w-[657px] relative shadow-xl">
@@ -67,10 +72,10 @@ export function GeneratePdfModal({ onClose }: GeneratePdfModalProps) {
 
           {/* Destinations */}
           <div className="flex gap-[16px] w-full mb-[8px]">
-            <button className="flex-1 bg-[#f3f5f8] border border-[#e3e6ec] rounded-[4px] p-[13px] flex items-center gap-[12px] hover:bg-gray-100 transition-colors">
+            <Link href="/my-saved-files" className="flex-1 bg-[#f3f5f8] border border-[#e3e6ec] rounded-[4px] p-[13px] flex items-center gap-[12px] hover:bg-gray-100 transition-colors">
               <Folder className="size-[18px] text-brand-primary" />
               <span className="text-[14px] text-brand-primary">My Saved Files</span>
-            </button>
+            </Link>
             <button className="flex-1 bg-[#f3f5f8] border border-[#e3e6ec] rounded-[4px] p-[13px] flex items-center gap-[12px] hover:bg-gray-100 transition-colors">
               <FileText className="size-[18px] text-brand-primary" />
               <span className="text-[14px] text-brand-primary">Completed Forms</span>
@@ -86,6 +91,7 @@ export function GeneratePdfModal({ onClose }: GeneratePdfModalProps) {
             </Button>
             <Button 
               variant="outline"
+              onClick={() => setShowIssuePermitModal(true)}
               className="flex-1 border-brand-primary text-brand-primary font-bold text-[12px] h-[34px]"
             >
               Issue New Permit
@@ -94,6 +100,10 @@ export function GeneratePdfModal({ onClose }: GeneratePdfModalProps) {
 
         </div>
       </div>
+
+      {showIssuePermitModal && (
+        <IssueNewPermitModal onClose={() => setShowIssuePermitModal(false)} />
+      )}
     </div>
   );
 }
