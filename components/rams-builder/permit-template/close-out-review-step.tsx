@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { UploadCloseOutEvidenceModal } from "./upload-close-out-evidence-modal";
 import { CloseOutEvidencePreviewModal } from "./close-out-evidence-preview-modal";
 import { DeleteEvidenceModal } from "./delete-evidence-modal";
+import { SubmitForReviewModal } from "./submit-for-review-modal";
 
 interface CloseOutReviewStepProps {
   onPrevious: () => void;
@@ -34,6 +35,7 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-[20px] w-full font-['Sansation']">
@@ -436,6 +438,7 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
             Preview Permit
           </Button>
           <Button 
+            onClick={() => setShowSubmitModal(true)}
             className="h-[34px] w-[132px] bg-brand-primary text-white font-bold text-[12px] hover:bg-opacity-90"
           >
             Submit for Review
@@ -453,6 +456,10 @@ export function CloseOutReviewStep({}: CloseOutReviewStepProps) {
 
       {showDeleteModal && (
         <DeleteEvidenceModal onClose={() => setShowDeleteModal(false)} />
+      )}
+
+      {showSubmitModal && (
+        <SubmitForReviewModal onClose={() => setShowSubmitModal(false)} />
       )}
 
     </div>
