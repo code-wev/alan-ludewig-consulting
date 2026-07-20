@@ -108,6 +108,10 @@ export function useRamsBuilder() {
       router.push('/rams-builder/rams/previous-assessments');
       return;
     }
+    if (title === 'Permit Template') {
+      router.push('/rams-builder/permit-template/previous-assessments');
+      return;
+    }
     toast.message(`Previous assessments for ${title} coming soon.`);
   };
 
