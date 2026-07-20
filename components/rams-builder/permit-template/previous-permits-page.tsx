@@ -13,6 +13,8 @@ import {
   Info,
   Calendar,
 } from "lucide-react";
+import { useState } from "react";
+import { PermitReviewCommentsModal } from "./permit-review-comments-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
@@ -119,6 +121,8 @@ const getStatusBadge = (status: string) => {
 };
 
 export function PreviousPermitsPage() {
+  const [showReviewComments, setShowReviewComments] = useState(false);
+
   return (
     <div className="flex flex-col gap-8 text-brand-primary pb-12 w-full max-w-416">
       
@@ -303,7 +307,10 @@ export function PreviousPermitsPage() {
                   </td>
                   <td className="py-[19.5px] pr-6">
                     <div className="flex items-center gap-2">
-                      <button className="text-brand-primary hover:text-blue-600">
+                      <button 
+                        className="text-brand-primary hover:text-blue-600"
+                        onClick={() => setShowReviewComments(true)}
+                      >
                         <Eye className="size-4.5" />
                       </button>
                       <button className="text-brand-secondary hover:text-gray-900">
@@ -324,6 +331,10 @@ export function PreviousPermitsPage() {
         </div>
 
       </div>
+
+      {showReviewComments && (
+        <PermitReviewCommentsModal onClose={() => setShowReviewComments(false)} />
+      )}
     </div>
   );
 }
