@@ -23,9 +23,11 @@ import { RevalidatePermitModal } from "./revalidate-permit-modal";
 import { DuplicatePermitModal } from "./duplicate-permit-modal";
 import { PermitHistoryModal } from "./permit-history-modal";
 import { ClosePermitModal } from "./close-permit-modal";
+import { BeforeCreatePermitModal } from "./before-create-permit-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const SUMMARY_CARDS = [
   {
@@ -137,8 +139,10 @@ export function PreviousPermitsPage() {
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
+  const [isCreatePermitModalOpen, setIsCreatePermitModalOpen] = useState(false);
   const [activeDropdownRow, setActiveDropdownRow] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -185,6 +189,7 @@ export function PreviousPermitsPage() {
           <Button
             type="button"
             className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0a1530]"
+            onClick={() => setIsCreatePermitModalOpen(true)}
           >
             Create New Permit
           </Button>
@@ -521,6 +526,15 @@ export function PreviousPermitsPage() {
       {showCloseModal && (
         <ClosePermitModal onClose={() => setShowCloseModal(false)} />
       )}
+
+      <BeforeCreatePermitModal
+        isOpen={isCreatePermitModalOpen}
+        onClose={() => setIsCreatePermitModalOpen(false)}
+        onContinue={() => {
+          setIsCreatePermitModalOpen(false);
+          router.push('/rams-builder/permit-template');
+        }}
+      />
     </div>
   );
 }
