@@ -14,7 +14,7 @@ import {
   Info,
   Calendar,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PermitReviewCommentsModal } from "./permit-review-comments-modal";
 import { ArchivePermitModal } from "./archive-permit-modal";
 import { DeleteDraftPermitModal } from "./delete-draft-permit-modal";
@@ -127,6 +127,18 @@ export function PreviousPermitsPage() {
   const [showReviewComments, setShowReviewComments] = useState(false);
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [activeDropdownRow, setActiveDropdownRow] = useState<number | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdownRow(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="flex flex-col gap-8 text-brand-primary pb-12 w-full max-w-416">
@@ -330,7 +342,7 @@ export function PreviousPermitsPage() {
               {TABLE_DATA.map((row, index) => (
                 <tr
                   key={index}
-                  className="border-b-[1.5px] border-[#f3f5f8] hover:bg-slate-50/50"
+                  className="border-b-[1.5px] border-[#f3f5f8] hover:bg-slate-50/50 relative"
                 >
                   <td className="py-[19.5px] px-6">
                     <input
@@ -390,9 +402,38 @@ export function PreviousPermitsPage() {
                       >
                         <Trash2 className="size-4.5" />
                       </button>
-                      <button className="text-brand-secondary hover:text-gray-900">
+                      <button 
+                        className="text-brand-secondary hover:text-gray-900"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveDropdownRow(activeDropdownRow === index ? null : index);
+                        }}
+                      >
                         <MoreVertical className="size-4.5" />
                       </button>
+                      
+                      {activeDropdownRow === index && (
+                        <div 
+                          ref={dropdownRef}
+                          className="absolute right-6 top-16 z-10 w-45 bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] shadow-[0px_10px_7.5px_rgba(0,0,0,0.1),0px_4px_3px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden"
+                        >
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-primary bg-[#99c8ff]/40 hover:bg-[#99c8ff]/60">
+                            Suspend Permit
+                          </button>
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                            Revalidate Permit
+                          </button>
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                            Duplicate Permit
+                          </button>
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                            Permit History
+                          </button>
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                            Close Permit
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>
