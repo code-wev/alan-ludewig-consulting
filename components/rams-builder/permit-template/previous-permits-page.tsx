@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import { PermitReviewCommentsModal } from "./permit-review-comments-modal";
 import { ArchivePermitModal } from "./archive-permit-modal";
+import { DeleteDraftPermitModal } from "./delete-draft-permit-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
@@ -125,17 +126,19 @@ const getStatusBadge = (status: string) => {
 export function PreviousPermitsPage() {
   const [showReviewComments, setShowReviewComments] = useState(false);
   const [showArchiveModal, setShowArchiveModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-8 text-brand-primary pb-12 w-full max-w-416">
-      
       {/* Breadcrumbs */}
       <div className="flex items-center gap-1.5 text-[12px] text-brand-secondary">
         <span>Dashboard</span>
         <ChevronRight className="size-3.5 text-brand-secondary" />
         <span>RAMS Builder</span>
         <ChevronRight className="size-3.5 text-brand-secondary" />
-        <span className="text-brand-primary">Permit Template / Permit Completion</span>
+        <span className="text-brand-primary">
+          Permit Template / Permit Completion
+        </span>
       </div>
 
       {/* Header */}
@@ -171,7 +174,9 @@ export function PreviousPermitsPage() {
         <Info className="size-5 text-brand-primary" />
         <p className="text-[14px] text-brand-primary">
           <span className="font-bold">Reminder :</span>
-          {" Documents generated using this tool are templates. Review and adapt them to your specific circumstances before issuing for use. Final responsibility for content rests with the user."}
+          {
+            " Documents generated using this tool are templates. Review and adapt them to your specific circumstances before issuing for use. Final responsibility for content rests with the user."
+          }
         </p>
       </div>
 
@@ -180,7 +185,10 @@ export function PreviousPermitsPage() {
         {SUMMARY_CARDS.map((card, idx) => {
           const Icon = card.icon;
           return (
-            <div key={idx} className="bg-white rounded-[12px] p-5 flex flex-col gap-1 shadow-sm border border-transparent hover:border-gray-100">
+            <div
+              key={idx}
+              className="bg-white rounded-[12px] p-5 flex flex-col gap-1 shadow-sm border border-transparent hover:border-gray-100"
+            >
               <div className="flex justify-between items-start mb-2">
                 <div className="size-9 bg-slate-50 flex items-center justify-center rounded-[8px]">
                   <Icon className={cn("size-4.5", card.iconColor)} />
@@ -202,18 +210,26 @@ export function PreviousPermitsPage() {
 
       {/* Main Table Section */}
       <div className="bg-white rounded-[12px] border-[1.5px] border-[#e3e6ec] flex flex-col pt-[21.5px] gap-6">
-        
         {/* Tab List */}
         <div className="px-6">
           <div className="bg-[#f3f5f8] h-9 rounded-[12px] p-0.75 flex items-center w-fit">
             {[
-              "All Forms", "Drafts", "Pending Approval", "Active", "Suspended", "Expired", "Closed", "Archived"
+              "All Forms",
+              "Drafts",
+              "Pending Approval",
+              "Active",
+              "Suspended",
+              "Expired",
+              "Closed",
+              "Archived",
             ].map((tab, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className={cn(
                   "px-[9.5px] py-[5.5px] h-full flex items-center justify-center rounded-[6px] text-[14px] cursor-pointer",
-                  idx === 0 ? "bg-white text-brand-primary shadow-sm" : "text-brand-primary hover:bg-white/50"
+                  idx === 0
+                    ? "bg-white text-brand-primary shadow-sm"
+                    : "text-brand-primary hover:bg-white/50",
                 )}
               >
                 {tab}
@@ -233,35 +249,37 @@ export function PreviousPermitsPage() {
                 className="w-full h-full rounded-[6px] border border-[#e3e6ec] bg-white pl-10.25 pr-4 text-[14px] text-brand-primary placeholder:text-brand-secondary focus:border-brand-primary focus:outline-none"
               />
             </div>
-            
+
             <div className="flex items-center gap-4">
               <SelectField<string>
-                options={["Project / Site"]} 
-                value="Project / Site" 
-                onChange={() => {}} 
+                options={["Project / Site"]}
+                value="Project / Site"
+                onChange={() => {}}
               />
               <SelectField<string>
-                options={["Permit Holder"]} 
-                value="Permit Holder" 
-                onChange={() => {}} 
+                options={["Permit Holder"]}
+                value="Permit Holder"
+                onChange={() => {}}
               />
               <SelectField<string>
-                options={["Permit Issuer"]} 
-                value="Permit Issuer" 
-                onChange={() => {}} 
+                options={["Permit Issuer"]}
+                value="Permit Issuer"
+                onChange={() => {}}
               />
               <SelectField<string>
-                options={["Permit Type"]} 
-                value="Permit Type" 
-                onChange={() => {}} 
+                options={["Permit Type"]}
+                value="Permit Type"
+                onChange={() => {}}
               />
               <SelectField<string>
-                options={["Status"]} 
-                value="Status" 
-                onChange={() => {}} 
+                options={["Status"]}
+                value="Status"
+                onChange={() => {}}
               />
               <div className="bg-white border-[1.5px] border-[#e3e6ec] rounded-[6px] h-9 px-4 flex items-center justify-between gap-2 cursor-pointer w-35.25">
-                <span className="text-[14px] text-brand-secondary">Date Range</span>
+                <span className="text-[14px] text-brand-secondary">
+                  Date Range
+                </span>
                 <Calendar className="size-3.5 text-brand-secondary" />
               </div>
             </div>
@@ -274,55 +292,102 @@ export function PreviousPermitsPage() {
             <thead>
               <tr className="bg-[#d6e9ff] border-b-[1.5px] border-[#f3f5f8]">
                 <th className="py-2.75 px-6 w-12">
-                  <input type="checkbox" className="rounded-lg border-[#c5c6cd]" />
+                  <input
+                    type="checkbox"
+                    className="rounded-lg border-[#c5c6cd]"
+                  />
                 </th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Permit Reference</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Permit Type</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Project/Site</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Permit Holder</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Permit Issuer</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Start Date/Time</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Expiry Date/ Time</th>
-                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">Status</th>
-                <th className="py-2.75 pr-6 text-[14px] font-bold text-brand-primary">Actions</th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Permit Reference
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Permit Type
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Project/Site
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Permit Holder
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Permit Issuer
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Start Date/Time
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Expiry Date/ Time
+                </th>
+                <th className="py-2.75 pr-5 text-[14px] font-bold text-brand-primary">
+                  Status
+                </th>
+                <th className="py-2.75 pr-6 text-[14px] font-bold text-brand-primary">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {TABLE_DATA.map((row, index) => (
-                <tr key={index} className="border-b-[1.5px] border-[#f3f5f8] hover:bg-slate-50/50">
+                <tr
+                  key={index}
+                  className="border-b-[1.5px] border-[#f3f5f8] hover:bg-slate-50/50"
+                >
                   <td className="py-[19.5px] px-6">
-                    <input type="checkbox" className="rounded-lg border-[#c5c6cd]" />
+                    <input
+                      type="checkbox"
+                      className="rounded-lg border-[#c5c6cd]"
+                    />
                   </td>
-                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-primary">{row.id}</td>
-                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">{row.type}</td>
-                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">{row.site}</td>
-                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">{row.holder}</td>
+                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-primary">
+                    {row.id}
+                  </td>
+                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">
+                    {row.type}
+                  </td>
+                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">
+                    {row.site}
+                  </td>
+                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">
+                    {row.holder}
+                  </td>
                   <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">
                     <span className="block">{row.issuer.split(" ")[0]}</span>
                     <span className="block">{row.issuer.split(" ")[1]}</span>
                   </td>
-                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">{row.start}</td>
-                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">{row.expiry}</td>
+                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">
+                    {row.start}
+                  </td>
+                  <td className="py-[19.5px] pr-5 text-[14px] text-brand-secondary">
+                    {row.expiry}
+                  </td>
                   <td className="py-[19.5px] pr-5">
-                    <span className={cn("px-2.25 py-0.5 rounded-[6px] text-[12px]", getStatusBadge(row.status))}>
+                    <span
+                      className={cn(
+                        "px-2.25 py-0.5 rounded-[6px] text-[12px]",
+                        getStatusBadge(row.status),
+                      )}
+                    >
                       {row.status}
                     </span>
                   </td>
                   <td className="py-[19.5px] pr-6">
                     <div className="flex items-center gap-2">
-                      <button 
+                      <button
                         className="text-brand-primary hover:text-blue-600"
                         onClick={() => setShowReviewComments(true)}
                       >
                         <Eye className="size-4.5" />
                       </button>
-                      <button 
+                      <button
                         className="text-brand-secondary hover:text-gray-900"
                         onClick={() => setShowArchiveModal(true)}
                       >
                         <Archive className="size-4.5" />
                       </button>
-                      <button className="text-brand-secondary hover:text-red-600">
+                      <button
+                        className="text-brand-secondary hover:text-red-600"
+                        onClick={() => setShowDeleteModal(true)}
+                      >
                         <Trash2 className="size-4.5" />
                       </button>
                       <button className="text-brand-secondary hover:text-gray-900">
@@ -335,15 +400,20 @@ export function PreviousPermitsPage() {
             </tbody>
           </table>
         </div>
-
       </div>
 
       {showReviewComments && (
-        <PermitReviewCommentsModal onClose={() => setShowReviewComments(false)} />
+        <PermitReviewCommentsModal
+          onClose={() => setShowReviewComments(false)}
+        />
       )}
 
       {showArchiveModal && (
         <ArchivePermitModal onClose={() => setShowArchiveModal(false)} />
+      )}
+
+      {showDeleteModal && (
+        <DeleteDraftPermitModal onClose={() => setShowDeleteModal(false)} />
       )}
     </div>
   );
