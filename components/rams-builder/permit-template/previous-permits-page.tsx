@@ -22,6 +22,7 @@ import { SuspendPermitModal } from "./suspend-permit-modal";
 import { RevalidatePermitModal } from "./revalidate-permit-modal";
 import { DuplicatePermitModal } from "./duplicate-permit-modal";
 import { PermitHistoryModal } from "./permit-history-modal";
+import { ClosePermitModal } from "./close-permit-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
@@ -135,6 +136,7 @@ export function PreviousPermitsPage() {
   const [showRevalidateModal, setShowRevalidateModal] = useState(false);
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [showCloseModal, setShowCloseModal] = useState(false);
   const [activeDropdownRow, setActiveDropdownRow] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -465,7 +467,14 @@ export function PreviousPermitsPage() {
                           >
                             Permit History
                           </button>
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
+                          <button 
+                            className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowCloseModal(true);
+                              setActiveDropdownRow(null);
+                            }}
+                          >
                             Close Permit
                           </button>
                         </div>
@@ -507,6 +516,10 @@ export function PreviousPermitsPage() {
 
       {showHistoryModal && (
         <PermitHistoryModal onClose={() => setShowHistoryModal(false)} />
+      )}
+
+      {showCloseModal && (
+        <ClosePermitModal onClose={() => setShowCloseModal(false)} />
       )}
     </div>
   );
