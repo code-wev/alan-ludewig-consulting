@@ -18,6 +18,7 @@ import { useState, useRef, useEffect } from "react";
 import { PermitReviewCommentsModal } from "./permit-review-comments-modal";
 import { ArchivePermitModal } from "./archive-permit-modal";
 import { DeleteDraftPermitModal } from "./delete-draft-permit-modal";
+import { SuspendPermitModal } from "./suspend-permit-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
@@ -127,6 +128,7 @@ export function PreviousPermitsPage() {
   const [showReviewComments, setShowReviewComments] = useState(false);
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSuspendModal, setShowSuspendModal] = useState(false);
   const [activeDropdownRow, setActiveDropdownRow] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -417,7 +419,14 @@ export function PreviousPermitsPage() {
                           ref={dropdownRef}
                           className="absolute right-6 top-16 z-10 w-45 bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] shadow-[0px_10px_7.5px_rgba(0,0,0,0.1),0px_4px_3px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden"
                         >
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-primary bg-[#99c8ff]/40 hover:bg-[#99c8ff]/60">
+                          <button 
+                            className="w-full h-9 px-4 text-left text-[14px] text-brand-primary bg-[#99c8ff]/40 hover:bg-[#99c8ff]/60"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowSuspendModal(true);
+                              setActiveDropdownRow(null);
+                            }}
+                          >
                             Suspend Permit
                           </button>
                           <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
@@ -455,6 +464,10 @@ export function PreviousPermitsPage() {
 
       {showDeleteModal && (
         <DeleteDraftPermitModal onClose={() => setShowDeleteModal(false)} />
+      )}
+
+      {showSuspendModal && (
+        <SuspendPermitModal onClose={() => setShowSuspendModal(false)} />
       )}
     </div>
   );
