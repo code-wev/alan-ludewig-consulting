@@ -22,7 +22,7 @@ export function SuspendPermitModal({ onClose }: SuspendPermitModalProps) {
         </button>
 
         <div className="p-6 flex flex-col gap-8 h-full overflow-hidden">
-          <div className="flex flex-col gap-6 h-full overflow-y-auto pr-2 custom-scrollbar">
+          <div className="flex flex-col gap-6 h-full overflow-y-auto pr-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
             
             {/* Header */}
             <div className="flex gap-3 items-center">

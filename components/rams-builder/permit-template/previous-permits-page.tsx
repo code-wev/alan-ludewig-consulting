@@ -417,10 +417,10 @@ export function PreviousPermitsPage() {
                       {activeDropdownRow === index && (
                         <div 
                           ref={dropdownRef}
-                          className="absolute right-6 top-16 z-10 w-45 bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] shadow-[0px_10px_7.5px_rgba(0,0,0,0.1),0px_4px_3px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden"
+                          className="absolute right-6 top-16 z-10 w-45 bg-white border-[1.5px] border-[#e3e6ec] rounded-[12px] shadow-[0px_10px_7.5px_rgba(0,0,0,0.1),0px_4px_3px_rgba(0,0,0,0.1)] flex flex-col overflow-hidden py-1"
                         >
                           <button 
-                            className="w-full h-9 px-4 text-left text-[14px] text-brand-primary bg-[#99c8ff]/40 hover:bg-[#99c8ff]/60"
+                            className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-[#99c8ff]/40"
                             onClick={(e) => {
                               e.stopPropagation();
                               setShowSuspendModal(true);
@@ -429,16 +429,16 @@ export function PreviousPermitsPage() {
                           >
                             Suspend Permit
                           </button>
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
                             Revalidate Permit
                           </button>
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
                             Duplicate Permit
                           </button>
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
                             Permit History
                           </button>
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:bg-slate-50">
+                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
                             Close Permit
                           </button>
                         </div>
