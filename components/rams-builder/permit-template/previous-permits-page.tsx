@@ -5,16 +5,18 @@ import {
   Search,
   Eye,
   Trash2,
-  PenSquare,
+  Archive,
   ClipboardList,
   CheckCircle2,
   Bell,
   MoreVertical,
+  PenSquare,
   Info,
   Calendar,
 } from "lucide-react";
 import { useState } from "react";
 import { PermitReviewCommentsModal } from "./permit-review-comments-modal";
+import { ArchivePermitModal } from "./archive-permit-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
@@ -122,6 +124,7 @@ const getStatusBadge = (status: string) => {
 
 export function PreviousPermitsPage() {
   const [showReviewComments, setShowReviewComments] = useState(false);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-8 text-brand-primary pb-12 w-full max-w-416">
@@ -313,8 +316,11 @@ export function PreviousPermitsPage() {
                       >
                         <Eye className="size-4.5" />
                       </button>
-                      <button className="text-brand-secondary hover:text-gray-900">
-                        <PenSquare className="size-4.5" />
+                      <button 
+                        className="text-brand-secondary hover:text-gray-900"
+                        onClick={() => setShowArchiveModal(true)}
+                      >
+                        <Archive className="size-4.5" />
                       </button>
                       <button className="text-brand-secondary hover:text-red-600">
                         <Trash2 className="size-4.5" />
@@ -334,6 +340,10 @@ export function PreviousPermitsPage() {
 
       {showReviewComments && (
         <PermitReviewCommentsModal onClose={() => setShowReviewComments(false)} />
+      )}
+
+      {showArchiveModal && (
+        <ArchivePermitModal onClose={() => setShowArchiveModal(false)} />
       )}
     </div>
   );
