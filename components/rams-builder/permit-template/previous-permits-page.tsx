@@ -20,6 +20,7 @@ import { ArchivePermitModal } from "./archive-permit-modal";
 import { DeleteDraftPermitModal } from "./delete-draft-permit-modal";
 import { SuspendPermitModal } from "./suspend-permit-modal";
 import { RevalidatePermitModal } from "./revalidate-permit-modal";
+import { DuplicatePermitModal } from "./duplicate-permit-modal";
 import { Button } from "@/components/ui/button";
 import { SelectField } from "@/components/saved-files/components/select-field";
 import { cn } from "@/lib/utils";
@@ -131,6 +132,7 @@ export function PreviousPermitsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuspendModal, setShowSuspendModal] = useState(false);
   const [showRevalidateModal, setShowRevalidateModal] = useState(false);
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
   const [activeDropdownRow, setActiveDropdownRow] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -441,7 +443,14 @@ export function PreviousPermitsPage() {
                           >
                             Revalidate Permit
                           </button>
-                          <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
+                          <button 
+                            className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowDuplicateModal(true);
+                              setActiveDropdownRow(null);
+                            }}
+                          >
                             Duplicate Permit
                           </button>
                           <button className="w-full h-9 px-4 text-left text-[14px] text-brand-secondary hover:text-brand-primary hover:bg-slate-50">
@@ -481,6 +490,10 @@ export function PreviousPermitsPage() {
 
       {showRevalidateModal && (
         <RevalidatePermitModal onClose={() => setShowRevalidateModal(false)} />
+      )}
+
+      {showDuplicateModal && (
+        <DuplicatePermitModal onClose={() => setShowDuplicateModal(false)} />
       )}
     </div>
   );
