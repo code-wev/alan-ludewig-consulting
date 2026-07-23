@@ -371,7 +371,7 @@ export function RiskAssessmentCompletionPage() {
             >
               Preview
             </Button>
-          ) : (
+          ) : activeStep === "hazards" ? (
             <Button
               type="button"
               onClick={handleOpenAddHazardModal}
@@ -379,7 +379,15 @@ export function RiskAssessmentCompletionPage() {
             >
               Add Hazard
             </Button>
-          )}
+          ) : activeStep === "matrix" ? (
+            <Button
+              type="button"
+              onClick={() => setIsRiskMatrixModalOpen(true)}
+              className="h-10 sm:h-8.5 w-full sm:w-auto rounded-[6px] bg-[#132651] px-4 text-[13px] sm:text-[12px] font-bold text-white hover:bg-[#0d1b3a] transition-all duration-200 shadow-sm"
+            >
+              View Full Matrix
+            </Button>
+          ) : null}
         </div>
       </div>
 
@@ -921,6 +929,269 @@ export function RiskAssessmentCompletionPage() {
             </div>
           </div>
         </div>
+      ) : activeStep === "matrix" ? (
+        <div className="flex flex-col gap-6 sm:gap-8">
+          {/* Top Section: Matrix & Legend Cards */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            
+            {/* Left Card: 5x5 Matrix */}
+            <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+               <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-[16px] font-bold text-[#132651]">5x5 Risk Matrix</h3>
+                  <div className="flex items-center gap-2 text-[12px] font-medium text-[#5a6886]">
+                     <div className="size-2.5 rounded-full bg-[#e11d48]"></div>
+                     <span>Active Hazards</span>
+                  </div>
+               </div>
+
+               <div className="flex items-start">
+                  {/* Y-axis Label */}
+                  <div className="flex flex-col justify-between pr-4 items-end text-[9px] font-medium text-[#95a0b6] shrink-0 h-[300px]">
+                     <div className="text-center w-full transform -rotate-90 origin-left relative top-12 whitespace-nowrap mb-8 text-[10px]">Impact /<br/>Severity</div>
+                     <span className="h-[52px] flex items-center justify-end">Catastrophic</span>
+                     <span className="h-[52px] flex items-center justify-end">Major</span>
+                     <span className="h-[52px] flex items-center justify-end">Moderate</span>
+                     <span className="h-[52px] flex items-center justify-end">Minor</span>
+                     <span className="h-[52px] flex items-center justify-end">Insignificant</span>
+                  </div>
+                  
+                  {/* Grid */}
+                  <div className="flex-1">
+                     <div className="grid grid-cols-5 gap-1.5 h-[300px]">
+                        {/* Row 5 */}
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">5</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">10</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">15</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium relative">20<div className="absolute -top-2.5 -right-2.5 bg-[#132651] text-white size-[22px] rounded-full flex items-center justify-center text-[9px] font-bold z-10 shadow-sm border border-white">H1</div></div>
+                        <div className="bg-[#7f1d1d] border border-[#7f1d1d] rounded flex items-center justify-center text-white text-[18px] font-medium relative">25<div className="absolute -top-2.5 -right-2.5 bg-[#132651] text-white size-[22px] rounded-full flex items-center justify-center text-[9px] font-bold z-10 shadow-sm border border-white">H2</div></div>
+
+                        {/* Row 4 */}
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">4</div>
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">8</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">12</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">16</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">20</div>
+
+                        {/* Row 3 */}
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">3</div>
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">6</div>
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">9</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">12</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">15</div>
+
+                        {/* Row 2 */}
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">2</div>
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">4</div>
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">6</div>
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">8</div>
+                        <div className="bg-[#fee2e2] border border-[#fca5a5] rounded flex items-center justify-center text-[#b91c1c] text-[18px] font-medium">10</div>
+
+                        {/* Row 1 */}
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">1</div>
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">2</div>
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">3</div>
+                        <div className="bg-[#dcfce7] border border-[#86efac] rounded flex items-center justify-center text-[#166534] text-[18px] font-medium">4</div>
+                        <div className="bg-[#fef08a] border border-[#fde047] rounded flex items-center justify-center text-[#b45309] text-[18px] font-medium">5</div>
+                     </div>
+                     <div className="grid grid-cols-5 gap-1.5 mt-3 text-center text-[10px] font-medium text-[#95a0b6]">
+                        <span>Rare</span>
+                        <span>Unlikely</span>
+                        <span>Possible</span>
+                        <span>Likely</span>
+                        <span>Almost Certain</span>
+                     </div>
+                  </div>
+               </div>
+               <div className="text-center mt-6 text-[10px] font-medium text-[#95a0b6]">
+                  Likelihood / Probability
+               </div>
+            </div>
+
+            {/* Right Card: Legend */}
+            <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+               <div>
+                  <h3 className="text-[16px] font-bold text-[#132651] mb-6">Risk Rating Legend</h3>
+                  <div className="space-y-4">
+                     <div className="flex items-center justify-between p-3 bg-white border-l-[3px] border-l-[#10b981] shadow-sm rounded-r-[6px]">
+                        <div>
+                           <p className="text-[14px] font-bold text-[#10b981]">1-4 Low</p>
+                           <p className="text-[12px] text-[#059669]">Acceptable - Monitor periodically</p>
+                        </div>
+                        <span className="text-[18px] font-bold text-[#10b981]">65%</span>
+                     </div>
+                     <div className="flex items-center justify-between p-3 bg-white border-l-[3px] border-l-[#f59e0b] shadow-sm rounded-r-[6px]">
+                        <div>
+                           <p className="text-[14px] font-bold text-[#f59e0b]">5-9 Medium</p>
+                           <p className="text-[12px] text-[#d97706]">Manage - Controls recommended</p>
+                        </div>
+                        <span className="text-[18px] font-bold text-[#f59e0b]">20%</span>
+                     </div>
+                     <div className="flex items-center justify-between p-3 bg-white border-l-[3px] border-l-[#ea580c] shadow-sm rounded-r-[6px]">
+                        <div>
+                           <p className="text-[14px] font-bold text-[#ea580c]">10-16 High</p>
+                           <p className="text-[12px] text-[#c2410c]">Action Required - Apply controls</p>
+                        </div>
+                        <span className="text-[18px] font-bold text-[#ea580c]">10%</span>
+                     </div>
+                     <div className="flex items-center justify-between p-3 bg-white border-l-[3px] border-l-[#e11d48] shadow-sm rounded-r-[6px]">
+                        <div>
+                           <p className="text-[14px] font-bold text-[#e11d48]">17-25 Critical</p>
+                           <p className="text-[12px] text-[#be123c]">Stop Work - Immediate attention</p>
+                        </div>
+                        <span className="text-[18px] font-bold text-[#e11d48]">05%</span>
+                     </div>
+                  </div>
+               </div>
+               
+               <div className="mt-8 p-4 rounded-[6px] border border-dashed border-[#e3e6ec] bg-white">
+                  <p className="text-[11px] leading-relaxed text-[#5a6886]">
+                     *Matrix calculation follows the Formula: <span className="font-bold text-[#132651]">Likelihood x Severity = Risk Score</span>. Use the "View Full Matrix" action to see detailed descriptions for each scoring tier.*
+                  </p>
+               </div>
+            </div>
+          </div>
+
+          {/* Middle Stat Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div className="bg-white rounded-[12px] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center justify-between">
+              <div className="flex items-center gap-5">
+                 <div className="size-14 bg-[#fee2e2] rounded-[8px] flex items-center justify-center">
+                   <AlertTriangle className="size-7 text-[#e11d48]" />
+                 </div>
+                 <div>
+                   <p className="text-[14px] font-medium text-[#5a6886] mb-1">Initial Critical Risks</p>
+                   <p className="text-[28px] font-bold text-[#e11d48] leading-none">02</p>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-[12px] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center justify-between">
+              <div className="flex items-center gap-5">
+                 <div className="size-14 bg-[#ffedd5] rounded-[8px] flex items-center justify-center text-[#ea580c] font-bold text-[28px]">
+                   !
+                 </div>
+                 <div>
+                   <p className="text-[14px] font-medium text-[#5a6886] mb-1">Initial High Risks</p>
+                   <p className="text-[28px] font-bold text-[#ea580c] leading-none">04</p>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-[12px] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center justify-between">
+              <div className="flex items-center gap-5">
+                 <div className="size-14 bg-[#dcfce7] rounded-[8px] flex items-center justify-center text-[#16a34a]">
+                   <CheckCircle2 className="size-7" />
+                 </div>
+                 <div>
+                   <p className="text-[14px] font-medium text-[#5a6886] mb-1">Residual Critical Risks</p>
+                   <p className="text-[28px] font-bold text-[#16a34a] leading-none">00</p>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-[12px] p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center justify-between">
+              <div className="flex items-center gap-5">
+                 <div className="size-14 bg-[#1e293b] rounded-[8px] flex items-center justify-center text-white">
+                   <TrendingDown className="size-7" />
+                 </div>
+                 <div>
+                   <p className="text-[14px] font-medium text-[#5a6886] mb-1">Risk Reduction</p>
+                   <p className="text-[28px] font-bold text-[#1e293b] leading-none">65%</p>
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Table: Hazards by Risk Level */}
+          <div className="bg-white rounded-[12px] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <div className="px-6 py-5 border-b border-[#e3e6ec]">
+               <h3 className="text-[16px] font-bold text-[#132651]">Hazards by Risk Level</h3>
+            </div>
+            <div className="overflow-x-auto">
+               <table className="w-full text-left border-collapse min-w-[900px]">
+                  <thead>
+                     <tr className="bg-[#eef4ff] border-b border-[#e3e6ec]">
+                        <th className="p-4 pl-6 w-12"><input type="checkbox" className="rounded border-[#c5c6cd]" /></th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651]">Hazard/Activity</th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651]">Initial Risk</th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651] text-center">Movement</th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651]">Residual Risk</th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651]">Controls Applied</th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651] text-center">Status</th>
+                        <th className="p-4 text-[12px] font-bold text-[#132651] text-center">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr className="border-b border-[#e3e6ec] hover:bg-[#f9fafc]">
+                        <td className="p-4 pl-6"><input type="checkbox" className="rounded border-[#c5c6cd]" /></td>
+                        <td className="p-4">
+                           <p className="text-[13px] font-bold text-[#132651]">Falls from Height</p>
+                           <p className="text-[11px] text-[#5a6886] mt-0.5">Scaffolding assembly an dismantling</p>
+                        </td>
+                        <td className="p-4"><span className="px-2.5 py-1 bg-[#e11d48] text-white text-[11px] font-bold rounded-[4px]">Critical</span></td>
+                        <td className="p-4 text-center"><ArrowDown className="size-4 text-[#10b981] mx-auto" /></td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">Medium[3]</td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">4 Active Measures</td>
+                        <td className="p-4 text-center"><span className="px-2.5 py-1 bg-[#10b981] text-white text-[11px] font-bold rounded-[4px] inline-block">Ready</span></td>
+                        <td className="p-4 text-center"><button className="text-[#10b981] hover:bg-[#ecfdf5] p-1.5 rounded"><Edit2 className="size-4" /></button></td>
+                     </tr>
+                     <tr className="border-b border-[#e3e6ec] hover:bg-[#f9fafc]">
+                        <td className="p-4 pl-6"><input type="checkbox" className="rounded border-[#c5c6cd]" /></td>
+                        <td className="p-4">
+                           <p className="text-[13px] font-bold text-[#132651]">Falls from Height</p>
+                           <p className="text-[11px] text-[#5a6886] mt-0.5">Scaffolding assembly an dismantling</p>
+                        </td>
+                        <td className="p-4"><span className="px-2.5 py-1 bg-[#10b981] text-white text-[11px] font-bold rounded-[4px]">High</span></td>
+                        <td className="p-4 text-center"><ArrowDown className="size-4 text-[#10b981] mx-auto" /></td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">Low[3]</td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">2 Active Measures</td>
+                        <td className="p-4 text-center"><span className="px-2.5 py-1 bg-[#ffedd5] text-[#ea580c] text-[11px] font-bold rounded-[4px] inline-block">Controls Required</span></td>
+                        <td className="p-4 text-center"><button className="text-[#10b981] hover:bg-[#ecfdf5] p-1.5 rounded"><Edit2 className="size-4" /></button></td>
+                     </tr>
+                     <tr className="border-b border-[#e3e6ec] hover:bg-[#f9fafc]">
+                        <td className="p-4 pl-6"><input type="checkbox" className="rounded border-[#c5c6cd]" /></td>
+                        <td className="p-4">
+                           <p className="text-[13px] font-bold text-[#132651]">Falls from Height</p>
+                           <p className="text-[11px] text-[#5a6886] mt-0.5">Scaffolding assembly an dismantling</p>
+                        </td>
+                        <td className="p-4"><span className="px-2.5 py-1 bg-[#ea580c] text-white text-[11px] font-bold rounded-[4px]">Medium</span></td>
+                        <td className="p-4 text-center"><ArrowDown className="size-4 text-[#10b981] mx-auto" /></td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">Medium[6]</td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">4 Active Measures</td>
+                        <td className="p-4 text-center"><span className="px-2.5 py-1 bg-[#ffedd5] text-[#ea580c] text-[11px] font-bold rounded-[4px] inline-block">Controls Required</span></td>
+                        <td className="p-4 text-center"><button className="text-[#10b981] hover:bg-[#ecfdf5] p-1.5 rounded"><Edit2 className="size-4" /></button></td>
+                     </tr>
+                     <tr className="border-b border-[#e3e6ec] hover:bg-[#f9fafc]">
+                        <td className="p-4 pl-6"><input type="checkbox" className="rounded border-[#c5c6cd]" /></td>
+                        <td className="p-4">
+                           <p className="text-[13px] font-bold text-[#132651]">Falls from Height</p>
+                           <p className="text-[11px] text-[#5a6886] mt-0.5">Scaffolding assembly an dismantling</p>
+                        </td>
+                        <td className="p-4"><span className="px-2.5 py-1 bg-[#10b981] text-white text-[11px] font-bold rounded-[4px]">High</span></td>
+                        <td className="p-4 text-center"><ArrowDown className="size-4 text-[#10b981] mx-auto" /></td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">Low[3]</td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">3 Active Measures</td>
+                        <td className="p-4 text-center"><span className="px-2.5 py-1 bg-[#10b981] text-white text-[11px] font-bold rounded-[4px] inline-block">Ready</span></td>
+                        <td className="p-4 text-center"><button className="text-[#10b981] hover:bg-[#ecfdf5] p-1.5 rounded"><Edit2 className="size-4" /></button></td>
+                     </tr>
+                     <tr className="hover:bg-[#f9fafc]">
+                        <td className="p-4 pl-6"><input type="checkbox" className="rounded border-[#c5c6cd]" /></td>
+                        <td className="p-4">
+                           <p className="text-[13px] font-bold text-[#132651]">Falls from Height</p>
+                           <p className="text-[11px] text-[#5a6886] mt-0.5">Scaffolding assembly an dismantling</p>
+                        </td>
+                        <td className="p-4"><span className="px-2.5 py-1 bg-[#ea580c] text-white text-[11px] font-bold rounded-[4px]">Medium</span></td>
+                        <td className="p-4 text-center"><ArrowDown className="size-4 text-[#10b981] mx-auto" /></td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">Medium[6]</td>
+                        <td className="p-4 text-[13px] text-[#5a6886]">4 Active Measures</td>
+                        <td className="p-4 text-center"><span className="px-2.5 py-1 bg-[#10b981] text-white text-[11px] font-bold rounded-[4px] inline-block">Ready</span></td>
+                        <td className="p-4 text-center"><button className="text-[#10b981] hover:bg-[#ecfdf5] p-1.5 rounded"><Edit2 className="size-4" /></button></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="flex items-center justify-center h-64 border-2 border-dashed border-[#e3e6ec] rounded-[12px]">
           <p className="text-[14px] font-medium text-[#5a6886]">This section is under construction.</p>
@@ -1090,6 +1361,208 @@ export function RiskAssessmentCompletionPage() {
         </div>
       )}
 
+
+      
+      {/* Modal: Risk Assessment Matrix Modal */}
+      {isRiskMatrixModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
+          <div className="bg-white rounded-[12px] w-full max-w-[900px] shadow-2xl flex flex-col my-8 max-h-[90vh] overflow-hidden transition-all duration-300">
+             {/* Header */}
+             <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4.5 shrink-0">
+               <div className="flex items-center gap-2">
+                 <FileText className="size-5 text-brand-primary" />
+                 <h3 className="text-[18px] font-bold text-brand-primary">Inspection Checklist Preview</h3>
+               </div>
+               <button
+                 onClick={() => setIsRiskMatrixModalOpen(false)}
+                 className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
+               >
+                 <X className="size-5" />
+               </button>
+             </div>
+             
+             {/* Content */}
+             <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-8 bg-[#f9fafc]">
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Left: Dynamic Matrix */}
+                  <div className="bg-white border border-[#e3e6ec] rounded-[12px] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+                     <div className="flex items-center justify-between mb-6">
+                        <h4 className="text-[14px] font-bold text-[#132651]">Dynamic Risk Matrix</h4>
+                        <div className="flex items-center gap-3 text-[11px] font-bold text-[#5a6886]">
+                           <span className="flex items-center gap-1.5"><div className="size-3 bg-[#dcfce7] rounded-sm"></div>Low</span>
+                           <span className="flex items-center gap-1.5"><div className="size-3 bg-[#fef08a] rounded-sm"></div>Med</span>
+                           <span className="flex items-center gap-1.5"><div className="size-3 bg-[#fecdd3] rounded-sm"></div>High</span>
+                           <span className="flex items-center gap-1.5"><div className="size-3 bg-[#7f1d1d] rounded-sm"></div>Ext</span>
+                        </div>
+                     </div>
+                     <div className="flex">
+                        <div className="flex flex-col justify-between pr-4 pb-4 items-end text-[10px] font-medium text-[#5a6886] shrink-0 h-[220px]">
+                           <span className="text-center w-full transform -rotate-90 origin-left relative top-8 whitespace-nowrap">Likelihood (1-5)</span>
+                           <span>5</span>
+                           <span>4</span>
+                           <span>3</span>
+                           <span>2</span>
+                           <span>1</span>
+                        </div>
+                        <div className="flex-1">
+                           <div className="grid grid-cols-5 gap-1.5 h-[220px]">
+                              {/* Row 5 */}
+                              <div className="bg-[#fef08a] rounded flex items-center justify-center text-[#9a3412] font-bold">5</div>
+                              <div className="bg-[#fecdd3] rounded flex items-center justify-center text-[#9f1239] font-bold">10</div>
+                              <div className="bg-[#fecdd3] rounded flex items-center justify-center text-[#9f1239] font-bold">15</div>
+                              <div className="bg-[#7f1d1d] rounded flex items-center justify-center text-white font-bold">20</div>
+                              <div className="bg-[#7f1d1d] rounded flex items-center justify-center text-white font-bold relative">
+                                 <div className="size-6 rounded-full border-2 border-white bg-[#132651] flex items-center justify-center text-[11px]">1</div>
+                              </div>
+
+                              {/* Row 4 */}
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">4</div>
+                              <div className="bg-[#fef08a] rounded flex items-center justify-center text-[#9a3412] font-bold">8</div>
+                              <div className="bg-[#fecdd3] rounded flex items-center justify-center text-[#9f1239] font-bold">12</div>
+                              <div className="bg-[#fecdd3] rounded flex items-center justify-center text-[#9f1239] font-bold relative">
+                                 <div className="size-6 rounded-full border-2 border-white bg-[#132651] text-white flex items-center justify-center text-[11px] font-bold">2</div>
+                              </div>
+                              <div className="bg-[#7f1d1d] rounded flex items-center justify-center text-white font-bold">20</div>
+
+                              {/* Row 3 */}
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">3</div>
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">6</div>
+                              <div className="bg-[#fef08a] rounded flex items-center justify-center text-[#9a3412] font-bold">9</div>
+                              <div className="bg-[#fecdd3] rounded flex items-center justify-center text-[#9f1239] font-bold">12</div>
+                              <div className="bg-[#fecdd3] rounded flex items-center justify-center text-[#9f1239] font-bold">15</div>
+
+                              {/* Row 2 */}
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">2</div>
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">4</div>
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">6</div>
+                              <div className="bg-[#fef08a] rounded flex items-center justify-center text-[#9a3412] font-bold">8</div>
+                              <div className="bg-[#fef08a] rounded flex items-center justify-center text-[#9a3412] font-bold">10</div>
+
+                              {/* Row 1 */}
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">1</div>
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">2</div>
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">3</div>
+                              <div className="bg-[#dcfce7] rounded flex items-center justify-center text-[#166534] font-bold">4</div>
+                              <div className="bg-[#fef08a] rounded flex items-center justify-center text-[#9a3412] font-bold">5</div>
+                           </div>
+                           <div className="grid grid-cols-5 gap-1.5 mt-3 text-center text-[10px] font-medium text-[#5a6886]">
+                              <span>1</span>
+                              <span>2</span>
+                              <span>3</span>
+                              <span>4</span>
+                              <span>5</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="text-center mt-2 text-[10px] font-medium text-[#5a6886]">
+                        Severity (1-5)
+                     </div>
+                  </div>
+
+                  {/* Right: Selected Hazard Detail */}
+                  <div className="flex flex-col gap-4">
+                     <div className="bg-white border border-[#e3e6ec] rounded-[12px] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+                        <div className="flex items-center justify-between mb-4">
+                           <h4 className="text-[14px] font-bold text-[#132651]">Selected Hazard Detail</h4>
+                           <span className="px-2.5 py-0.5 rounded-[4px] bg-[#fff1f2] border border-[#fecdd3] text-[#e11d48] text-[11px] font-bold">Uncontrolled</span>
+                        </div>
+                        <div className="space-y-4">
+                           <div>
+                              <p className="text-[11px] text-[#5a6886] mb-1">Hazard Name</p>
+                              <p className="text-[13px] font-medium text-[#132651]">Falls from Height during Scaffold Assembly</p>
+                           </div>
+                           
+                           <div className="grid grid-cols-2 gap-4">
+                              <div className="border border-[#e3e6ec] bg-[#f8f9fc] p-3 rounded-[8px]">
+                                 <p className="text-[11px] text-[#5a6886] mb-1">Initial Score</p>
+                                 <p className="text-[18px] font-bold text-[#e11d48]">25 (E)</p>
+                              </div>
+                              <div className="border border-[#132651] bg-[#132651] p-3 rounded-[8px]">
+                                 <p className="text-[11px] text-[#b4c5fa] mb-1">Residual Score</p>
+                                 <p className="text-[18px] font-bold text-white">5 (L)</p>
+                              </div>
+                           </div>
+
+                           <div>
+                              <p className="text-[11px] text-[#5a6886] mb-2">Key Mitigation Status</p>
+                              <div className="flex flex-wrap gap-2">
+                                 <span className="px-2.5 py-1 rounded-[4px] border border-[#10b981] text-[#10b981] text-[11px] font-bold bg-white flex items-center gap-1.5"><CheckCircle2 className="size-3" /> Harness Inspection</span>
+                                 <span className="px-2.5 py-1 rounded-[4px] border border-[#10b981] text-[#10b981] text-[11px] font-bold bg-white flex items-center gap-1.5"><CheckCircle2 className="size-3" /> TBT Conducted</span>
+                                 <span className="px-2.5 py-1 rounded-[4px] border border-[#eab308] text-[#eab308] text-[11px] font-bold bg-white flex items-center gap-1.5"><RotateCw className="size-3" /> Permit to Work</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div className="bg-[#f8f9fc] border border-[#e3e6ec] rounded-[12px] p-5">
+                        <p className="text-[12px] leading-relaxed text-[#5a6886]">
+                           "Primary risk involves falls exceeding 2 meters. Residual risk calculation assumes full compliance with SG4:22 guidelines and collective fall protection implementation."
+                        </p>
+                     </div>
+                  </div>
+               </div>
+
+               {/* Table */}
+               <div className="bg-white border border-[#e3e6ec] rounded-[12px] overflow-x-auto shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+                  <table className="w-full text-left border-collapse min-w-[700px]">
+                     <thead>
+                        <tr className="bg-[#eef4ff] border-b border-[#e3e6ec]">
+                           <th className="p-4 text-[12px] font-bold text-[#132651]">ID</th>
+                           <th className="p-4 text-[12px] font-bold text-[#132651]">Hazard Description</th>
+                           <th className="p-4 text-[12px] font-bold text-[#132651]">Likelihood</th>
+                           <th className="p-4 text-[12px] font-bold text-[#132651]">Severity</th>
+                           <th className="p-4 text-[12px] font-bold text-[#132651]">Risk Rating</th>
+                           <th className="p-4 text-[12px] font-bold text-[#132651] text-center">Status</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr className="border-b border-[#e3e6ec]">
+                           <td className="p-4 text-[13px] font-bold text-[#132651]">Workshop Inspection</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">24 May 2026</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">5</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">5</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">Sarah Mitchell</td>
+                           <td className="p-4 text-center"><AlertCircle className="size-4 text-[#e11d48] mx-auto" /></td>
+                        </tr>
+                        <tr className="border-b border-[#e3e6ec]">
+                           <td className="p-4 text-[13px] font-bold text-[#132651]">Teams Consultation</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">24 May 2026</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">4</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">3</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">Sarah Mitchell</td>
+                           <td className="p-4 text-center"><AlertTriangle className="size-4 text-[#5a6886] mx-auto" /></td>
+                        </tr>
+                        <tr>
+                           <td className="p-4 text-[13px] font-bold text-[#132651]">Follow-up Call</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">24 May 2026</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">2</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">2</td>
+                           <td className="p-4 text-[13px] text-[#5a6886]">Sarah Mitchell</td>
+                           <td className="p-4 text-center"><CheckCircle2 className="size-4 text-[#10b981] mx-auto" /></td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+             </div>
+             
+             {/* Footer Buttons */}
+             <div className="p-6 border-t border-[#e3e6ec] flex items-center gap-4 bg-white shrink-0">
+               <Button
+                 variant="outline"
+                 onClick={() => setIsRiskMatrixModalOpen(false)}
+                 className="h-10 rounded-[6px] border-[#132651] text-[#132651] font-bold text-[14px]"
+               >
+                 Back to Assessment
+               </Button>
+               <Button
+                 className="h-10 rounded-[6px] bg-[#132651] text-white font-bold text-[14px]"
+               >
+                 View Control Measures
+               </Button>
+             </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal: Add/Edit Site Image or Document */}
       {(isAddSiteImageOpen || editImageId) && (
