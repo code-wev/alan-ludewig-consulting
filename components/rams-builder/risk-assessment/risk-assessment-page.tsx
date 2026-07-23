@@ -21,6 +21,11 @@ import {
   FileIcon,
   AlertCircle,
   CloudUpload,
+  Bell,
+  Users,
+  BarChart2,
+  ArrowDown,
+  TrendingDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -116,10 +121,25 @@ export function RiskAssessmentCompletionPage() {
     },
   ]);
 
+  const [registerHazards, setRegisterHazards] = useState([
+    { id: "hz1", activity: "Manual Handling", category: "Working at Height", who: "Operatives, Contractors", controls: "Edge protection", l: 5, s: 5, risk: "Critical", status: "Needs Controls" },
+    { id: "hz2", activity: "Falls from Height", category: "Manual Handling", who: "Operatives", controls: "Team lift", l: 4, s: 4, risk: "High", status: "Controls Required" },
+    { id: "hz3", activity: "Falling Objects", category: "Work at Height", who: "Operatives, Public", controls: "Isolation", l: 4, s: 4, risk: "Medium", status: "Controls Required" },
+    { id: "hz4", activity: "Falls from Height", category: "Electrical", who: "Electricians, Staff", controls: "SOPs", l: 3, s: 3, risk: "High", status: "Needs Controls" },
+    { id: "hz5", activity: "Hazardous Substances", category: "Engineering", who: "Operatives", controls: "Team lift", l: 5, s: 5, risk: "Medium", status: "Needs Review" },
+  ]);
+
+  const [deleteHazardId, setDeleteHazardId] = useState<string | null>(null);
+  const [cleanupOptions, setCleanupOptions] = useState({ controls: false, evidence: false, audit: false });
+
+  const [isRiskMatrixModalOpen, setIsRiskMatrixModalOpen] = useState(false);
   // Modal States
   const [isAddSiteImageOpen, setIsAddSiteImageOpen] = useState(false);
+  const [editImageId, setEditImageId] = useState<string | null>(null);
   const [deleteImageId, setDeleteImageId] = useState<string | null>(null);
   const [previewImageId, setPreviewImageId] = useState<string | null>(null);
+  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
   // Step state
   const steps = [
@@ -208,15 +228,18 @@ export function RiskAssessmentCompletionPage() {
     );
   };
 
-  const handleAddCategory = () => {
-    const category = prompt("Enter new Category for People at Risk:");
-    if (category && category.trim()) {
-      if (peopleAtRisk.includes(category.trim())) {
+  const handleAddCategorySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const category = newCategoryName.trim();
+    if (category) {
+      if (peopleAtRisk.includes(category)) {
         toast.error("Category already exists");
         return;
       }
-      setPeopleAtRisk([...peopleAtRisk, category.trim()]);
-      toast.success(`Added "${category.trim()}" to People at Risk`);
+      setPeopleAtRisk([...peopleAtRisk, category]);
+      toast.success(`Added "${category}" to People at Risk`);
+      setIsAddCategoryOpen(false);
+      setNewCategoryName("");
     }
   };
 
@@ -321,35 +344,47 @@ export function RiskAssessmentCompletionPage() {
       {/* Page Header */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
-          <h1 className="text-[30px] font-bold leading-[1.2] text-brand-primary">
+          <h1 className="text-[24px] sm:text-[30px] font-bold leading-[1.2] text-[#132651]">
             Risk Assessment Completion
           </h1>
-          <p className="max-w-[700px] text-[16px] leading-6 text-brand-secondary">
-            Identify hazards, apply control measures, and calculate residual risk.
+          <p className="max-w-[700px] text-[14px] sm:text-[16px] leading-6 text-[#5a6886]">
+            {activeStep === "details" 
+              ? "Identify hazards, apply control measures, and calculate residual risk."
+              : "Finalize control strategies for Project: Alpha Infrastructure (Phase 2)"}
           </p>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-3 sm:gap-4">
           <Button
             type="button"
             variant="outline"
             onClick={handleSaveDraft}
-            className="h-8.5 rounded-[6px] border-brand-primary bg-white px-4 text-[12px] font-bold text-brand-primary hover:bg-brand-bg-main shadow-none transition-all duration-200"
+            className="h-10 sm:h-8.5 w-full sm:w-auto rounded-[6px] border-[#132651] bg-white px-4 text-[13px] sm:text-[12px] font-bold text-[#132651] hover:bg-brand-bg-main shadow-none transition-all duration-200"
           >
             Save Draft
           </Button>
-          <Button
-            type="button"
-            onClick={handlePreview}
-            className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a] transition-all duration-200"
-          >
-            Preview
-          </Button>
+          {activeStep === "details" ? (
+            <Button
+              type="button"
+              onClick={handlePreview}
+              className="h-10 sm:h-8.5 w-full sm:w-auto rounded-[6px] bg-[#132651] px-4 text-[13px] sm:text-[12px] font-bold text-white hover:bg-[#0d1b3a] transition-all duration-200 shadow-sm"
+            >
+              Preview
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              onClick={handleOpenAddHazardModal}
+              className="h-10 sm:h-8.5 w-full sm:w-auto rounded-[6px] bg-[#132651] px-4 text-[13px] sm:text-[12px] font-bold text-white hover:bg-[#0d1b3a] transition-all duration-200 shadow-sm"
+            >
+              Add Hazard
+            </Button>
+          )}
         </div>
       </div>
 
       {/* Tabs list matching Figma layout */}
-      <div className="bg-[#f3f5f8] p-1 flex flex-wrap gap-1 rounded-[12px] max-w-max border border-[#e3e6ec]">
+      <div className="bg-[#f3f5f8] p-1 flex flex-wrap gap-1 rounded-[12px] max-w-max border border-[#e3e6ec] mx-0 mt-2 mb-4">
         {steps.map((step) => {
           const isActive = step.id === activeStep;
           return (
@@ -369,8 +404,10 @@ export function RiskAssessmentCompletionPage() {
         })}
       </div>
 
-      {/* Main Layout Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+      {activeStep === "details" ? (
+        <>
+        {/* Main Layout Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
         {/* Left Column: Form Content */}
         <div className="xl:col-span-7 flex flex-col gap-6">
           {/* Step 1: Details Card */}
@@ -488,7 +525,7 @@ export function RiskAssessmentCompletionPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={handleAddCategory}
+                  onClick={() => setIsAddCategoryOpen(true)}
                   className="h-7.5 rounded-[6px] border-dashed border-brand-primary bg-transparent px-3 text-[12px] font-bold text-brand-primary hover:bg-brand-bg-main gap-1.5 shadow-none transition-all duration-200"
                 >
                   <Plus className="size-3.5" />
@@ -548,7 +585,10 @@ export function RiskAssessmentCompletionPage() {
                         >
                           <Eye className="size-3.5" />
                         </button>
-                        <button className="text-emerald-500 hover:opacity-80 transition-opacity">
+                        <button
+                          onClick={() => setEditImageId(img.id)}
+                          className="text-emerald-500 hover:opacity-80 transition-opacity"
+                        >
                           <Edit2 className="size-3.5" />
                         </button>
                         <button
@@ -756,6 +796,137 @@ export function RiskAssessmentCompletionPage() {
         </div>
       </div>
 
+            </>
+      ) : activeStep === "hazards" ? (
+        <div className="flex flex-col gap-6 sm:gap-8">
+          {/* Stat Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+              <div className="size-10 bg-[#f4f6fa] rounded-[6px] flex items-center justify-center mb-4 border border-[#e8eaef]">
+                <AlertTriangle className="size-5 text-[#132651]" />
+              </div>
+              <p className="text-[12px] font-medium text-[#5a6886] mb-1">Total Hazards</p>
+              <p className="text-[28px] font-bold text-[#132651]">10</p>
+            </div>
+            <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+              <div className="size-10 bg-[#fff5f6] rounded-[6px] flex items-center justify-center mb-4 border border-[#ffe0e6]">
+                <Bell className="size-5 text-[#e11d48]" />
+              </div>
+              <p className="text-[12px] font-medium text-[#5a6886] mb-1">High/Critical Risks</p>
+              <p className="text-[28px] font-bold text-[#132651]">04</p>
+            </div>
+            <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+              <div className="size-10 bg-[#f4f6fa] rounded-[6px] flex items-center justify-center mb-4 border border-[#e8eaef]">
+                <Users className="size-5 text-[#132651]" />
+              </div>
+              <p className="text-[12px] font-medium text-[#5a6886] mb-1">Persons at Risk</p>
+              <p className="text-[28px] font-bold text-[#132651]">05 <span className="text-[14px] font-medium text-[#5a6886] ml-1">Groups</span></p>
+            </div>
+            <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+              <div className="size-10 bg-[#f4f6fa] rounded-[6px] flex items-center justify-center mb-4 border border-[#e8eaef]">
+                <BarChart2 className="size-5 text-[#132651]" />
+              </div>
+              <p className="text-[12px] font-medium text-[#5a6886] mb-1">Initial Risk Average</p>
+              <p className="text-[28px] font-bold text-[#132651]">14.2</p>
+            </div>
+          </div>
+
+          {/* Hazard Register */}
+          <div className="bg-white rounded-[12px] border border-[#e3e6ec] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
+            <h3 className="text-[18px] font-bold text-[#132651]">Hazard Register</h3>
+            
+            <div className="flex flex-col xl:flex-row items-center justify-between gap-4">
+              <div className="relative w-full xl:w-[320px]">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#95a0b6]" />
+                <input type="text" placeholder="Search hazards..." className="h-10 w-full pl-9 pr-3 rounded-[6px] border border-[#d7dce5] text-[13px] text-[#132651] outline-none focus:border-[#132651] bg-white" />
+              </div>
+              
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
+                <select className="h-10 w-full sm:w-[180px] rounded-[6px] border border-[#d7dce5] px-3 text-[13px] text-[#5a6886] outline-none bg-white focus:border-[#132651]">
+                  <option>Hazard Category</option>
+                </select>
+                <select className="h-10 w-full sm:w-[180px] rounded-[6px] border border-[#d7dce5] px-3 text-[13px] text-[#5a6886] outline-none bg-white focus:border-[#132651]">
+                  <option>Persons at Risk</option>
+                </select>
+                <select className="h-10 w-full sm:w-[180px] rounded-[6px] border border-[#d7dce5] px-3 text-[13px] text-[#5a6886] outline-none bg-white focus:border-[#132651]">
+                  <option>Initial Risk Level</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto rounded-[8px] border border-[#e3e6ec]">
+              <table className="w-full text-left border-collapse min-w-[1000px]">
+                <thead>
+                  <tr className="bg-[#eef4ff] border-b border-[#e3e6ec]">
+                    <th className="p-3 w-10 text-center">
+                      <input type="checkbox" className="size-4 rounded border-[#c5c6cd] accent-[#132651]" />
+                    </th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651]">Hazard Activity</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651]">Category</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651]">Who May be Harmed</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651]">Existing Controls</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651] text-center w-12">L</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651] text-center w-12">S</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651] text-center w-28">Initial Risk</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651] text-center w-36">Status</th>
+                    <th className="p-3 text-[12px] font-bold text-[#132651] text-center w-24">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {registerHazards.map((hz) => (
+                    <tr key={hz.id} className="border-b border-[#e3e6ec] hover:bg-[#fafbfd] bg-white transition-all">
+                      <td className="p-3 text-center">
+                        <input type="checkbox" className="size-4 rounded border-[#c5c6cd] accent-[#132651]" />
+                      </td>
+                      <td className="p-3 text-[13px] font-bold text-[#132651]">{hz.activity}</td>
+                      <td className="p-3 text-[13px] text-[#5a6886]">{hz.category}</td>
+                      <td className="p-3 text-[13px] text-[#5a6886]">{hz.who}</td>
+                      <td className="p-3 text-[13px] text-[#5a6886]">{hz.controls}</td>
+                      <td className="p-3 text-[13px] font-medium text-[#5a6886] text-center">{hz.l}</td>
+                      <td className="p-3 text-[13px] font-medium text-[#5a6886] text-center">{hz.s}</td>
+                      <td className="p-3 text-center">
+                        <span className={cn(
+                          "inline-block w-full max-w-[80px] py-1 rounded-[4px] text-[11px] font-bold",
+                          hz.risk === "Critical" ? "bg-[#e11d48] text-white" :
+                          hz.risk === "High" ? "bg-emerald-500 text-white" :
+                          "bg-[#eab308] text-white"
+                        )}>
+                          {hz.risk}
+                        </span>
+                      </td>
+                      <td className="p-3 text-center">
+                        <span className={cn(
+                          "inline-block px-2.5 py-1 rounded-full text-[11px] font-bold border",
+                          hz.status === "Needs Controls" ? "bg-red-50 text-[#e11d48] border-red-100" :
+                          hz.status === "Controls Required" ? "bg-amber-50 text-[#d97706] border-amber-100" :
+                          "bg-[#132651] text-white border-[#132651]"
+                        )}>
+                          {hz.status}
+                        </span>
+                      </td>
+                      <td className="p-3 text-center">
+                        <div className="flex items-center justify-center gap-2.5">
+                          <button onClick={handleOpenAddHazardModal} className="text-emerald-500 hover:opacity-80 transition-opacity">
+                            <Edit2 className="size-4" />
+                          </button>
+                          <button onClick={() => setDeleteHazardId(hz.id)} className="text-[#e11d48] hover:opacity-80 transition-opacity">
+                            <Trash2 className="size-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-64 border-2 border-dashed border-[#e3e6ec] rounded-[12px]">
+          <p className="text-[14px] font-medium text-[#5a6886]">This section is under construction.</p>
+        </div>
+      )}
+
       {/* Modal: Add Hazard */}
       {isAddHazardOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
@@ -919,14 +1090,17 @@ export function RiskAssessmentCompletionPage() {
         </div>
       )}
 
-      {/* Modal: Add Site Image or Document */}
-      {isAddSiteImageOpen && (
+
+      {/* Modal: Add/Edit Site Image or Document */}
+      {(isAddSiteImageOpen || editImageId) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
           <div className="bg-white rounded-[12px] w-full max-w-[640px] shadow-2xl flex flex-col my-8 max-h-[90vh] overflow-hidden transition-all duration-300">
             <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4.5 shrink-0">
-              <h3 className="text-[20px] font-bold text-brand-primary">Add Site Image or Document</h3>
+              <h3 className="text-[20px] font-bold text-brand-primary">
+                {editImageId ? "Edit Site Image or Document" : "Add Site Image or Document"}
+              </h3>
               <button
-                onClick={() => setIsAddSiteImageOpen(false)}
+                onClick={() => { setIsAddSiteImageOpen(false); setEditImageId(null); }}
                 className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
               >
                 <X className="size-5" />
@@ -1024,11 +1198,11 @@ export function RiskAssessmentCompletionPage() {
             </div>
 
             <div className="flex items-center justify-start gap-3 px-6 py-4.5 border-t border-[#e3e6ec] bg-[#f9fafb]">
-              <Button variant="outline" className="h-10 rounded-[6px] border-brand-primary bg-white px-6 text-[14px] font-bold text-brand-primary hover:bg-brand-bg-main" onClick={() => setIsAddSiteImageOpen(false)}>
+              <Button variant="outline" className="h-10 rounded-[6px] border-brand-primary bg-white px-6 text-[14px] font-bold text-brand-primary hover:bg-brand-bg-main" onClick={() => { setIsAddSiteImageOpen(false); setEditImageId(null); }}>
                 Save Draft
               </Button>
-              <Button className="h-10 rounded-[6px] bg-brand-primary px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a]" onClick={() => setIsAddSiteImageOpen(false)}>
-                Add File
+              <Button className="h-10 rounded-[6px] bg-brand-primary px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a]" onClick={() => { setIsAddSiteImageOpen(false); setEditImageId(null); }}>
+                {editImageId ? "Save Changes" : "Add File"}
               </Button>
             </div>
           </div>
@@ -1093,49 +1267,137 @@ export function RiskAssessmentCompletionPage() {
         </div>
       )}
 
+      
+      {/* Modal: Delete Hazard */}
+      {deleteHazardId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-[12px] w-full max-w-[640px] shadow-2xl flex flex-col overflow-hidden transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4 shrink-0">
+              <h3 className="text-[18px] font-bold text-[#132651]">Delete Hazard</h3>
+              <button
+                onClick={() => setDeleteHazardId(null)}
+                className="text-[#95a0b6] hover:text-[#132651] hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+            
+            <div className="p-6 space-y-5">
+              {/* Ref Card */}
+              <div className="bg-[#f8f9fc] border border-[#e3e6ec] rounded-[8px] p-4 flex items-start gap-3">
+                <AlertTriangle className="size-4 text-[#5a6886] shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-[11px] font-bold text-[#5a6886] uppercase tracking-wider mb-1">HAZARD REF: HZ-042</p>
+                  <p className="text-[14px] font-bold text-[#132651] mb-1">Working at Height: Scaffold Operations</p>
+                  <p className="text-[13px] font-medium text-[#5a6886]">Severity: 4 | Likelihood: 3 (High Risk)</p>
+                </div>
+              </div>
+
+              {/* Warning Alert */}
+              <div className="bg-red-50 border border-red-200 rounded-[8px] p-4 flex items-start gap-3">
+                <AlertTriangle className="size-5 text-[#e11d48] shrink-0" />
+                <p className="text-[13px] font-medium text-[#e11d48] leading-relaxed">
+                  <span className="font-bold">Action Required:</span> Removing this hazard will also invalidate 6 linked control measures and 2 method statements currently in the safety draft.
+                </p>
+              </div>
+
+              {/* Advanced Cleanup Options */}
+              <div className="pt-2">
+                <h4 className="text-[14px] font-bold text-[#132651] mb-3">Advanced Cleanup Options</h4>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      className="size-4.5 rounded border-[#c5c6cd] accent-[#132651]" 
+                      checked={cleanupOptions.controls}
+                      onChange={(e) => setCleanupOptions({...cleanupOptions, controls: e.target.checked})}
+                    />
+                    <span className="text-[13px] font-medium text-[#132651]">Delete linked controls</span>
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      className="size-4.5 rounded border-[#c5c6cd] accent-[#132651]" 
+                      checked={cleanupOptions.evidence}
+                      onChange={(e) => setCleanupOptions({...cleanupOptions, evidence: e.target.checked})}
+                    />
+                    <span className="text-[13px] font-medium text-[#132651]">Remove evidence</span>
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <input 
+                      type="checkbox" 
+                      className="size-4.5 rounded border-[#c5c6cd] accent-[#132651]" 
+                      checked={cleanupOptions.audit}
+                      onChange={(e) => setCleanupOptions({...cleanupOptions, audit: e.target.checked})}
+                    />
+                    <span className="text-[13px] font-medium text-[#132651]">Keep audit log (Required for ISO 45001)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <Button
+                  className="h-10 rounded-[6px] bg-[#132651] px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a] transition-all"
+                  onClick={() => {
+                    toast.success("Hazard deleted successfully.");
+                    setDeleteHazardId(null);
+                  }}
+                >
+                  Delete Hazard
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Modal: Preview */}
       {previewImageId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
-          <div className="bg-white rounded-[12px] w-full max-w-[1000px] shadow-2xl flex flex-col my-8 h-[85vh] overflow-hidden transition-all duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/50 overflow-y-auto">
+          <div className="bg-white rounded-[12px] w-full max-w-[1000px] shadow-2xl flex flex-col my-8 h-[90vh] sm:h-[85vh] overflow-hidden transition-all duration-300">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4.5 shrink-0">
-              <div className="flex items-center gap-2 text-brand-primary">
-                <FileIcon className="size-5" />
-                <h3 className="text-[18px] font-bold">
+            <div className="flex items-center justify-between border-b border-[#e3e6ec] px-4 sm:px-6 py-4 sm:py-4.5 shrink-0 bg-white">
+              <div className="flex items-center gap-2.5 text-brand-primary">
+                <FileIcon className="size-5 text-[#132651]" />
+                <h3 className="text-[16px] sm:text-[18px] font-bold text-[#132651]">
                   Document Preview: {images.find(i => i.id === previewImageId)?.name}
                 </h3>
               </div>
               <button
                 onClick={() => setPreviewImageId(null)}
-                className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
+                className="text-[#5a6886] hover:text-[#132651] hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
               >
                 <X className="size-5" />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex flex-1 overflow-hidden">
+            <div className="flex flex-col lg:flex-row flex-1 overflow-hidden bg-white">
               {/* Left Viewer */}
-              <div className="flex-1 bg-[#f3f5f8] border-r border-[#e3e6ec] flex flex-col overflow-hidden relative">
+              <div className="flex-1 bg-[#f3f5f8] border-b lg:border-b-0 lg:border-r border-[#e3e6ec] flex flex-col overflow-hidden relative min-h-[300px] lg:min-h-0">
                 {/* Toolbar */}
-                <div className="h-12 border-b border-[#e3e6ec] bg-white flex items-center justify-between px-4 shrink-0">
-                  <div className="flex items-center gap-4">
-                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><ZoomOut className="size-4" /></button>
-                    <span className="text-[13px] font-medium text-brand-primary">100%</span>
-                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><ZoomIn className="size-4" /></button>
+                <div className="h-12 border-b border-[#e3e6ec] bg-white flex items-center justify-between px-2 sm:px-4 shrink-0 overflow-x-auto">
+                  <div className="flex items-center gap-1">
+                    <button className="p-1.5 text-[#5a6886] hover:text-[#132651] transition-colors"><ZoomOut className="size-4" /></button>
+                    <div className="px-2 py-1 bg-[#f3f5f8] rounded-[4px] text-[13px] font-medium text-[#132651]">100%</div>
+                    <button className="p-1.5 text-[#5a6886] hover:text-[#132651] transition-colors"><ZoomIn className="size-4" /></button>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <ChevronRight className="size-4 rotate-180 text-[#95a0b6]" />
-                    <span className="text-[13px] font-medium text-brand-primary">Page 1 of 4</span>
-                    <ChevronRight className="size-4 text-[#5a6886]" />
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <button className="p-1 text-[#95a0b6] hover:text-[#132651] transition-colors">
+                      <ChevronRight className="size-4 rotate-180" />
+                    </button>
+                    <span className="text-[12px] sm:text-[13px] font-medium text-[#132651] whitespace-nowrap">Page 1 of 4</span>
+                    <button className="p-1 text-[#5a6886] hover:text-[#132651] transition-colors">
+                      <ChevronRight className="size-4" />
+                    </button>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><RotateCw className="size-4" /></button>
-                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><Maximize className="size-4" /></button>
+                  <div className="flex items-center gap-1">
+                    <button className="p-1.5 text-[#5a6886] hover:text-[#132651] transition-colors"><RotateCw className="size-4" /></button>
+                    <button className="p-1.5 text-[#5a6886] hover:text-[#132651] transition-colors"><Maximize className="size-4" /></button>
                   </div>
                 </div>
                 {/* Image Area */}
-                <div className="flex-1 overflow-auto p-6 flex items-start justify-center">
+                <div className="flex-1 overflow-auto p-4 sm:p-6 flex items-start justify-center">
                   <img
                     src={images.find(i => i.id === previewImageId)?.url}
                     alt="Preview"
@@ -1145,32 +1407,32 @@ export function RiskAssessmentCompletionPage() {
               </div>
 
               {/* Right Sidebar */}
-              <div className="w-[320px] bg-white flex flex-col overflow-y-auto">
+              <div className="w-full lg:w-[320px] bg-white flex flex-col overflow-y-auto shrink-0">
                 {(() => {
                   const img = images.find(i => i.id === previewImageId);
                   if (!img) return null;
                   return (
-                    <div className="p-6 space-y-6">
+                    <div className="p-5 sm:p-6 space-y-6 sm:space-y-7">
                       {/* File Information */}
                       <div>
-                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">File Information</h4>
-                        <div className="space-y-3">
+                        <h4 className="text-[14px] font-bold text-[#132651] mb-3.5">File Information</h4>
+                        <div className="space-y-3.5">
                           <div>
-                            <p className="text-[11px] font-medium text-brand-secondary mb-0.5">File Name</p>
-                            <p className="text-[13px] font-medium text-brand-primary">{img.name}</p>
+                            <p className="text-[11px] text-[#5a6886] mb-1">File Name</p>
+                            <p className="text-[13px] font-medium text-[#132651] break-all">{img.name}</p>
                           </div>
                           <div>
-                            <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Type</p>
-                            <p className="text-[13px] font-medium text-brand-primary">{img.type}</p>
+                            <p className="text-[11px] text-[#5a6886] mb-1">Type</p>
+                            <p className="text-[13px] font-medium text-[#132651]">{img.type}</p>
                           </div>
                           <div className="flex gap-8">
                             <div>
-                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Size</p>
-                              <p className="text-[13px] font-medium text-brand-primary">{img.size}</p>
+                              <p className="text-[11px] text-[#5a6886] mb-1">Size</p>
+                              <p className="text-[13px] font-medium text-[#132651]">{img.size}</p>
                             </div>
                             <div>
-                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Resolution</p>
-                              <p className="text-[13px] font-medium text-brand-primary">{img.resolution}</p>
+                              <p className="text-[11px] text-[#5a6886] mb-1">Resolution</p>
+                              <p className="text-[13px] font-medium text-[#132651]">{img.resolution}</p>
                             </div>
                           </div>
                         </div>
@@ -1180,18 +1442,18 @@ export function RiskAssessmentCompletionPage() {
 
                       {/* Context & Relation */}
                       <div>
-                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">Context &amp; Relation</h4>
-                        <div className="space-y-3">
+                        <h4 className="text-[14px] font-bold text-[#132651] mb-3.5">Context &amp; Relation</h4>
+                        <div className="space-y-3.5">
                           <div>
-                            <p className="text-[11px] font-medium text-brand-secondary mb-1">Related Hazard</p>
-                            <div className="flex items-center gap-1.5">
-                              <div className="size-2 rounded-full bg-red-500" />
-                              <p className="text-[13px] font-medium text-brand-primary">{img.relatedHazard}</p>
+                            <p className="text-[11px] text-[#5a6886] mb-1.5">Related Hazard</p>
+                            <div className="flex items-center gap-2">
+                              <div className="size-1.5 rounded-full bg-[#e11d48]" />
+                              <p className="text-[13px] font-medium text-[#132651]">{img.relatedHazard}</p>
                             </div>
                           </div>
                           <div>
-                            <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Section</p>
-                            <p className="text-[13px] font-medium text-brand-primary">{img.section}</p>
+                            <p className="text-[11px] text-[#5a6886] mb-1">Section</p>
+                            <p className="text-[13px] font-medium text-[#132651]">{img.section}</p>
                           </div>
                         </div>
                       </div>
@@ -1200,23 +1462,23 @@ export function RiskAssessmentCompletionPage() {
 
                       {/* Lifecycle */}
                       <div>
-                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">Lifecycle</h4>
-                        <div className="space-y-4">
+                        <h4 className="text-[14px] font-bold text-[#132651] mb-4">Lifecycle</h4>
+                        <div className="space-y-5">
                           <div className="flex items-start gap-3">
                             <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#132651] text-white text-[11px] font-bold">
                               {img.uploadedBy.split(' ').map(n => n[0]).join('')}
                             </div>
                             <div>
-                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Uploaded by</p>
-                              <p className="text-[13px] font-bold text-brand-primary leading-tight">{img.uploadedBy}</p>
-                              <p className="text-[11px] text-brand-secondary mt-0.5">{img.uploadedAt}</p>
+                              <p className="text-[11px] text-[#5a6886] mb-0.5">Uploaded By</p>
+                              <p className="text-[13px] font-bold text-[#132651] leading-tight">{img.uploadedBy}</p>
+                              <p className="text-[11px] text-[#5a6886] mt-1">{img.uploadedAt}</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-3 pl-1">
                             <RotateCw className="size-4 text-[#95a0b6] mt-0.5" />
                             <div>
-                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Last Modified</p>
-                              <p className="text-[13px] font-medium text-brand-primary">{img.lastModified}</p>
+                              <p className="text-[11px] text-[#5a6886] mb-1">Last Modified</p>
+                              <p className="text-[13px] font-medium text-[#132651]">{img.lastModified}</p>
                             </div>
                           </div>
                         </div>
@@ -1226,8 +1488,8 @@ export function RiskAssessmentCompletionPage() {
 
                       {/* Internal Notes */}
                       <div>
-                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">Internal Notes</h4>
-                        <div className="bg-[#f8f9fc] rounded-[8px] border border-[#e3e6ec] p-3 text-[13px] text-brand-primary leading-relaxed">
+                        <h4 className="text-[14px] font-bold text-[#132651] mb-3">Internal Notes</h4>
+                        <div className="bg-[#f8f9fc] rounded-[8px] border border-[#e3e6ec] p-4 text-[13px] text-[#5a6886] leading-relaxed shadow-sm">
                           "{img.notes}"
                         </div>
                       </div>
@@ -1238,17 +1500,17 @@ export function RiskAssessmentCompletionPage() {
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between border-t border-[#e3e6ec] px-6 py-4.5 bg-white shrink-0">
-              <div className="flex items-center gap-3">
-                <Button variant="outline" className="h-10 rounded-[6px] border-brand-primary bg-white px-6 text-[14px] font-bold text-brand-primary hover:bg-brand-bg-main shadow-none">
+            <div className="flex flex-col sm:flex-row items-center justify-between border-t border-[#e3e6ec] p-4 sm:px-6 sm:py-4.5 bg-white shrink-0 gap-3 sm:gap-0">
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                <Button variant="outline" className="h-10 w-full sm:w-auto rounded-[6px] border-[#c5c6cd] bg-white px-6 text-[14px] font-bold text-[#132651] hover:bg-brand-bg-main shadow-sm">
                   Replace File
                 </Button>
-                <Button className="h-10 rounded-[6px] bg-[#132651] px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
+                <Button className="h-10 w-full sm:w-auto rounded-[6px] bg-[#132651] px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a] shadow-sm">
                   Download File
                 </Button>
               </div>
               <Button
-                className="h-10 rounded-[6px] bg-[#e11d48] px-6 text-[14px] font-bold text-white hover:bg-[#be123c]"
+                className="h-10 w-full sm:w-auto rounded-[6px] bg-[#e11d48] px-6 text-[14px] font-bold text-white hover:bg-[#be123c] shadow-sm"
                 onClick={() => {
                   setDeleteImageId(previewImageId);
                   setPreviewImageId(null);
@@ -1257,6 +1519,45 @@ export function RiskAssessmentCompletionPage() {
                 Delete File
               </Button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add Category */}
+      {isAddCategoryOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-[12px] w-full max-w-[400px] shadow-2xl flex flex-col overflow-hidden transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4.5 shrink-0">
+              <h3 className="text-[18px] font-bold text-brand-primary">Add Category</h3>
+              <button
+                onClick={() => setIsAddCategoryOpen(false)}
+                className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+            <form onSubmit={handleAddCategorySubmit} className="p-6 space-y-6">
+              <div className="space-y-2">
+                <label className="text-[14px] font-bold text-brand-primary block">Category Name</label>
+                <input
+                  type="text"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="e.g. Public, General Staff"
+                  className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-4 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all placeholder:text-[#a3acba]"
+                  autoFocus
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <Button type="button" variant="outline" className="h-10 rounded-[6px] border-brand-primary bg-white px-5 text-[14px] font-bold text-brand-primary hover:bg-brand-bg-main" onClick={() => setIsAddCategoryOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" className="h-10 rounded-[6px] bg-brand-primary px-5 text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Add
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       )}
