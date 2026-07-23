@@ -31,10 +31,16 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { ControlMeasuresStep } from "./control-measures-step";
+import { ReviewAndSignOffStep } from "./review-and-sign-off-step";
 import { AddControlMeasureModal } from "./add-control-measure-modal";
 import { DeleteControlMeasureModal } from "./delete-control-measure-modal";
 import { SuggestedControlsModal } from "./suggested-controls-modal";
 import { ApplySuggestedControlsModal } from "./apply-suggested-controls-modal";
+import { PreviewAssessmentModal } from "./preview-assessment-modal";
+import { ReviewRequiredModal } from "./review-required-modal";
+import { PdfGeneratedModal } from "./pdf-generated-modal";
+import { SubmitForReviewModal } from "./submit-for-review-modal";
+import { SubmittedSuccessModal } from "./submitted-success-modal";
 
 interface HazardItem {
   id: string;
@@ -144,6 +150,13 @@ export function RiskAssessmentCompletionPage() {
   const [deleteControlMeasureId, setDeleteControlMeasureId] = useState<string | null>(null);
   const [isSuggestedControlsOpen, setIsSuggestedControlsOpen] = useState(false);
   const [isApplySuggestedControlsOpen, setIsApplySuggestedControlsOpen] = useState(false);
+
+  // Review & Sign-Off Modals
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [isReviewRequiredOpen, setIsReviewRequiredOpen] = useState(false);
+  const [isPdfGeneratedOpen, setIsPdfGeneratedOpen] = useState(false);
+  const [isSubmitReviewOpen, setIsSubmitReviewOpen] = useState(false);
+  const [isSubmittedSuccessOpen, setIsSubmittedSuccessOpen] = useState(false);
 
   // Modal States
   const [isAddSiteImageOpen, setIsAddSiteImageOpen] = useState(false);
@@ -383,6 +396,18 @@ export function RiskAssessmentCompletionPage() {
             >
               Preview
             </Button>
+          ) : activeStep === "review" ? (
+            <div className="flex items-center gap-3">
+              <Button type="button" variant="outline" className="bg-white border-[#c5c6cd] text-[#132651] hover:bg-[#f3f5f8] h-10 px-4 font-bold rounded-[6px] shadow-none">
+                Save Draft
+              </Button>
+              <Button onClick={() => setIsPreviewModalOpen(true)} type="button" variant="outline" className="bg-white border-[#c5c6cd] text-[#132651] hover:bg-[#f3f5f8] h-10 px-4 font-bold rounded-[6px] shadow-none">
+                Preview Assessment
+              </Button>
+              <Button onClick={() => setIsReviewRequiredOpen(true)} type="button" className="bg-[#132651] hover:bg-[#0d1b3a] text-white h-10 px-4 font-bold rounded-[6px] shadow-none">
+                Generate PDF
+              </Button>
+            </div>
           ) : activeStep === "control" ? (
             <div className="flex items-center gap-3">
               <Button
@@ -1227,11 +1252,9 @@ export function RiskAssessmentCompletionPage() {
            setIsAddControlMeasureOpen={setIsAddControlMeasureOpen}
            setDeleteControlMeasureId={setDeleteControlMeasureId}
         />
-      ) : (
-        <div className="flex items-center justify-center h-64 border-2 border-dashed border-[#e3e6ec] rounded-[12px]">
-          <p className="text-[14px] font-medium text-[#5a6886]">This section is under construction.</p>
-        </div>
-      )}
+      ) : activeStep === "review" ? (
+        <ReviewAndSignOffStep onSubmitForReview={() => setIsSubmitReviewOpen(true)} />
+      ) : null}
 
       {/* Modal: Add Hazard */}
       {isAddHazardOpen && (
@@ -2074,6 +2097,49 @@ export function RiskAssessmentCompletionPage() {
       <DeleteControlMeasureModal deleteControlMeasureId={deleteControlMeasureId} setDeleteControlMeasureId={setDeleteControlMeasureId} />
       <SuggestedControlsModal isSuggestedControlsOpen={isSuggestedControlsOpen} setIsSuggestedControlsOpen={setIsSuggestedControlsOpen} setIsApplySuggestedControlsOpen={setIsApplySuggestedControlsOpen} />
       <ApplySuggestedControlsModal isApplySuggestedControlsOpen={isApplySuggestedControlsOpen} setIsApplySuggestedControlsOpen={setIsApplySuggestedControlsOpen} />
+
+      {/* Review & Sign-Off Modals */}
+      <PreviewAssessmentModal
+         isPreviewModalOpen={isPreviewModalOpen}
+         setIsPreviewModalOpen={setIsPreviewModalOpen}
+         onGeneratePdf={() => {
+            setIsPreviewModalOpen(false);
+            setIsReviewRequiredOpen(true);
+         }}
+         onSubmitForReview={() => {
+            setIsPreviewModalOpen(false);
+            setIsSubmitReviewOpen(true);
+         }}
+      />
+      
+      <ReviewRequiredModal
+         isReviewRequiredOpen={isReviewRequiredOpen}
+         setIsReviewRequiredOpen={setIsReviewRequiredOpen}
+         onConfirm={() => {
+            setIsReviewRequiredOpen(false);
+            // Simulate a brief generation period then open the success modal
+            setTimeout(() => setIsPdfGeneratedOpen(true), 500);
+         }}
+      />
+      
+      <PdfGeneratedModal
+         isPdfGeneratedOpen={isPdfGeneratedOpen}
+         setIsPdfGeneratedOpen={setIsPdfGeneratedOpen}
+      />
+      
+      <SubmitForReviewModal
+         isSubmitReviewOpen={isSubmitReviewOpen}
+         setIsSubmitReviewOpen={setIsSubmitReviewOpen}
+         onConfirmSubmit={() => {
+            setIsSubmitReviewOpen(false);
+            setIsSubmittedSuccessOpen(true);
+         }}
+      />
+      
+      <SubmittedSuccessModal
+         isSubmittedSuccessOpen={isSubmittedSuccessOpen}
+         setIsSubmittedSuccessOpen={setIsSubmittedSuccessOpen}
+      />
     </div>
   );
 }
