@@ -12,6 +12,15 @@ import {
   Eye,
   CheckCircle2,
   Trash2,
+  Edit2,
+  Search,
+  ZoomIn,
+  ZoomOut,
+  RotateCw,
+  Maximize,
+  FileIcon,
+  AlertCircle,
+  CloudUpload,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -47,23 +56,70 @@ export function RiskAssessmentCompletionPage() {
   ]);
 
   // Site images state
-  const [images, setImages] = useState([
+  interface SiteImage {
+    id: string;
+    name: string;
+    url: string;
+    type: string;
+    relatedHazard: string;
+    section: string;
+    size: string;
+    resolution: string;
+    uploadedBy: string;
+    uploadedAt: string;
+    lastModified: string;
+    notes: string;
+  }
+
+  const [images, setImages] = useState<SiteImage[]>([
     {
       id: "1",
       name: "Gantry_North_1.jpg",
       url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=400&q=80",
+      type: "Image (JPG)",
+      relatedHazard: "Falls from Height",
+      section: "Sector B-12, High-level Gantry",
+      size: "1.2 MB",
+      resolution: "1920x1080",
+      uploadedBy: "James Wilson",
+      uploadedAt: "Nov 21, 2026 at 10:48 AM",
+      lastModified: "Nov 21, 2026 - 02:12 PM",
+      notes: "Gantry inspection photo.",
     },
     {
       id: "2",
       name: "Machinery_Focus.png",
       url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=400&q=80",
+      type: "Image (PNG)",
+      relatedHazard: "Manual Handling",
+      section: "Sector B-12",
+      size: "2.1 MB",
+      resolution: "1920x1080",
+      uploadedBy: "James Wilson",
+      uploadedAt: "Nov 21, 2026 at 11:15 AM",
+      lastModified: "Nov 21, 2026 - 02:12 PM",
+      notes: "Machinery details.",
     },
     {
       id: "3",
       name: "Scaffold_Layout.jpg",
       url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80",
+      type: "Image (JPG)",
+      relatedHazard: "Falling Objects",
+      section: "Sector B-12",
+      size: "3.4 MB",
+      resolution: "2400x1600",
+      uploadedBy: "James Wilson",
+      uploadedAt: "Nov 21, 2026 at 11:30 AM",
+      lastModified: "Nov 21, 2026 - 02:12 PM",
+      notes: "Scaffold layout overview.",
     },
   ]);
+
+  // Modal States
+  const [isAddSiteImageOpen, setIsAddSiteImageOpen] = useState(false);
+  const [deleteImageId, setDeleteImageId] = useState<string | null>(null);
+  const [previewImageId, setPreviewImageId] = useState<string | null>(null);
 
   // Step state
   const steps = [
@@ -448,59 +504,64 @@ export function RiskAssessmentCompletionPage() {
               <h3 className="text-[18px] font-bold text-brand-primary">
                 Site Images &amp; Documents
               </h3>
-              <button
-                type="button"
-                onClick={handleUploadImage}
-                className="flex items-center gap-1.5 text-[14px] font-semibold text-brand-primary hover:underline transition-all duration-150"
-              >
-                <Upload className="size-4" />
-                Upload New
-              </button>
+              <div className="flex items-center gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsAddSiteImageOpen(true)}
+                  className="h-8.5 rounded-[6px] border-brand-primary bg-white px-4 text-[12px] font-bold text-brand-primary hover:bg-brand-bg-main shadow-none transition-all duration-200"
+                >
+                  Add Document
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => setIsAddSiteImageOpen(true)}
+                  className="h-8.5 rounded-[6px] bg-brand-primary px-4 text-[12px] font-bold text-white hover:bg-[#0d1b3a] transition-all duration-200"
+                >
+                  Upload New
+                </Button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {/* Upload image box */}
-              <button
-                type="button"
-                onClick={handleUploadImage}
-                className="h-28.5 flex flex-col items-center justify-center gap-2 rounded-[6px] border-2 border-dashed border-[#d0d4dc] hover:border-brand-primary bg-[#f7f8fa] text-[#5a6886] hover:text-brand-primary transition-all duration-250"
-              >
-                <div className="flex size-9 items-center justify-center rounded-full bg-white shadow-sm border border-[#e3e6ec]">
-                  <Upload className="size-4 text-brand-secondary" />
-                </div>
-                <span className="text-[11px] font-bold uppercase tracking-wider">
-                  ADD IMAGE
-                </span>
-              </button>
-
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {/* Thumbnails */}
               {images.map((img) => (
                 <div
                   key={img.id}
-                  className="group relative h-28.5 rounded-[6px] overflow-hidden border border-[#e3e6ec] bg-[#f7f8fa]"
+                  className="flex flex-col rounded-[8px] border border-[#e3e6ec] bg-white overflow-hidden shadow-[0_2px_4px_rgba(0,0,0,0.02)]"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={img.url}
-                    alt={img.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300 filter saturate-90"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setImages(images.filter((i) => i.id !== img.id))
-                      }
-                      className="p-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all"
-                      title="Delete Image"
-                    >
-                      <Trash2 className="size-4" />
-                    </button>
+                  <div className="relative h-[110px] w-full bg-[#f3f5f8]">
+                    <img src={img.url} className="h-full w-full object-cover" alt={img.name} />
+                    <div className="absolute top-2 right-2 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-0.5 text-[10px] font-bold text-brand-primary shadow-sm border border-white/50">
+                      {img.relatedHazard}
+                    </div>
                   </div>
-                  <div className="absolute bottom-0 inset-x-0 bg-black/60 px-2.5 py-1">
-                    <p className="text-[10px] text-white truncate font-medium">
-                      {img.name}
-                    </p>
+                  <div className="p-3 space-y-1.5 border-t border-[#e3e6ec]">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[12px] font-bold text-brand-primary truncate" title={img.name}>
+                        {img.name}
+                      </span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          onClick={() => setPreviewImageId(img.id)}
+                          className="text-[#4f79ff] hover:opacity-80 transition-opacity"
+                        >
+                          <Eye className="size-3.5" />
+                        </button>
+                        <button className="text-emerald-500 hover:opacity-80 transition-opacity">
+                          <Edit2 className="size-3.5" />
+                        </button>
+                        <button
+                          onClick={() => setDeleteImageId(img.id)}
+                          className="text-red-500 hover:opacity-80 transition-opacity"
+                        >
+                          <Trash2 className="size-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="text-[11px] font-medium text-brand-secondary">
+                      Site Photo
+                    </div>
                   </div>
                 </div>
               ))}
@@ -854,6 +915,348 @@ export function RiskAssessmentCompletionPage() {
                 </Button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add Site Image or Document */}
+      {isAddSiteImageOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
+          <div className="bg-white rounded-[12px] w-full max-w-[640px] shadow-2xl flex flex-col my-8 max-h-[90vh] overflow-hidden transition-all duration-300">
+            <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4.5 shrink-0">
+              <h3 className="text-[20px] font-bold text-brand-primary">Add Site Image or Document</h3>
+              <button
+                onClick={() => setIsAddSiteImageOpen(false)}
+                className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-2">
+                  <label className="text-[14px] font-bold text-brand-primary block">File Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Ground Floor Structural Crack"
+                    className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-4 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all placeholder:text-[#a3acba]"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[14px] font-bold text-brand-primary block">File Type</label>
+                  <select className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-3 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all">
+                    <option>Image (JPG, PNG)</option>
+                    <option>Document (PDF, DOCX)</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[14px] font-bold text-brand-primary block">Related Hazard</label>
+                  <select className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-3 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all">
+                    <option>Select associated hazard...</option>
+                    <option>Structural Integrity (Critical)</option>
+                    <option>Falls from Height</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[14px] font-bold text-brand-primary block">Related Assessment Section</label>
+                  <select className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-3 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all">
+                    <option>Select section...</option>
+                    <option>North Wing - Ground Level</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[14px] font-bold text-brand-primary block">Document Upload</label>
+                <div className="flex flex-col items-center justify-center border-2 border-dashed border-[#d0d4dc] rounded-[8px] bg-white py-10 px-6 gap-3 hover:border-brand-primary transition-all duration-200">
+                  <CloudUpload className="size-8 text-brand-primary" />
+                  <div className="text-center">
+                    <p className="text-[14px] font-bold text-brand-primary">Drag and drop files here</p>
+                    <p className="text-[12px] text-brand-secondary mt-1">Supports PDF, JPG, PNG, DOCX (Max 20MB)</p>
+                  </div>
+                  <Button variant="outline" className="h-8.5 rounded-[6px] border-brand-primary text-[12px] font-bold text-brand-primary mt-2">
+                    Select Files
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-2">
+                  <label className="text-[14px] font-bold text-brand-primary block">Capture Date</label>
+                  <input
+                    type="date"
+                    className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-4 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[14px] font-bold text-brand-primary block">Notes</label>
+                  <textarea
+                    placeholder="Additional context for the reviewer..."
+                    className="h-10.5 w-full rounded-[6px] border border-[#d7dce5] bg-white px-4 py-2.5 text-[14px] text-brand-primary outline-none focus:border-brand-primary transition-all placeholder:text-[#a3acba] resize-none"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3.5 pt-2">
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="mt-1 size-4 rounded border border-[#c5c6cd] accent-brand-primary" />
+                  <div>
+                    <p className="text-[14px] font-medium text-brand-primary group-hover:text-brand-primary/80">Include in final PDF appendix</p>
+                    <p className="text-[12px] text-brand-secondary">This file will be automatically formatted and included in the client-facing report.</p>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="mt-1 size-4 rounded border border-[#c5c6cd] accent-brand-primary" />
+                  <div>
+                    <p className="text-[14px] font-medium text-brand-primary group-hover:text-brand-primary/80">Link to selected hazard</p>
+                    <p className="text-[12px] text-brand-secondary">Ensure evidence is visible within the context of the related risk profile.</p>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="mt-1 size-4 rounded border border-[#c5c6cd] accent-brand-primary" />
+                  <div>
+                    <p className="text-[14px] font-medium text-brand-primary group-hover:text-brand-primary/80">Reviewers only evidence</p>
+                    <p className="text-[12px] text-brand-secondary">Hide from client but keep visible for internal audit and verification.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-start gap-3 px-6 py-4.5 border-t border-[#e3e6ec] bg-[#f9fafb]">
+              <Button variant="outline" className="h-10 rounded-[6px] border-brand-primary bg-white px-6 text-[14px] font-bold text-brand-primary hover:bg-brand-bg-main" onClick={() => setIsAddSiteImageOpen(false)}>
+                Save Draft
+              </Button>
+              <Button className="h-10 rounded-[6px] bg-brand-primary px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a]" onClick={() => setIsAddSiteImageOpen(false)}>
+                Add File
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Delete Confirmation */}
+      {deleteImageId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-[12px] w-full max-w-[500px] shadow-2xl flex flex-col overflow-hidden transition-all duration-300">
+            <div className="p-6 space-y-6">
+              <div className="flex items-start justify-between">
+                <div className="flex gap-3 items-start">
+                  <div className="flex size-10 items-center justify-center rounded-[8px] bg-red-50 text-red-600 shrink-0">
+                    <AlertTriangle className="size-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-[18px] font-bold text-brand-primary">Delete Site Image or Document?</h3>
+                    <p className="text-[14px] text-brand-secondary mt-1">
+                      Deleting this file will remove it from the assessment and the generated document appendix.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setDeleteImageId(null)}
+                  className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all shrink-0 mt-1"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              {(() => {
+                const img = images.find(i => i.id === deleteImageId);
+                if (!img) return null;
+                return (
+                  <div className="bg-[#f8f9fc] rounded-[8px] border border-[#e3e6ec] p-4 flex items-center justify-between">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 text-[#5a6886]">
+                        <FileIcon className="size-4" />
+                      </div>
+                      <div>
+                        <p className="text-[14px] font-bold text-brand-primary">{img.name}</p>
+                        <p className="text-[12px] text-brand-secondary mt-0.5">Related Hazard: {img.relatedHazard}</p>
+                      </div>
+                    </div>
+                    <span className="text-[13px] font-medium text-brand-secondary">{img.size}</span>
+                  </div>
+                );
+              })()}
+
+              <Button
+                className="h-10 rounded-[6px] bg-[#e11d48] px-6 text-[14px] font-bold text-white hover:bg-[#be123c] w-auto transition-all"
+                onClick={() => {
+                  setImages(images.filter(i => i.id !== deleteImageId));
+                  setDeleteImageId(null);
+                }}
+              >
+                Delete File
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Preview */}
+      {previewImageId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
+          <div className="bg-white rounded-[12px] w-full max-w-[1000px] shadow-2xl flex flex-col my-8 h-[85vh] overflow-hidden transition-all duration-300">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-[#e3e6ec] px-6 py-4.5 shrink-0">
+              <div className="flex items-center gap-2 text-brand-primary">
+                <FileIcon className="size-5" />
+                <h3 className="text-[18px] font-bold">
+                  Document Preview: {images.find(i => i.id === previewImageId)?.name}
+                </h3>
+              </div>
+              <button
+                onClick={() => setPreviewImageId(null)}
+                className="text-[#95a0b6] hover:text-brand-primary hover:bg-[#f3f5f8] p-1.5 rounded-full transition-all"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="flex flex-1 overflow-hidden">
+              {/* Left Viewer */}
+              <div className="flex-1 bg-[#f3f5f8] border-r border-[#e3e6ec] flex flex-col overflow-hidden relative">
+                {/* Toolbar */}
+                <div className="h-12 border-b border-[#e3e6ec] bg-white flex items-center justify-between px-4 shrink-0">
+                  <div className="flex items-center gap-4">
+                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><ZoomOut className="size-4" /></button>
+                    <span className="text-[13px] font-medium text-brand-primary">100%</span>
+                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><ZoomIn className="size-4" /></button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <ChevronRight className="size-4 rotate-180 text-[#95a0b6]" />
+                    <span className="text-[13px] font-medium text-brand-primary">Page 1 of 4</span>
+                    <ChevronRight className="size-4 text-[#5a6886]" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><RotateCw className="size-4" /></button>
+                    <button className="p-1.5 text-[#5a6886] hover:text-brand-primary transition-colors"><Maximize className="size-4" /></button>
+                  </div>
+                </div>
+                {/* Image Area */}
+                <div className="flex-1 overflow-auto p-6 flex items-start justify-center">
+                  <img
+                    src={images.find(i => i.id === previewImageId)?.url}
+                    alt="Preview"
+                    className="max-w-full shadow-md bg-white border border-[#e3e6ec]"
+                  />
+                </div>
+              </div>
+
+              {/* Right Sidebar */}
+              <div className="w-[320px] bg-white flex flex-col overflow-y-auto">
+                {(() => {
+                  const img = images.find(i => i.id === previewImageId);
+                  if (!img) return null;
+                  return (
+                    <div className="p-6 space-y-6">
+                      {/* File Information */}
+                      <div>
+                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">File Information</h4>
+                        <div className="space-y-3">
+                          <div>
+                            <p className="text-[11px] font-medium text-brand-secondary mb-0.5">File Name</p>
+                            <p className="text-[13px] font-medium text-brand-primary">{img.name}</p>
+                          </div>
+                          <div>
+                            <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Type</p>
+                            <p className="text-[13px] font-medium text-brand-primary">{img.type}</p>
+                          </div>
+                          <div className="flex gap-8">
+                            <div>
+                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Size</p>
+                              <p className="text-[13px] font-medium text-brand-primary">{img.size}</p>
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Resolution</p>
+                              <p className="text-[13px] font-medium text-brand-primary">{img.resolution}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr className="border-[#e3e6ec]" />
+
+                      {/* Context & Relation */}
+                      <div>
+                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">Context &amp; Relation</h4>
+                        <div className="space-y-3">
+                          <div>
+                            <p className="text-[11px] font-medium text-brand-secondary mb-1">Related Hazard</p>
+                            <div className="flex items-center gap-1.5">
+                              <div className="size-2 rounded-full bg-red-500" />
+                              <p className="text-[13px] font-medium text-brand-primary">{img.relatedHazard}</p>
+                            </div>
+                          </div>
+                          <div>
+                            <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Section</p>
+                            <p className="text-[13px] font-medium text-brand-primary">{img.section}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr className="border-[#e3e6ec]" />
+
+                      {/* Lifecycle */}
+                      <div>
+                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">Lifecycle</h4>
+                        <div className="space-y-4">
+                          <div className="flex items-start gap-3">
+                            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#132651] text-white text-[11px] font-bold">
+                              {img.uploadedBy.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Uploaded by</p>
+                              <p className="text-[13px] font-bold text-brand-primary leading-tight">{img.uploadedBy}</p>
+                              <p className="text-[11px] text-brand-secondary mt-0.5">{img.uploadedAt}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3 pl-1">
+                            <RotateCw className="size-4 text-[#95a0b6] mt-0.5" />
+                            <div>
+                              <p className="text-[11px] font-medium text-brand-secondary mb-0.5">Last Modified</p>
+                              <p className="text-[13px] font-medium text-brand-primary">{img.lastModified}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr className="border-[#e3e6ec]" />
+
+                      {/* Internal Notes */}
+                      <div>
+                        <h4 className="text-[14px] font-bold text-brand-primary mb-3">Internal Notes</h4>
+                        <div className="bg-[#f8f9fc] rounded-[8px] border border-[#e3e6ec] p-3 text-[13px] text-brand-primary leading-relaxed">
+                          "{img.notes}"
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between border-t border-[#e3e6ec] px-6 py-4.5 bg-white shrink-0">
+              <div className="flex items-center gap-3">
+                <Button variant="outline" className="h-10 rounded-[6px] border-brand-primary bg-white px-6 text-[14px] font-bold text-brand-primary hover:bg-brand-bg-main shadow-none">
+                  Replace File
+                </Button>
+                <Button className="h-10 rounded-[6px] bg-[#132651] px-6 text-[14px] font-bold text-white hover:bg-[#0d1b3a]">
+                  Download File
+                </Button>
+              </div>
+              <Button
+                className="h-10 rounded-[6px] bg-[#e11d48] px-6 text-[14px] font-bold text-white hover:bg-[#be123c]"
+                onClick={() => {
+                  setDeleteImageId(previewImageId);
+                  setPreviewImageId(null);
+                }}
+              >
+                Delete File
+              </Button>
+            </div>
           </div>
         </div>
       )}
