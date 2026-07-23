@@ -30,6 +30,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { ControlMeasuresStep } from "./control-measures-step";
+import { AddControlMeasureModal } from "./add-control-measure-modal";
+import { DeleteControlMeasureModal } from "./delete-control-measure-modal";
+import { SuggestedControlsModal } from "./suggested-controls-modal";
+import { ApplySuggestedControlsModal } from "./apply-suggested-controls-modal";
 
 interface HazardItem {
   id: string;
@@ -133,6 +138,13 @@ export function RiskAssessmentCompletionPage() {
   const [cleanupOptions, setCleanupOptions] = useState({ controls: false, evidence: false, audit: false });
 
   const [isRiskMatrixModalOpen, setIsRiskMatrixModalOpen] = useState(false);
+
+  // Control Measures Modals
+  const [isAddControlMeasureOpen, setIsAddControlMeasureOpen] = useState(false);
+  const [deleteControlMeasureId, setDeleteControlMeasureId] = useState<string | null>(null);
+  const [isSuggestedControlsOpen, setIsSuggestedControlsOpen] = useState(false);
+  const [isApplySuggestedControlsOpen, setIsApplySuggestedControlsOpen] = useState(false);
+
   // Modal States
   const [isAddSiteImageOpen, setIsAddSiteImageOpen] = useState(false);
   const [editImageId, setEditImageId] = useState<string | null>(null);
@@ -371,6 +383,24 @@ export function RiskAssessmentCompletionPage() {
             >
               Preview
             </Button>
+          ) : activeStep === "control" ? (
+            <div className="flex items-center gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsSuggestedControlsOpen(true)}
+                className="bg-white border-[#c5c6cd] text-[#132651] hover:bg-[#f3f5f8] h-10 px-4 font-bold rounded-[6px] shadow-none"
+              >
+                View Suggested Controls
+              </Button>
+              <Button
+                type="button"
+                onClick={() => setIsAddControlMeasureOpen(true)}
+                className="bg-[#132651] hover:bg-[#0d1b3a] text-white h-10 px-4 font-bold rounded-[6px] shadow-none"
+              >
+                Add Control Measure
+              </Button>
+            </div>
           ) : activeStep === "hazards" ? (
             <Button
               type="button"
@@ -1192,6 +1222,11 @@ export function RiskAssessmentCompletionPage() {
             </div>
           </div>
         </div>
+      ) : activeStep === "control" ? (
+        <ControlMeasuresStep 
+           setIsAddControlMeasureOpen={setIsAddControlMeasureOpen}
+           setDeleteControlMeasureId={setDeleteControlMeasureId}
+        />
       ) : (
         <div className="flex items-center justify-center h-64 border-2 border-dashed border-[#e3e6ec] rounded-[12px]">
           <p className="text-[14px] font-medium text-[#5a6886]">This section is under construction.</p>
@@ -2034,6 +2069,11 @@ export function RiskAssessmentCompletionPage() {
           </div>
         </div>
       )}
+
+      <AddControlMeasureModal isAddControlMeasureOpen={isAddControlMeasureOpen} setIsAddControlMeasureOpen={setIsAddControlMeasureOpen} />
+      <DeleteControlMeasureModal deleteControlMeasureId={deleteControlMeasureId} setDeleteControlMeasureId={setDeleteControlMeasureId} />
+      <SuggestedControlsModal isSuggestedControlsOpen={isSuggestedControlsOpen} setIsSuggestedControlsOpen={setIsSuggestedControlsOpen} setIsApplySuggestedControlsOpen={setIsApplySuggestedControlsOpen} />
+      <ApplySuggestedControlsModal isApplySuggestedControlsOpen={isApplySuggestedControlsOpen} setIsApplySuggestedControlsOpen={setIsApplySuggestedControlsOpen} />
     </div>
   );
 }
